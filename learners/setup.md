@@ -1,54 +1,36 @@
 ---
-title: Setup
+title: Overview
 ---
 
-FIXME: Setup instructions live in this document. Please specify the tools and
-the data sets the Learner needs to have installed.
+# Summary
 
-## Data Sets
+At the end of this course, you will be able to:
+
+- comprehend the concept of multiple testing and its implications, including the increased likelihood of observing low p-values by chance.
+- be able to differentiate between different types of errors, (false positives and false negatives) and understand their significance in various research contexts.
+- understand how family-wise error rate (FWER) arises in multiple testing scenarios and grasp methods like the Bonferroni procedure for controlling it.
+- gain proficiency in interpreting adjusted p-values resulting from FWER correction and applying them in statistical analyses like ANOVA and post-hoc tests.
+- appreciate the challenges posed by high-dimensional data and understand the importance of controlling FDR using methods like the Benjamini-Hochberg procedure.
+- apply the concepts learned to real-world scenarios, such as analyzing RNA-Seq data by selecting appropriate error rates and methods based on their research questions.
+- acquire a structured approach to selecting error rates and methods tailored to their research objectives and data characteristics, enhancing the rigor and validity of their statistical analyses.
+
+## Tools Required
+
+- Statistical software - R 
+- Basic knowledge of programming in R would be beneficial for understanding the coding examples.
+
+## Data Sets 
 
 <!--
 FIXME: place any data you want learners to use in `episodes/data` and then use
        a relative link ( [data zip file](data/lesson-data.zip) ) to provide a
        link to it, replacing the example.com link.
 -->
-Download the [data zip file](https://example.com/FIXME) and unzip it to your Desktop
 
-## Software Setup
+- For simulation and demonstration purposes, you may use synthetic datasets generated within the tutorial or any relevant datasets from your field of study.
+- Optionally, you can use RNA-Seq data with a large number of genes (e.g., 20,000 human genes) to illustrate the challenges of multiple testing correction for high-dimensional data.
 
-::::::::::::::::::::::::::::::::::::::: discussion
+## Preparation
 
-### Details
-
-Setup for different systems can be presented in dropdown menus via a `solution`
-tag. They will join to this discussion block, so you can give a general overview
-of the software used in this lesson here and fill out the individual operating
-systems (and potentially add more, e.g. online setup) in the solutions blocks.
-
-:::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::: solution
-
-### Windows
-
-Use PuTTY
-
-:::::::::::::::::::::::::
-
-:::::::::::::::: solution
-
-### MacOS
-
-Use Terminal.app
-
-:::::::::::::::::::::::::
-
-
-:::::::::::::::: solution
-
-### Linux
-
-Use Terminal
-
-:::::::::::::::::::::::::
+Ensure that the necessary statistical software is installed and functional on your system. Familiarize yourself with basic statistical concepts such as hypothesis testing, p-values, and ANOVA, as these will provide a foundation for understanding multiple testing procedures. 
 
