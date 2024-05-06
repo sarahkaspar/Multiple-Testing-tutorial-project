@@ -50,9 +50,9 @@ p = 0.04 # Known prevalence of the disease in the general population
 dbinom(x=9, size=n, prob=p)
 ```
 
-The binomial test calculates the probability of observing the obtained (9 persons with a disease) or more extreme results assuming the null hypothesis is true. If this probability is sufficiently low (below our chosen significance level), we reject the null hypothesis in favor of the alternative hypothesis.
+The P-value we get, is the probability of obtaining extreme outcome, assuming that the null hypothesis is true. Therefore, the binomial test calculates the probability of observing the obtained (9 persons with a disease) or more extreme results assuming the null hypothesis is true. If this probability is sufficiently low (below our chosen significance level), we reject the null hypothesis in favor of the alternative hypothesis.
 
-The binomial test result reveals that the prevalence of the disease among the individuals exposed to air pollution was indeed significantly different from that of the population.
+The binomial test result (~0.012) reveals that the prevalence of the disease among the individuals exposed to air pollution was indeed significantly different from that of the population.
 
 # What if we did many similar experiments?
 
@@ -100,6 +100,8 @@ Figure_3
 We are interested in determining if the observed proportion significantly deviates from the expected proportion (0.4) in either direction (either higher or lower). As this is a two-tailed binomial test, we needed to adjust the bounds for what is considered "significant" based on the significance level of 0.05. We are interested in the extreme tails of the distribution that contain 2.5% of the data on each side.
 
 We therefore use __qbinom()__ function in this simulation to calculate the quantiles of the binomial distribution corresponding to the 2.5th and 97.5th percentiles. This gives us the bounds that would contain 95% of the data under the null hypothesis. We then classify a group as "significant" if the observed number of patients falls below the 2.5th percentile or above the 97.5th percentile of the binomial distribution.
+
+It is important to note that the significance level (α) that we choose for each individual test directly impacts the rate of false positives. In out example, we have set α=0.05 for each individual test, which means we are essentially saying that we are willing to accept a 5% chance of making a false positive error for each test.
 
 To our astonishment in __Figure_3__, we find that even in a world where there was no true difference in disease prevalence, about 5% of our simulated experiments yielded statistically significant results purely by chance (the red bars). 
 
