@@ -16,7 +16,7 @@ At the end of this course, you will be able to:
 
 ## Tools Required
 
-- Statistical software - R 
+- Statistical software R https://cran.r-project.org/
 - Basic knowledge of programming in R would be beneficial for understanding the coding examples.
 
 ## Data Sets 
