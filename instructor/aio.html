@@ -276,7 +276,7 @@
         
 <section id="aio-What is multiple testing"><p>Content from <a href="What%20is%20multiple%20testing.html">What is multiple testing</a></p>
 <hr>
-<p>Last updated on 2024-04-30 |
+<p>Last updated on 2024-05-06 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/What%20is%20multiple%20testing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -373,14 +373,16 @@ determine whether the results are statistically significant.</p>
 </h3>
 <pre class="output" tabindex="0"><code>[1] 0.01214746</code></pre>
 </div>
-<p>The binomial test calculates the probability of observing the
-obtained (9 persons with a disease) or more extreme results assuming the
-null hypothesis is true. If this probability is sufficiently low (below
-our chosen significance level), we reject the null hypothesis in favor
-of the alternative hypothesis.</p>
-<p>The binomial test result reveals that the prevalence of the disease
-among the individuals exposed to air pollution was indeed significantly
-different from that of the population.</p>
+<p>The P-value we get, is the probability of obtaining extreme outcome,
+assuming that the null hypothesis is true. Therefore, the binomial test
+calculates the probability of observing the obtained (9 persons with a
+disease) or more extreme results assuming the null hypothesis is true.
+If this probability is sufficiently low (below our chosen significance
+level), we reject the null hypothesis in favor of the alternative
+hypothesis.</p>
+<p>The binomial test result (~0.012) reveals that the prevalence of the
+disease among the individuals exposed to air pollution was indeed
+significantly different from that of the population.</p>
 </div>
 </div>
 <div class="section level1">
@@ -454,6 +456,11 @@ bounds that would contain 95% of the data under the null hypothesis. We
 then classify a group as “significant” if the observed number of
 patients falls below the 2.5th percentile or above the 97.5th percentile
 of the binomial distribution.</p>
+<p>It is important to note that the significance level (α) that we
+choose for each individual test directly impacts the rate of false
+positives. In out example, we have set α=0.05 for each individual test,
+which means we are essentially saying that we are willing to accept a 5%
+chance of making a false positive error for each test.</p>
 <p>To our astonishment in <strong>Figure_3</strong>, we find that even
 in a world where there was no true difference in disease prevalence,
 about 5% of our simulated experiments yielded statistically significant
@@ -508,7 +515,7 @@ any links that you are not going to use.
 </div>
 </div></section><section id="aio-Types of errors"><p>Content from <a href="Types%20of%20errors.html">Types of errors</a></p>
 <hr>
-<p>Last updated on 2024-04-30 |
+<p>Last updated on 2024-05-06 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Types%20of%20errors.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -661,7 +668,7 @@ relevance and ethical soundness of their findings.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -677,7 +684,7 @@ any links that you are not going to use.
 </div>
 </div></section><section id="aio-Family-wise error rate"><p>Content from <a href="Family-wise%20error%20rate.html">Family-wise error rate</a></p>
 <hr>
-<p>Last updated on 2024-04-30 |
+<p>Last updated on 2024-05-06 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Family-wise%20error%20rate.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -1024,8 +1031,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/instructor/aio.html",
   "identifier": "https://FIXME-template-source.github.io/NA/instructor/aio.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-04-30",
-  "datePublished": "2024-04-30"
+  "dateModified": "2024-05-06",
+  "datePublished": "2024-05-06"
 }
 
   </script><script>
