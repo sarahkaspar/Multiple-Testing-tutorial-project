@@ -19,7 +19,7 @@ exercises: 2
 
 # Types of errors
 
-In hypothesis testing, the evaluation of statistical significance involves making decisions based on sample data. However, these decisions are not without errors. In this tutorial, we will explore the concept of errors in hypothesis testing, focusing on Type I and Type II errors, and their implications.
+In hypothesis testing, the evaluation of statistical significance involves making decisions based on sample data. However, these decisions are not without errors. In this tutorial, we will explore the concept of errors in hypothesis testing (Type I and Type II errors), and their implications.
 
 ## Type I Error
 
@@ -46,6 +46,26 @@ In hypothesis testing, the occurrence of Type I and Type II errors can have diff
 Type I errors, are particularly problematic in situations where the cost or consequences of incorrectly rejecting a true null hypothesis are high. Again if we refer back to our example, if we incorrectly conclude that there is a significant difference in disease rates between the test groups exposed to air pollution and the average for the whole population when, in fact, there is no such difference, it could lead to misguided policies or interventions targeting air pollution reduction. For instance, authorities might implement costly environmental regulations or public health measures based on erroneous conclusions. In this case, the __consequences__ include misallocation of resources, leading to unnecessary financial burdens or societal disruptions. Moreover, public trust in scientific findings and policy decisions may be eroded if false positives lead to ineffective or burdensome interventions.
 
 Type II errors, are problematic when failing to detect a significant effect has substantial consequences.If we fail to detect a significant difference in disease rates between the test group and the population average when there actually is a difference due to air pollution exposure, it could result in overlooking a serious public health concern. In this case, individuals living in polluted areas may continue to suffer adverse health effects without receiving appropriate attention or interventions. The __consequences__ include increased morbidity and mortality rates among populations exposed to high levels of air pollution. Additionally, delayed or inadequate response to environmental health risks may exacerbate inequalities in health outcomes.
+
+## The example of cancer screening
+
+Cancer screening exemplifies a medical testing paradox, where the interpretation of test results can be influenced by factors such as disease prevalence, test sensitivity, and specificity. 
+
+Let us say that in a sample of 1000 women, 1% (10) have cancer, while the remaining 99% (990) do not have cancer. This gives us the prevalence of a disease. However, after testing, the test results show that out of the 10 women with cancer, 9 receive a __true positive__ result (correctly identified as positive), and 1 receives a __false negative__ result (incorrectly identified as negative). False negatives can delay the diagnosis and treatment of cancer, allowing the disease to progress unchecked and potentially reducing the effectiveness of treatment options. This can result in poorer outcomes and decreased survival rates for patients.
+In addition, out of the 990 women without cancer, 89 receive __false positive__ results (incorrectly identified as positive), and 901 receive __true negative__ results (correctly identified as negative). False positive can lead to unnecessary follow-up tests, procedures, and treatments for individuals who do not have cancer. It can cause anxiety, physical discomfort, and financial burden for patients, as well as strain on healthcare resources.
+
+We could interpret that:
+
+- the __probability__ that a woman who receives a positive result actually has cancer is ≈ 1/10 (9/ (9 + 89)). This is the positive predictive value (PPV) of the test. 
+
+- The sensitivity of the test, which measures its ability to detect the presence of disease is 90% (9/10 * 100). This means that the false negative rate of the test is 10%.
+
+- The specificity of the test, which measures its ability to correctly identify individuals without the disease is ≈ 91% (901/990 * 100). Here, the false positive rate of the test is 9%.
+
+While the test may have high accuracy in terms of sensitivity and specificity, the positive predictive value is relatively low due to the low prevalence of the disease in the population. This means that a positive result from the test does not strongly predict the presence of the disease in an individual. Similarly, false positives and false negatives can affect the negative predictive value of the test, which measures its ability to correctly identify individuals who do not have cancer. False negatives decrease the negative predictive value, while false positives increase it, potentially leading to misinterpretation of test results.
+
+This example underscores the complexity of interpreting medical test results and emphasizes the need to consider factors such as disease prevalence, test sensitivity, and specificity in clinical decision-making. Increasing sensitivity may reduce false negatives but can also increase false positives, and vice versa. Thus, optimizing the trade-off between sensitivity and specificity is crucial to minimize false positives and false negatives while maximizing the accuracy of the screening test.
+
 
 ### What do we learn?
 
