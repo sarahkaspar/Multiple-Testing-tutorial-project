@@ -5,7 +5,7 @@
 "index.md" "a02c9c785ed98ddd84fe3d34ddb12fcd" "site/built/index.md" "2024-05-08"
 "links.md" "8184cf4149eafbf03ce8da8ff0778c14" "site/built/links.md" "2024-05-08"
 "episodes/What is multiple testing.Rmd" "a8e529419b457690a218e1dc6e4cd17a" "site/built/What is multiple testing.md" "2024-05-08"
-"episodes/Types of errors.Rmd" "9493724b2521e927fbb64aaa0811c395" "site/built/Types of errors.md" "2024-05-08"
+"episodes/Types of errors.Rmd" "c76866975bef3f88f1e18c2db5c158c7" "site/built/Types of errors.md" "2024-05-08"
 "episodes/Family-wise error rate.Rmd" "01a179c013f7e5cd8f0d65524026c59c" "site/built/Family-wise error rate.md" "2024-05-08"
 "instructors/instructor-notes.md" "5cf113fd22defb29d17b64597f3c9bc0" "site/built/instructor-notes.md" "2024-05-08"
 "learners/reference.md" "527a12e217602daae51c5fd9ef8958df" "site/built/reference.md" "2024-05-08"
