@@ -56,16 +56,15 @@ In addition, out of the 990 women without cancer, 89 receive __false positive__ 
 
 We could interpret that:
 
-- the __probability__ that a woman who receives a positive result actually has cancer is ≈ 1/10 (9/ (9 + 89)). This is the positive predictive value (PPV) of the test. 
+- The __probability__ that a woman who receives a positive result actually has cancer is ≈ 1/10 (9/ (9 + 89)). This is the positive predictive value (PPV) of the test. 
 
-- The sensitivity of the test, which measures its ability to detect the presence of disease is 90% (9/10 * 100). This means that the false negative rate of the test is 10%.
+- The __sensitivity__ of the test, which measures its ability to detect the presence of disease is 90% (9/10 * 100). This means that the false negative rate of the test is 10%.
 
-- The specificity of the test, which measures its ability to correctly identify individuals without the disease is ≈ 91% (901/990 * 100). Here, the false positive rate of the test is 9%.
+- The __specificity__ of the test, which measures its ability to correctly identify individuals without the disease is ≈ 91% (901/990 * 100). Here, the false positive rate of the test is 9%.
 
 While the test may have high accuracy in terms of sensitivity and specificity, the positive predictive value is relatively low due to the low prevalence of the disease in the population. This means that a positive result from the test does not strongly predict the presence of the disease in an individual. Similarly, false positives and false negatives can affect the negative predictive value of the test, which measures its ability to correctly identify individuals who do not have cancer. False negatives decrease the negative predictive value, while false positives increase it, potentially leading to misinterpretation of test results.
 
 This example underscores the complexity of interpreting medical test results and emphasizes the need to consider factors such as disease prevalence, test sensitivity, and specificity in clinical decision-making. Increasing sensitivity may reduce false negatives but can also increase false positives, and vice versa. Thus, optimizing the trade-off between sensitivity and specificity is crucial to minimize false positives and false negatives while maximizing the accuracy of the screening test.
-
 
 ### What do we learn?
 
