@@ -276,7 +276,7 @@
         
 <section id="aio-What is multiple testing"><p>Content from <a href="What%20is%20multiple%20testing.html">What is multiple testing</a></p>
 <hr>
-<p>Last updated on 2024-05-07 |
+<p>Last updated on 2024-05-08 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/What%20is%20multiple%20testing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -499,7 +499,7 @@ testing.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -515,7 +515,7 @@ any links that you are not going to use.
 </div>
 </div></section><section id="aio-Types of errors"><p>Content from <a href="Types%20of%20errors.html">Types of errors</a></p>
 <hr>
-<p>Last updated on 2024-05-07 |
+<p>Last updated on 2024-05-08 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Types%20of%20errors.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -561,8 +561,8 @@ crucial</li>
 <p>In hypothesis testing, the evaluation of statistical significance
 involves making decisions based on sample data. However, these decisions
 are not without errors. In this tutorial, we will explore the concept of
-errors in hypothesis testing, focusing on Type I and Type II errors, and
-their implications.</p>
+errors in hypothesis testing (Type I and Type II errors), and their
+implications.</p>
 <div class="section level2">
 <h2 id="type-i-error">Type I Error<a class="anchor" aria-label="anchor" href="#type-i-error"></a>
 </h2>
@@ -642,6 +642,59 @@ morbidity and mortality rates among populations exposed to high levels
 of air pollution. Additionally, delayed or inadequate response to
 environmental health risks may exacerbate inequalities in health
 outcomes.</p>
+<div class="section level2">
+<h2 id="the-example-of-cancer-screening">The example of cancer screening<a class="anchor" aria-label="anchor" href="#the-example-of-cancer-screening"></a>
+</h2>
+<p>Cancer screening exemplifies a medical testing paradox, where the
+interpretation of test results can be influenced by factors such as
+disease prevalence, test sensitivity, and specificity.</p>
+<p>Let us say that in a sample of 1000 women, 1% (10) have cancer, while
+the remaining 99% (990) do not have cancer. This gives us the prevalence
+of a disease. However, after testing, the test results show that out of
+the 10 women with cancer, 9 receive a <strong>true positive</strong>
+result (correctly identified as positive), and 1 receives a
+<strong>false negative</strong> result (incorrectly identified as
+negative). False negatives can delay the diagnosis and treatment of
+cancer, allowing the disease to progress unchecked and potentially
+reducing the effectiveness of treatment options. This can result in
+poorer outcomes and decreased survival rates for patients. In addition,
+out of the 990 women without cancer, 89 receive <strong>false
+positive</strong> results (incorrectly identified as positive), and 901
+receive <strong>true negative</strong> results (correctly identified as
+negative). False positive can lead to unnecessary follow-up tests,
+procedures, and treatments for individuals who do not have cancer. It
+can cause anxiety, physical discomfort, and financial burden for
+patients, as well as strain on healthcare resources.</p>
+<p>We could interpret that:</p>
+<ul>
+<li><p>the <strong>probability</strong> that a woman who receives a
+positive result actually has cancer is ≈ 1/10 (9/ (9 + 89)). This is the
+positive predictive value (PPV) of the test.</p></li>
+<li><p>The sensitivity of the test, which measures its ability to detect
+the presence of disease is 90% (9/10 * 100). This means that the false
+negative rate of the test is 10%.</p></li>
+<li><p>The specificity of the test, which measures its ability to
+correctly identify individuals without the disease is ≈ 91% (901/990 *
+100). Here, the false positive rate of the test is 9%.</p></li>
+</ul>
+<p>While the test may have high accuracy in terms of sensitivity and
+specificity, the positive predictive value is relatively low due to the
+low prevalence of the disease in the population. This means that a
+positive result from the test does not strongly predict the presence of
+the disease in an individual. Similarly, false positives and false
+negatives can affect the negative predictive value of the test, which
+measures its ability to correctly identify individuals who do not have
+cancer. False negatives decrease the negative predictive value, while
+false positives increase it, potentially leading to misinterpretation of
+test results.</p>
+<p>This example underscores the complexity of interpreting medical test
+results and emphasizes the need to consider factors such as disease
+prevalence, test sensitivity, and specificity in clinical
+decision-making. Increasing sensitivity may reduce false negatives but
+can also increase false positives, and vice versa. Thus, optimizing the
+trade-off between sensitivity and specificity is crucial to minimize
+false positives and false negatives while maximizing the accuracy of the
+screening test.</p>
 <div class="section level3">
 <h3 id="what-do-we-learn">What do we learn?<a class="anchor" aria-label="anchor" href="#what-do-we-learn"></a>
 </h3>
@@ -668,7 +721,7 @@ relevance and ethical soundness of their findings.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -682,9 +735,10 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
 </div>
+</div>
 </div></section><section id="aio-Family-wise error rate"><p>Content from <a href="Family-wise%20error%20rate.html">Family-wise error rate</a></p>
 <hr>
-<p>Last updated on 2024-05-07 |
+<p>Last updated on 2024-05-08 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Family-wise%20error%20rate.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -969,7 +1023,7 @@ potential confounding factors.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -1031,8 +1085,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/instructor/aio.html",
   "identifier": "https://FIXME-template-source.github.io/NA/instructor/aio.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-05-07",
-  "datePublished": "2024-05-07"
+  "dateModified": "2024-05-08",
+  "datePublished": "2024-05-08"
 }
 
   </script><script>
