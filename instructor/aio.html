@@ -219,6 +219,18 @@
 </div>
 <!--/div.accordion-flush-->
 
+<div class="accordion accordion-flush" id="accordionFlush5">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading5">
+        <a href="Pairwise%20comparisons.html">4. Pairwise comparisons</a>
+    </div>
+<!--/div.accordion-header-->
+        
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
                 </div>
               </div>
             </div>
@@ -276,7 +288,7 @@
         
 <section id="aio-What is multiple testing"><p>Content from <a href="What%20is%20multiple%20testing.html">What is multiple testing</a></p>
 <hr>
-<p>Last updated on 2024-05-08 |
+<p>Last updated on 2024-05-10 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/What%20is%20multiple%20testing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -515,7 +527,7 @@ any links that you are not going to use.
 </div>
 </div></section><section id="aio-Types of errors"><p>Content from <a href="Types%20of%20errors.html">Types of errors</a></p>
 <hr>
-<p>Last updated on 2024-05-08 |
+<p>Last updated on 2024-05-10 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Types%20of%20errors.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -739,7 +751,7 @@ any links that you are not going to use.
 </div>
 </div></section><section id="aio-Family-wise error rate"><p>Content from <a href="Family-wise%20error%20rate.html">Family-wise error rate</a></p>
 <hr>
-<p>Last updated on 2024-05-08 |
+<p>Last updated on 2024-05-10 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Family-wise%20error%20rate.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -868,7 +880,7 @@ Hypothesis 3: p = 0.1595</code></pre>
 the set of tests (also known as familywise error rate or FWER), we can
 use methods such as the Bonferroni correction. This method adjust the
 significance level for each test to control for multiple testing.</p>
-<p>he Bonferroni procedure adjusts the significance level for each
+<p>The Bonferroni procedure adjusts the significance level for each
 individual test by dividing the desired overall significance level
 (alpha) by the number of tests conducted (m).</p>
 <p>Bonferroni adjusted significance level (αBonf)= α/m​</p>
@@ -903,12 +915,130 @@ the null hypothesis, suggesting no significant association with disease
 prevalence at the adjusted significance level. This adjustment for
 multiple testing helps control the overall probability of making at
 least one false-positive error across all tests conducted.</p>
-<p>Air pollution, particularly fine particulate matter and other
-pollutants, can induce systemic inflammation in the body, leading to an
+<p>In this example, while the evidence supports associations between
+certain air pollutants and disease prevalence, it does not provide
+conclusive evidence to reject the overarching null hypothesis entirely.
+Instead, it suggests a nuanced interpretation wherein the relationship
+between air pollution exposure and disease prevalence may vary depending
+on the specific pollutant considered. therefore, further investigation
+and analysis may be necessary to fully elucidate the relationship
+between air pollution exposure and disease prevalence and to refine the
+overarching null hypothesis accordingly. This could involve exploring
+additional factors, conducting more comprehensive analyses, or
+considering alternative statistical approaches to account for potential
+confounding variables or sources of variability in the data.</p>
+<p>Even if we could change the significance level, another approach to
+address the issue of multiple comparisons is to adjust the p-values
+obtained from individual hypothesis tests. This adjustment is equivalent
+to controlling the overall familywise error rate (FWER) and ensures that
+the probability of making at least one false positive error across all
+tests remains at or below a predetermined threshold, typically 0.05.
+Common methods for adjusting p-values include the Bonferroni correction
+and False Discovery Rate (FDR) procedures. These methods modify the
+threshold for statistical significance for each individual test based on
+the number of comparisons conducted, thereby maintaining the integrity
+of the overall statistical analysis while accounting for multiple
+comparisons. Adjusting p-values offers a flexible and widely used
+approach to control the type I error rate and enhance the reliability of
+statistical inference in multiple testing scenarios.</p>
+<div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
+  <h3 class="accordion-header" id="headingInstructor1">
+<div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
+</button>
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div class="accordion-body">
+<p>Inline instructor notes can help inform instructors of timing
+challenges associated with the lessons. They appear in the “Instructor
+View”</p>
+</div>
+</div>
+</div>
+</div>
+<!-- 
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use. 
+ -->
+</div>
+</div>
+</div></section><section id="aio-Pairwise comparisons"><p>Content from <a href="Pairwise%20comparisons.html">Pairwise comparisons</a></p>
+<hr>
+<p>Last updated on 2024-05-10 |
+        
+        <a href="https://example.com/FIXME-template-source/edit/main/episodes/Pairwise%20comparisons.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul>
+<li>What are pairwise comparisons, and how do they relate to the broader
+concept of multiple testing in statistical analysis?</li>
+<li>How can we effectively conduct and interpret pairwise comparisons to
+make valid statistical inferences while controlling for the familywise
+error rate?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul>
+<li>Understand the Concept of Pairwise Comparisons</li>
+<li>Learn how to conduct and interpret Pairwise Comparisons</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section level1">
+<h1 id="pairwise-comparisons">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons"></a>
+</h1>
+<p>Pairwise comparisons are a fundamental concept in statistical
+analysis, allowing us to compare the means or proportions of multiple
+groups or conditions. In this tutorial, we will explore the concept of
+pairwise comparisons, their importance in statistical testing, and how
+they relate to the broader context of multiple testing.</p>
+<div class="section level2">
+<h2 id="understanding-pairwise-comparisons">Understanding Pairwise Comparisons<a class="anchor" aria-label="anchor" href="#understanding-pairwise-comparisons"></a>
+</h2>
+<p>Pairwise comparisons involve comparing the means or proportions of
+every possible pair of groups or conditions in a dataset. These
+comparisons are used to identify specific differences between groups or
+conditions that may not be apparent from overall statistical tests
+(e.g., ANOVA). The comparisons are commonly used in various fields,
+including medicine, biology, social sciences, and economics, to compare
+treatment groups, experimental conditions, or categorical variables.</p>
+<p>Pairwise comparisons play a crucial role in statistical testing,
+particularly in the context of multiple comparisons. They allow us to
+examine specific comparisons of interest while controlling for the
+overall familywise error rate.</p>
+</div>
+<div class="section level2">
+<h2 id="methods-for-performing-pairwise-comparisons">Methods for Performing Pairwise Comparisons<a class="anchor" aria-label="anchor" href="#methods-for-performing-pairwise-comparisons"></a>
+</h2>
+<p>Parametric methods, such as ANOVA post-hoc tests (e.g., Tukey’s HSD)
+are used when assumptions of normality and homogeneity of variance are
+met. Non-parametric methods, such as pairwise Wilcoxon tests, are
+suitable when data do not meet the assumptions of parametric tests. In
+R, performing pairwise comparisons is straightforward using built-in
+functions and packages.</p>
+<p>In our example of air pollution, fine particulate matter and other
+pollutants can induce systemic inflammation in the body, leading to an
 increase in circulating inflammatory markers like C-reactive protein
-(CRP). We decide to divide the population into four groups based on
-different levels of exposure to air pollution. Lets assume these groups
-are as follow:</p>
+(CRP). To test the amounts of CRP due to air polution,we decide to
+divide the population into four groups based on different levels of
+exposure to air pollution. Lets assume these groups are as follow:</p>
 <ul>
 <li>Low exposure: Individuals living in rural areas with minimal
 industrial activity and low traffic density.</li>
@@ -919,32 +1049,12 @@ industrial activity and high traffic density.</li>
 <li>Very high exposure: Individuals living near industrial zones, major
 highways, or heavily polluted urban areas.</li>
 </ul>
-<div class="codewrapper sourceCode" id="cb4">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Generate example data for our four groups</span></span>
-<span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>  <span class="co"># for reproducibility</span></span>
-<span><span class="va">Low_exposure</span> <span class="op">&lt;-</span> <span class="fu">rnorm</span><span class="op">(</span><span class="fl">50</span>, mean <span class="op">=</span> <span class="fl">2.5</span>, sd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="va">Moderate_exposure</span> <span class="op">&lt;-</span> <span class="fu">rnorm</span><span class="op">(</span><span class="fl">50</span>, mean <span class="op">=</span> <span class="fl">3.0</span>, sd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="va">High_exposure</span> <span class="op">&lt;-</span> <span class="fu">rnorm</span><span class="op">(</span><span class="fl">50</span>, mean <span class="op">=</span> <span class="fl">3.5</span>, sd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="va">Very_high_exposure</span> <span class="op">&lt;-</span> <span class="fu">rnorm</span><span class="op">(</span><span class="fl">50</span>, mean <span class="op">=</span> <span class="fl">4</span>, sd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Combine data into a single data frame</span></span>
-<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">data.frame</span><span class="op">(</span></span>
-<span>  value <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="va">Low_exposure</span>, <span class="va">Moderate_exposure</span>, <span class="va">High_exposure</span>, <span class="va">Very_high_exposure</span><span class="op">)</span>,</span>
-<span>  group <span class="op">=</span> <span class="fu">rep</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="st">"Low_exposure"</span>,<span class="st">"Moderate_exposure"</span>,<span class="st">"High_exposure"</span>, <span class="st">"Very_high_exposure"</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">data</span><span class="op">$</span><span class="va">group</span> <span class="op">&lt;-</span> <span class="fu">factor</span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">group</span>, levels <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"Low_exposure"</span>, <span class="st">"Moderate_exposure"</span>, <span class="st">"High_exposure"</span>, <span class="st">"Very_high_exposure"</span><span class="op">)</span><span class="op">)</span><span class="co"># Reorder the levels of the 'group' factor variable</span></span>
-<span></span>
-<span><span class="co"># Visualize the data</span></span>
-<span><span class="fu">boxplot</span><span class="op">(</span><span class="va">value</span> <span class="op">~</span> <span class="va">group</span>, data <span class="op">=</span> <span class="va">data</span>, col <span class="op">=</span> <span class="st">"lightblue"</span>, main <span class="op">=</span> <span class="st">"Boxplot of Four Groups"</span><span class="op">)</span></span></code></pre>
-</div>
-<figure><img src="../fig/Family-wise%20error%20rate-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Generally, as exposure level increases from low to very high, we
+<p>Our null hypothesis is that there is no difference in CRP amounts in
+the different groups. Our significance levels is 0.05.</p>
+<figure><img src="../fig/Pairwise%20comparisons-rendered-unnamed-chunk-1-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Generally, as exposure level increases from low to very high, we
 might expect to see a corresponding increase in the median exposure
-level.</p>
-<div class="codewrapper sourceCode" id="cb5">
+level and higher median C-reactive protein (CRP) values.</p>
+<div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -961,7 +1071,7 @@ Residuals   196  690.4   3.523
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -991,17 +1101,41 @@ determine which specific group means differ significantly from each
 other. The results provide pairwise comparisons of group means along
 with adjusted p-values to account for multiple comparisons.</p>
 </div>
+<div class="section level2">
+<h2 id="interpreting-pairwise-comparison-results">Interpreting Pairwise Comparison Results<a class="anchor" aria-label="anchor" href="#interpreting-pairwise-comparison-results"></a>
+</h2>
+<p>Understanding significance levels and p-values obtained from pairwise
+comparisons is essential for interpreting results accurately. The
+p-values obtained from pairwise comparisons using the Tukey test are
+adjusted to control the familywise error rate (FWER) or the false
+discovery rate (FDR). Adjusted p-values reflect the probability of
+observing a given result (or more extreme) under the assumption that all
+null hypotheses are true, while accounting for the number of comparisons
+made. Here, we interpret pairwise comparison results with adjusted
+p-values from the Tukey test by assessing whether the adjusted p-value
+is less than the chosen significance level (α) (0.05). If the adjusted
+p-value is below the significance level, we conclude that the observed
+difference is statistically significant after correcting for multiple
+comparisons.</p>
 </div>
 <div class="section level2">
-<h2 id="data-snooping">Data snooping<a class="anchor" aria-label="anchor" href="#data-snooping"></a>
+<h2 id="additional-resources">Additional resources<a class="anchor" aria-label="anchor" href="#additional-resources"></a>
+</h2>
+<p>For further reading and hands-on practice with pairwise comparisons
+in R, refer to <a href="%22https://www.rdocumentation.org/%22" class="external-link">R
+documentation on pairwise comparisons</a>, <a href="%22https://www.coursera.org/specializations/statistics%22" class="external-link">Applied
+Statistics with R</a> and <a href="%22http://users.stat.umn.edu/~gary/book/fcdae.pdf%22" class="external-link">book by
+Oehlert 2010</a> resources.</p>
+</div>
+<div class="section level2">
+<h2 id="data-snooping-figure_6-data-snooping">Data snooping <img src="../fig/Data%20snooping.png" alt="Figure_6: Data snooping" class="figure"><a class="anchor" aria-label="anchor" href="#data-snooping-figure_6-data-snooping"></a>
 </h2>
 <p>In the context of the above analysis, data snooping refers to the
 practice of exploring the data extensively, testing multiple hypotheses,
 and making comparisons until finding a statistically significant result
 or an interesting pattern. This can lead to overfitting the data or
 finding false positives due to chance alone.</p>
-<figure><img src="../Data%20snooping.png.png" alt="Figure_6: Data snoofing." class="figure mx-auto d-block"><div class="figcaption">Figure_6: Data snoofing.</div>
-</figure><p>In our example, data snooping could involve testing multiple
+<p>In our example, data snooping could involve testing multiple
 comparisons between exposure groups until finding one that appears to be
 statistically significant or interesting. For example, one might compare
 only the “Very_high_exposure” group with the other groups, ignoring
@@ -1086,8 +1220,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/instructor/aio.html",
   "identifier": "https://FIXME-template-source.github.io/NA/instructor/aio.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-05-08",
-  "datePublished": "2024-05-08"
+  "dateModified": "2024-05-10",
+  "datePublished": "2024-05-10"
 }
 
   </script><script>
