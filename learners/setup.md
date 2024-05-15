@@ -16,21 +16,15 @@ At the end of this course, you will be able to:
 
 ## Tools Required
 
-- Statistical software R https://cran.r-project.org/
-- Basic knowledge of programming in R would be beneficial for understanding the coding examples.
+- Statistical software R ([download](https://cran.r-project.org/))
+- Basic knowledge of programming in R is beneficial for understanding the coding examples.
 
 ## Data Sets 
-
-<!--
-FIXME: place any data you want learners to use in `episodes/data` and then use
-       a relative link ( [data zip file](data/lesson-data.zip) ) to provide a
-       link to it, replacing the example.com link.
--->
 
 - For simulation and demonstration purposes, you may use synthetic datasets generated within the tutorial or any relevant datasets from your field of study.
 - Optionally, you can use RNA-Seq data with a large number of genes (e.g., 20,000 human genes) to illustrate the challenges of multiple testing correction for high-dimensional data.
 
 ## Preparation
 
-Ensure that the necessary statistical software is installed and functional on your system. Familiarize yourself with basic statistical concepts such as hypothesis testing, p-values, and ANOVA, as these will provide a foundation for understanding multiple testing procedures. 
+Ensure that R is installed and functional on your system. Familiarize yourself with basic statistical concepts such as hypothesis testing, p-values, and ANOVA, as these will provide a foundation for understanding multiple testing procedures. 
 
