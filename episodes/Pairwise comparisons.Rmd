@@ -7,7 +7,7 @@ exercises: 2
 :::::::::::::::::::::::::::::::::::::: questions
 
 - What are pairwise comparisons, and how do they relate to the broader concept of multiple testing in statistical analysis?
-- How can we effectively conduct and interpret pairwise comparisons to make valid statistical inferences while controlling for the familywise error rate?
+- How can we effectively conduct and interpret pairwise comparisons to make valid statistical inferences while controlling for the family-wise error rate?
 
 ::::::::::::::::::::::::::::::::
 
