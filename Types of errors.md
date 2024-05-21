@@ -31,7 +31,7 @@ Type II error occurs when we fail to reject a null hypothesis that is actually f
 
 One common way when this error occurs in the context of hypothesis testing, is when a method with low __statistical power__ is chosen (if the sample size is small or the effect size (difference in disease prevalence) is small). Statistical power refers to the probability of correctly rejecting the null hypothesis when it is indeed false. In simpler terms, it measures the likelihood of detecting a true effect or difference if it exists. A test with high power is more likely to detect a real effect, while a test with low power is more likely to miss detecting a real effect, leading to a Type II error (false negative).
 
-# Confusion Matrix
+## Confusion Matrix
 
 In the context of hypothesis testing, we can conceptualize Type I and Type II errors using a confusion matrix.
 The confusion matrix represents the outcomes of hypothesis testing as True Positives (correctly rejecting H0), False Positives (incorrectly rejecting H0), True Negatives (correctly failing to reject H0), and False Negatives (incorrectly failing to reject H0).
