@@ -47,7 +47,7 @@ Now, let us assume that after data collection, for hypothesis 1, we  find that 1
 Let us assume we conduct statistical tests for each of these hypotheses, resulting in p-values for each test. For simplicity, let us maintain our significance level (alpha) at 0.05 for each individual test. We can conduct binomial tests for each hypothesis and calculate the p-values in R.
 
 
-```r
+``` r
 n = 100 # number of test persons
 p = 0.04 # Known prevalence of the disease in the general population
 
@@ -64,7 +64,7 @@ for (i in 1:length(p_values)) {
 }# Print the p-values for each hypothesis
 ```
 
-```output
+``` output
 Hypothesis 1: p = 0.0000
 Hypothesis 2: p = 0.0000
 Hypothesis 3: p = 0.1595
@@ -85,7 +85,7 @@ Where:
 m is the number of hypothesis tests conducted.
 
 
-```r
+``` r
 α <- 0.05# Define the desired overall significance level (alpha)
 
 m <- length(p_values)# Calculate the number of hypothesis tests conducted (m)

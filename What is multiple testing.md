@@ -44,14 +44,14 @@ So, we decide to perform binomial test (please refer back to binomial tests tuto
 We set our significance level (α) beforehand, typically at 0.05, to determine whether the results are statistically significant.
 
 
-```r
+``` r
 #For known parameters (n=100, p=0.04), we calculates the the chances of getting the 9 individuals that indeed suffered from the disease. 
 n = 100 # number of test persons
 p = 0.04 # Known prevalence of the disease in the general population
 dbinom(x=9, size=n, prob=p)
 ```
 
-```output
+``` output
 [1] 0.01214746
 ```
 
@@ -76,13 +76,13 @@ Our null hypothesis is that there is no real difference in disease rates between
 To do this, we write a program in r, which would give us the simulated results when the prevalence in the test group is 4% (null hypothesis is true). We run these experiments to see what would happen if we kept doing tests even when there was not actually any difference. 
 
 
-```r
+``` r
 library(tidyverse)
 ```
 
 
 
-```r
+``` r
 #H0 is true: disease prevalence = 4%
 set.seed(33)
 

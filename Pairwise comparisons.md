@@ -46,13 +46,13 @@ Our null hypothesis is that there is no difference in CRP amounts in the differe
 Generally, as exposure level increases from low to very high, we might expect to see a corresponding increase in the median exposure level and higher median C-reactive protein (CRP) values.
 
 
-```r
+``` r
 # Perform one-way ANOVA
 anova_result <- aov(value ~ group, data = data)
 summary(anova_result)
 ```
 
-```output
+``` output
              Df Sum Sq Mean Sq F value  Pr(>F)    
 group         3   60.8  20.268   5.754 0.00086 ***
 Residuals   196  690.4   3.523                    
@@ -60,13 +60,13 @@ Residuals   196  690.4   3.523
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-```r
+``` r
 # Perform Tukey post-hoc test
 tukey_result <- TukeyHSD(anova_result)
 tukey_result
 ```
 
-```output
+``` output
   Tukey multiple comparisons of means
     95% family-wise confidence level
 
