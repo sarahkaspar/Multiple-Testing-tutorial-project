@@ -328,16 +328,16 @@ In this population, lives a group of individuals who have all been
 exposed to air pollution. Concerned about their health, we decide to
 embark on a quest to uncover whether being exposed to air pollution
 influenced the risk of contracting this disease.</p>
-<figure><img src="../fig/01-Disease-prevalence.png" alt="Figure_1: Disease Prevalence in a population- Illustrating the Proportion of Individuals Affected by the disease as 4% of the Population" class="figure mx-auto d-block"><div class="figcaption">Figure_1: Disease Prevalence in a population-
-Illustrating the Proportion of Individuals Affected by the disease as 4%
-of the Population</div>
+<figure><img src="../fig/01-Disease-prevalence.png" alt="Disease Prevalence in a population- Illustrating the Proportion of Individuals Affected by the disease as 4% of the Population" class="figure mx-auto d-block"><div class="figcaption">Disease Prevalence in a population- Illustrating
+the Proportion of Individuals Affected by the disease as 4% of the
+Population</div>
 </figure><div class="section level2">
 <h2 id="setting-the-null-and-alternative-hypothesis">Setting the null and alternative hypothesis<a class="anchor" aria-label="anchor" href="#setting-the-null-and-alternative-hypothesis"></a>
 </h2>
 <p>We would like to conduct a hypothesis test to find out whether the
 prevalence in the test group differs from the known 4%.</p>
 <div class="section level3">
-<h3 id="null-hypothesis-h">Null Hypothesis (H)<a class="anchor" aria-label="anchor" href="#null-hypothesis-h"></a>
+<h3 id="null-hypothesis-h_0">Null Hypothesis (<span class="math inline">\(H_0\)</span>)<a class="anchor" aria-label="anchor" href="#null-hypothesis-h_0"></a>
 </h3>
 <p>The prevalence of the disease within test group exposed to air
 pollution is the same as the known prevalence in the general population
@@ -345,13 +345,13 @@ pollution is the same as the known prevalence in the general population
 pollution in the test group who have the disease is also 4%.</p>
 </div>
 <div class="section level3">
-<h3 id="alternative-hypothesis-h₁">Alternative Hypothesis (H₁)<a class="anchor" aria-label="anchor" href="#alternative-hypothesis-h%E2%82%81"></a>
+<h3 id="alternative-hypothesis-h_1">Alternative Hypothesis (<span class="math inline">\(H_1\)</span>)<a class="anchor" aria-label="anchor" href="#alternative-hypothesis-h_1"></a>
 </h3>
 <p>The prevalence of the disease within the test group exposed to air
 pollution is different from the known prevalence in the general
-population. This suggests that the proportion of individuals exposed to
-air pollution in the test group who have the disease is either
-significantly higher or lower than 4%.</p>
+population. This means that the proportion of individuals exposed to air
+pollution in the test group who have the disease is either higher or
+lower than 4%.</p>
 </div>
 </div>
 <div class="section level2">
@@ -361,10 +361,13 @@ significantly higher or lower than 4%.</p>
 pollution (test group) from the population and each individual is
 carefully examined, checking for any signs of the disease. Out of the
 100 individuals, we discover that 9 of them were indeed suffering from
-the disease. But we are not satisfied with just this knowledge. We want
-to know if this prevalence of the disease within the group exposed to
-air pollution was significantly different from the population’s average,
-which is 4. So, we decide to perform binomial test (please refer back to
+the disease, so the <em>observed</em> proportion is 9%. This is
+different from 4%, but we are not satisfied with just this knowledge,
+since the observed difference in proportions could be due to chance. We
+want to know if this prevalence of the disease within the group exposed
+to air pollution was significantly different from the population’s
+average, meaning that it’s very unlikely to observe this difference just
+by chance. So, we decide to perform binomial test (please refer back to
 binomial tests tutorial) <a href="%22https://sarahkaspar.github.io/biostatistics-course/03-binomial.html%22" class="external-link">The
 binomial distribution</a>. With this test, we could compare the observed
 prevalence within our group that has been exposed to air pollution to
@@ -408,23 +411,21 @@ disease prevalence in 200 various locations. We want to assess whether
 there is a significant difference in disease rates between groups
 exposed to air pollution and the average for the whole population.</p>
 <p>We want to know how hypothesis testing works, when we perform it
-simultaneously or in quick succession on many tests, each with its own
-significance level (chance of producing a false positive result).</p>
+simultaneously or in quick succession on many tests.</p>
 <p>We therefore decide to simulate the scenario where we conduct 200
 tests, each with a 5% chance (alpha = 0.05) of producing a significant
 result (i.e., a p-value less than 0.05) even when the null hypothesis is
 true.</p>
-<p>Our null hypothesis is that there is no real difference in disease
-rates between the groups exposed to air pollution and the average for
-the whole population.</p>
-<figure><img src="../fig/Scenario_100%20individuals%20get%20tested%20for%20a%20disease.%20The%20disease%20prevalence%20is%200.04.%20The%20experiment%20is%20repeated%20200%20times.png" alt="Figure_2: Scenario - 100 individuals get tested for a disease. The disease prevalence is 0.04. The experiment is repeated 200 times" class="figure mx-auto d-block"><div class="figcaption">Figure_2: Scenario - 100 individuals get tested
-for a disease. The disease prevalence is 0.04. The experiment is
-repeated 200 times</div>
-</figure><p>To do this, we write a program in r, which would give us the
-simulated results when the prevalence in the test group is 4% (null
-hypothesis is true). We run these experiments to see what would happen
-if we kept doing tests even when there was not actually any
-difference.</p>
+<p>Our null hypothesis in each location is that there is no real
+difference in disease rates between the groups exposed to air pollution
+and the average for the whole population.</p>
+<figure><img src="../fig/Scenario_100%20individuals%20get%20tested%20for%20a%20disease.%20The%20disease%20prevalence%20is%200.04.%20The%20experiment%20is%20repeated%20200%20times.png" alt="Scenario: 100 individuals get tested for a disease. The disease prevalence is 0.04. The experiment is repeated 200 times" class="figure mx-auto d-block"><div class="figcaption">Scenario: 100 individuals get tested for a
+disease. The disease prevalence is 0.04. The experiment is repeated 200
+times</div>
+</figure><p>To do this, we write a program in R, which simulates study results
+when the prevalence in the test group is 4% (null hypothesis is true).
+We run these experiments to see what would happen if we kept doing tests
+even when there was not actually any difference.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -461,28 +462,29 @@ test, we needed to adjust the bounds for what is considered
 “significant” based on the significance level of 0.05. We are interested
 in the extreme tails of the distribution that contain 2.5% of the data
 on each side.</p>
-<p>We therefore use <strong>qbinom()</strong> function in this
-simulation to calculate the quantiles of the binomial distribution
-corresponding to the 2.5th and 97.5th percentiles. This gives us the
-bounds that would contain 95% of the data under the null hypothesis. We
-then classify a group as “significant” if the observed number of
-patients falls below the 2.5th percentile or above the 97.5th percentile
-of the binomial distribution.</p>
+<p>We therefore use <code>qbinom()</code> function in this simulation to
+calculate the quantiles of the binomial distribution corresponding to
+the 2.5th and 97.5th percentiles. This gives us the bounds that would
+contain 95% of the data under the null hypothesis. We then classify a
+group as “significant” if the observed number of patients falls below
+the 2.5th percentile or above the 97.5th percentile of the binomial
+distribution.</p>
+<p>In the resulting histogram, we find that even in a world where there
+was no true difference in disease prevalence, about 5% of our simulated
+experiments yielded statistically significant results purely by chance
+(the red bars).</p>
 <p>It is important to note that the significance level (α) that we
 choose for each individual test directly impacts the rate of false
-positives. In out example, we have set α=0.05 for each individual test,
+positives. In our example, we have set α=0.05 for each individual test,
 which means we are essentially saying that we are willing to accept a 5%
-chance of making a false positive error for each test.</p>
-<p>To our astonishment in <strong>Figure_3</strong>, we find that even
-in a world where there was no true difference in disease prevalence,
-about 5% of our simulated experiments yielded statistically significant
-results purely by chance (the red bars).</p>
+chance of making a false positive error for each test, and this means
+that for 100 tests, we expect abuot 5 false positives.</p>
 <p>By running this simulation multiple times, we can observe how often
 we get false positive results when there should be none. This helps us
 understand the likelihood of obtaining a significant result purely by
 chance, even if there is no true effect or difference.</p>
 <div class="section level3">
-<h3 id="keyspoints">Keyspoints<a class="anchor" aria-label="anchor" href="#keyspoints"></a>
+<h3 id="key-points">Key points<a class="anchor" aria-label="anchor" href="#key-points"></a>
 </h3>
 <ul>
 <li>Through this exercise, we learn a valuable lesson about the dangers
@@ -511,7 +513,7 @@ testing.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -606,10 +608,9 @@ to detect a real effect, while a test with low power is more likely to
 miss detecting a real effect, leading to a Type II error (false
 negative).</p>
 </div>
-</div>
-<div class="section level1">
-<h1 id="confusion-matrix">Confusion Matrix<a class="anchor" aria-label="anchor" href="#confusion-matrix"></a>
-</h1>
+<div class="section level2">
+<h2 id="confusion-matrix">Confusion Matrix<a class="anchor" aria-label="anchor" href="#confusion-matrix"></a>
+</h2>
 <p>In the context of hypothesis testing, we can conceptualize Type I and
 Type II errors using a confusion matrix. The confusion matrix represents
 the outcomes of hypothesis testing as True Positives (correctly
@@ -619,6 +620,7 @@ Negatives (correctly failing to reject H0), and False Negatives
 <figure><img src="../fig/Figure%201%20Errors%20in%20hypothesis%20testing.png" alt="Figure_4: Errors in hypothesis testing and how they arise" class="figure mx-auto d-block"><div class="figcaption">Figure_4: Errors in hypothesis testing and how
 they arise</div>
 </figure>
+</div>
 </div>
 <div class="section level1">
 <h1 id="the-problem">The problem<a class="anchor" aria-label="anchor" href="#the-problem"></a>
@@ -734,7 +736,7 @@ relevance and ethical soundness of their findings.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -792,17 +794,14 @@ comparisons.</li>
 </div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="family-wise-error-rate-fwer">Family-wise Error Rate (FWER)<a class="anchor" aria-label="anchor" href="#family-wise-error-rate-fwer"></a>
-</h1>
 <p>In statistical hypothesis testing, conducting multiple tests
 simultaneously increases the likelihood of making at least one
-false-positive error. In this tutorial, we will explore FWER, discuss
-methods for adjusting p-values to account for multiple comparisons, and
-examine practical examples.</p>
-<div class="section level2">
-<h2 id="a-multi-hypothesis-testing-framework">A Multi-Hypothesis Testing Framework<a class="anchor" aria-label="anchor" href="#a-multi-hypothesis-testing-framework"></a>
+false-positive error. In this episode, we will explore the family-wise
+error rate (FWER), and discuss methods for adjusting p-values to account
+for multiple comparisons, using practical examples.</p>
+<section id="a-multi-hypothesis-testing-framework"><h2 class="section-heading">A Multi-Hypothesis Testing Framework<a class="anchor" aria-label="anchor" href="#a-multi-hypothesis-testing-framework"></a>
 </h2>
+<hr class="half-width">
 <p>In multiple testing scenarios, researchers often have an overarching
 hypothesis that encompasses several individual hypotheses, each
 examining specific aspects or relationships within the data. This
@@ -818,23 +817,46 @@ be formulated to examine different aspects of the relationship between
 air pollution exposure and disease prevalence. These individual
 hypotheses may focus on various pollutants, different health outcomes,
 or specific populations.</p>
-<p>An example using three individual hypothesis:</p>
-<p><em>Hypothesis 1: Exposure to particulate matter is associated with
-increased disease prevalence</em></p>
-<p><em>Hypothesis 2: Exposure to nitrogen dioxide is associated with
-increased disease prevalence</em></p>
-<p><em>Hypothesis 3: Long-term exposure to ozone (O3) is associated with
-an increased prevalence of the disease</em></p>
-<figure><img src="../fig/Relationship%20between%20Overall%20Hypothesis%20and%20Individual%20Hypotheses.%20Effects%20of%20Air%20Pollution%20on%20Rdisease%20prevalence.png" alt="Figure_5: Relationship between Overall Hypothesis and Individual Hypotheses: Effects of Air Pollution on Disease Prevalence”" class="figure mx-auto d-block"><div class="figcaption">Figure_5: Relationship between Overall
-Hypothesis and Individual Hypotheses: Effects of Air Pollution on
-Disease Prevalence”</div>
+<p>An example using three individual null hypotheses:</p>
+<p><strong><span class="math inline">\(H_{0,1}\)</span></strong>:
+Exposure to particulate matter is not associated with increased disease
+prevalence.</p>
+<p><strong><span class="math inline">\(H_{0,2}\)</span></strong>:
+Exposure to nitrogen dioxide is not associated with increased disease
+prevalence.</p>
+<p><strong><span class="math inline">\(H_{0,3}\)</span></strong>:
+Long-term exposure to ozone (O3) is not associated with an increased
+prevalence of the disease.</p>
+<p>The three null hypotheses can be combined to the following overall
+null hypothesis:</p>
+<p><strong><span class="math inline">\(H_{0}\)</span></strong>: Air
+pollution is not associated with an increased prevalence of the
+disease.</p>
+<div id="callout1" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Callout<a class="anchor" aria-label="anchor" href="#callout1"></a>
+</h3>
+<div class="callout-content">
+<p>As soon as one of the individual null hypotheses is rejected, we also
+reject the overall null hypothesis. Therefore, we’ll want to make sure
+that we have not a single false positive among our individual hypothesis
+tests.</p>
+</div>
+</div>
+</div>
+<figure><img src="../fig/Relationship%20between%20Overall%20Hypothesis%20and%20Individual%20Hypotheses.%20Effects%20of%20Air%20Pollution%20on%20Rdisease%20prevalence.png" alt="Relationship between Overall Hypothesis and Individual Hypotheses: Effects of Air Pollution on Disease Prevalence”" class="figure mx-auto d-block"><div class="figcaption">Relationship between Overall Hypothesis and
+Individual Hypotheses: Effects of Air Pollution on Disease
+Prevalence”</div>
 </figure><p>In this illustration, each individual hypothesis delves into a
 distinct facet of the overarching research inquiry, enabling researchers
 to thoroughly examine the intricate connection between air pollution
 exposure and disease prevalence. By scrutinizing the impacts of various
 air pollutants on the disease, this method encourages a systematic
 exploration of diverse factors and aids in revealing potential
-associations or patterns within the dataset.</p>
+associations or patterns within the data set.</p>
 <p>Now, let us assume that after data collection, for hypothesis 1, we
 find that 15 out of 100 individuals exposed to high levels of
 particulate matter develop the disease, for hypothesis 2, 20 out of 100
@@ -843,9 +865,9 @@ disease and for hypothesis 3, 5 out of 100 individuals exposed to high
 levels of ozone develop the disease.</p>
 <p>Let us assume we conduct statistical tests for each of these
 hypotheses, resulting in p-values for each test. For simplicity, let us
-maintain our significance level (alpha) at 0.05 for each individual
-test. We can conduct binomial tests for each hypothesis and calculate
-the p-values in R.</p>
+maintain our significance level at <span class="math inline">\(\alpha=0.05\)</span> for each individual test. We
+can conduct binomial tests for each hypothesis and calculate the
+p-values in R.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -872,18 +894,17 @@ the p-values in R.</p>
 Hypothesis 2: p = 0.0000
 Hypothesis 3: p = 0.1595</code></pre>
 </div>
-</div>
-<div class="section level2">
-<h2 id="the-bonferroni-correction">The Bonferroni correction<a class="anchor" aria-label="anchor" href="#the-bonferroni-correction"></a>
+</section><section id="the-bonferroni-correction"><h2 class="section-heading">The Bonferroni correction<a class="anchor" aria-label="anchor" href="#the-bonferroni-correction"></a>
 </h2>
+<hr class="half-width">
 <p>Now, to calculate the probability of having any false-positive within
 the set of tests (also known as familywise error rate or FWER), we can
 use methods such as the Bonferroni correction. This method adjust the
 significance level for each test to control for multiple testing.</p>
 <p>The Bonferroni procedure adjusts the significance level for each
-individual test by dividing the desired overall significance level
-(alpha) by the number of tests conducted (m).</p>
-<p>Bonferroni adjusted significance level (αBonf)= α/m​</p>
+individual test by dividing the desired overall significance level by
+the number of tests conducted (m).</p>
+<p><span class="math display">\[α_{\text{Bonf}}= α/m \]</span></p>
 <p>Where:</p>
 <p>α is the desired overall significance level (usually set to 0.05). m
 is the number of hypothesis tests conducted.</p>
@@ -891,27 +912,33 @@ is the number of hypothesis tests conducted.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">α</span> <span class="op">&lt;-</span> <span class="fl">0.05</span><span class="co"># Define the desired overall significance level (alpha)</span></span>
+<code class="sourceCode R"><span><span class="va">FWER</span> <span class="op">&lt;-</span> <span class="fl">0.05</span><span class="co"># Define the desired Family-wise error rate</span></span>
 <span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu">length</span><span class="op">(</span><span class="va">p_values</span><span class="op">)</span><span class="co"># Calculate the number of hypothesis tests conducted (m)</span></span>
 <span></span>
-<span><span class="va">αBonf</span> <span class="op">&lt;-</span> <span class="va">α</span> <span class="op">/</span> <span class="va">m</span> <span class="co"># Calculate Bonferroni adjusted significance level</span></span></code></pre>
+<span><span class="va">alpha_bonf</span> <span class="op">&lt;-</span> <span class="va">FWER</span> <span class="op">/</span> <span class="va">m</span> <span class="co"># Calculate Bonferroni adjusted significance level</span></span>
+<span></span>
+<span><span class="va">alpha_bonf</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] 0.01666667</code></pre>
 </div>
 <p>Since in our example above we have three tests (three hypotheses),
-the Bonferroni corrected significance level would be:</p>
-<p>alpha_bonf = 0.05/3​ ≈0.0167</p>
+the Bonferroni corrected significance level is <span class="math inline">\(\alpha_{\text{bonf}} = 0.05/3 \approx
+0.0167\)</span>.</p>
 <div class="section level3">
-<h3 id="interpretation">
-<em>Interpretation</em><a class="anchor" aria-label="anchor" href="#interpretation"></a>
+<h3 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a>
 </h3>
-<p>For each individual test, we would compare the calculated p-value to
-this adjusted significance level. If the p-value is less than or equal
-to 0.0167, we would reject the null hypothesis for that test.</p>
-<p>Based on the Bonferroni correction, we would reject the null
-hypothesis for Hypotheses 1 and 2, indicating significant associations
-between particulate matter and nitrogen dioxide exposure with disease
-prevalence. However, for Hypothesis 3 (ozone), we would fail to reject
-the null hypothesis, suggesting no significant association with disease
+<p>For each individual test, we compare the calculated p-value to this
+adjusted significance level. If the p-value is less than or equal to
+0.0167, we reject the null hypothesis for that test.</p>
+<p>Based on the Bonferroni correction, we reject the null hypothesis for
+Hypotheses 1 and 2, indicating significant associations between
+particulate matter and nitrogen dioxide exposure with disease
+prevalence. However, for Hypothesis 3 (ozone), we fail to reject the
+null hypothesis, suggesting no significant association with disease
 prevalence at the adjusted significance level. This adjustment for
 multiple testing helps control the overall probability of making at
 least one false-positive error across all tests conducted.</p>
@@ -920,27 +947,46 @@ certain air pollutants and disease prevalence, it does not provide
 conclusive evidence to reject the overarching null hypothesis entirely.
 Instead, it suggests a nuanced interpretation wherein the relationship
 between air pollution exposure and disease prevalence may vary depending
-on the specific pollutant considered. therefore, further investigation
+on the specific pollutant considered. Therefore, further investigation
 and analysis may be necessary to fully elucidate the relationship
 between air pollution exposure and disease prevalence and to refine the
 overarching null hypothesis accordingly. This could involve exploring
 additional factors, conducting more comprehensive analyses, or
 considering alternative statistical approaches to account for potential
 confounding variables or sources of variability in the data.</p>
-<p>Even if we could change the significance level, another approach to
-address the issue of multiple comparisons is to adjust the p-values
-obtained from individual hypothesis tests. This adjustment is equivalent
-to controlling the overall familywise error rate (FWER) and ensures that
-the probability of making at least one false positive error across all
-tests remains at or below a predetermined threshold, typically 0.05.
-Common methods for adjusting p-values include the Bonferroni correction
-and False Discovery Rate (FDR) procedures. These methods modify the
-threshold for statistical significance for each individual test based on
-the number of comparisons conducted, thereby maintaining the integrity
-of the overall statistical analysis while accounting for multiple
-comparisons. Adjusting p-values offers a flexible and widely used
-approach to control the type I error rate and enhance the reliability of
-statistical inference in multiple testing scenarios.</p>
+<p>Instead of changing the significance level, another (equivalent)
+calculation is adjusting the p-values obtained from individual
+hypothesis tests, followed by comparing the adjusted p-values to the
+desired FWER. With this procedure, we can reject those individual null
+hypotheses that have a p-value below the desired FWER (<span class="math inline">\(p &lt; \text{FWER}\)</span>).</p>
+<p><span class="math display">\[p_{\text{Bonf}}= p \times m\]</span></p>
+<p>In R, this can be done as follows:</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">p.adjust</span><span class="op">(</span><span class="va">p_values</span>, method <span class="op">=</span> <span class="st">"bonferroni"</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] 2.539669e-05 6.747937e-09 4.785324e-01</code></pre>
+</div>
+<p>We can check which of the individual hypotheses can will be rejected
+at a <span class="math inline">\(\text{FWER}=0.05\)</span>:</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">p.adjust</span><span class="op">(</span><span class="va">p_values</span>, method <span class="op">=</span> <span class="st">"bonferroni"</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">0.05</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1]  TRUE  TRUE FALSE</code></pre>
+</div>
+<p>The conclusion is the same as when changing the significance level
+for each test.</p>
 <div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
@@ -961,8 +1007,7 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
 </div>
-</div>
-</div></section><section id="aio-Pairwise comparisons"><p>Content from <a href="Pairwise%20comparisons.html">Pairwise comparisons</a></p>
+</section></section><section id="aio-Pairwise comparisons"><p>Content from <a href="Pairwise%20comparisons.html">Pairwise comparisons</a></p>
 <hr>
 <p>Last updated on 2024-05-21 |
         
@@ -982,7 +1027,7 @@ any links that you are not going to use.
 <li>What are pairwise comparisons, and how do they relate to the broader
 concept of multiple testing in statistical analysis?</li>
 <li>How can we effectively conduct and interpret pairwise comparisons to
-make valid statistical inferences while controlling for the familywise
+make valid statistical inferences while controlling for the family-wise
 error rate?</li>
 </ul>
 </div>

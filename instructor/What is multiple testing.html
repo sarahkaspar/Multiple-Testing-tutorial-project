@@ -290,27 +290,27 @@ In this population, lives a group of individuals who have all been
 exposed to air pollution. Concerned about their health, we decide to
 embark on a quest to uncover whether being exposed to air pollution
 influenced the risk of contracting this disease.</p>
-<figure><img src="../fig/01-Disease-prevalence.png" alt="Figure_1: Disease Prevalence in a population- Illustrating the Proportion of Individuals Affected by the disease as 4% of the Population" class="figure mx-auto d-block"><div class="figcaption">Figure_1: Disease Prevalence in a population-
-Illustrating the Proportion of Individuals Affected by the disease as 4%
-of the Population</div>
+<figure><img src="../fig/01-Disease-prevalence.png" alt="Disease Prevalence in a population- Illustrating the Proportion of Individuals Affected by the disease as 4% of the Population" class="figure mx-auto d-block"><div class="figcaption">Disease Prevalence in a population- Illustrating
+the Proportion of Individuals Affected by the disease as 4% of the
+Population</div>
 </figure><div class="section level2">
 <h2 id="setting-the-null-and-alternative-hypothesis">Setting the null and alternative hypothesis<a class="anchor" aria-label="anchor" href="#setting-the-null-and-alternative-hypothesis"></a></h2>
 <p>We would like to conduct a hypothesis test to find out whether the
 prevalence in the test group differs from the known 4%.</p>
 <div class="section level3">
-<h3 id="null-hypothesis-h">Null Hypothesis (H)<a class="anchor" aria-label="anchor" href="#null-hypothesis-h"></a></h3>
+<h3 id="null-hypothesis-h_0">Null Hypothesis (<span class="math inline">\(H_0\)</span>)<a class="anchor" aria-label="anchor" href="#null-hypothesis-h_0"></a></h3>
 <p>The prevalence of the disease within test group exposed to air
 pollution is the same as the known prevalence in the general population
 (4%). This means that the proportion of individuals exposed to air
 pollution in the test group who have the disease is also 4%.</p>
 </div>
 <div class="section level3">
-<h3 id="alternative-hypothesis-h₁">Alternative Hypothesis (H₁)<a class="anchor" aria-label="anchor" href="#alternative-hypothesis-h%E2%82%81"></a></h3>
+<h3 id="alternative-hypothesis-h_1">Alternative Hypothesis (<span class="math inline">\(H_1\)</span>)<a class="anchor" aria-label="anchor" href="#alternative-hypothesis-h_1"></a></h3>
 <p>The prevalence of the disease within the test group exposed to air
 pollution is different from the known prevalence in the general
-population. This suggests that the proportion of individuals exposed to
-air pollution in the test group who have the disease is either
-significantly higher or lower than 4%.</p>
+population. This means that the proportion of individuals exposed to air
+pollution in the test group who have the disease is either higher or
+lower than 4%.</p>
 </div>
 </div>
 <div class="section level2">
@@ -319,10 +319,13 @@ significantly higher or lower than 4%.</p>
 pollution (test group) from the population and each individual is
 carefully examined, checking for any signs of the disease. Out of the
 100 individuals, we discover that 9 of them were indeed suffering from
-the disease. But we are not satisfied with just this knowledge. We want
-to know if this prevalence of the disease within the group exposed to
-air pollution was significantly different from the population’s average,
-which is 4. So, we decide to perform binomial test (please refer back to
+the disease, so the <em>observed</em> proportion is 9%. This is
+different from 4%, but we are not satisfied with just this knowledge,
+since the observed difference in proportions could be due to chance. We
+want to know if this prevalence of the disease within the group exposed
+to air pollution was significantly different from the population’s
+average, meaning that it’s very unlikely to observe this difference just
+by chance. So, we decide to perform binomial test (please refer back to
 binomial tests tutorial) <a href="%22https://sarahkaspar.github.io/biostatistics-course/03-binomial.html%22" class="external-link">The
 binomial distribution</a>. With this test, we could compare the observed
 prevalence within our group that has been exposed to air pollution to
@@ -365,23 +368,21 @@ disease prevalence in 200 various locations. We want to assess whether
 there is a significant difference in disease rates between groups
 exposed to air pollution and the average for the whole population.</p>
 <p>We want to know how hypothesis testing works, when we perform it
-simultaneously or in quick succession on many tests, each with its own
-significance level (chance of producing a false positive result).</p>
+simultaneously or in quick succession on many tests.</p>
 <p>We therefore decide to simulate the scenario where we conduct 200
 tests, each with a 5% chance (alpha = 0.05) of producing a significant
 result (i.e., a p-value less than 0.05) even when the null hypothesis is
 true.</p>
-<p>Our null hypothesis is that there is no real difference in disease
-rates between the groups exposed to air pollution and the average for
-the whole population.</p>
-<figure><img src="../fig/Scenario_100%20individuals%20get%20tested%20for%20a%20disease.%20The%20disease%20prevalence%20is%200.04.%20The%20experiment%20is%20repeated%20200%20times.png" alt="Figure_2: Scenario - 100 individuals get tested for a disease. The disease prevalence is 0.04. The experiment is repeated 200 times" class="figure mx-auto d-block"><div class="figcaption">Figure_2: Scenario - 100 individuals get tested
-for a disease. The disease prevalence is 0.04. The experiment is
-repeated 200 times</div>
-</figure><p>To do this, we write a program in r, which would give us the
-simulated results when the prevalence in the test group is 4% (null
-hypothesis is true). We run these experiments to see what would happen
-if we kept doing tests even when there was not actually any
-difference.</p>
+<p>Our null hypothesis in each location is that there is no real
+difference in disease rates between the groups exposed to air pollution
+and the average for the whole population.</p>
+<figure><img src="../fig/Scenario_100%20individuals%20get%20tested%20for%20a%20disease.%20The%20disease%20prevalence%20is%200.04.%20The%20experiment%20is%20repeated%20200%20times.png" alt="Scenario: 100 individuals get tested for a disease. The disease prevalence is 0.04. The experiment is repeated 200 times" class="figure mx-auto d-block"><div class="figcaption">Scenario: 100 individuals get tested for a
+disease. The disease prevalence is 0.04. The experiment is repeated 200
+times</div>
+</figure><p>To do this, we write a program in R, which simulates study results
+when the prevalence in the test group is 4% (null hypothesis is true).
+We run these experiments to see what would happen if we kept doing tests
+even when there was not actually any difference.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -418,28 +419,29 @@ test, we needed to adjust the bounds for what is considered
 “significant” based on the significance level of 0.05. We are interested
 in the extreme tails of the distribution that contain 2.5% of the data
 on each side.</p>
-<p>We therefore use <strong>qbinom()</strong> function in this
-simulation to calculate the quantiles of the binomial distribution
-corresponding to the 2.5th and 97.5th percentiles. This gives us the
-bounds that would contain 95% of the data under the null hypothesis. We
-then classify a group as “significant” if the observed number of
-patients falls below the 2.5th percentile or above the 97.5th percentile
-of the binomial distribution.</p>
+<p>We therefore use <code>qbinom()</code> function in this simulation to
+calculate the quantiles of the binomial distribution corresponding to
+the 2.5th and 97.5th percentiles. This gives us the bounds that would
+contain 95% of the data under the null hypothesis. We then classify a
+group as “significant” if the observed number of patients falls below
+the 2.5th percentile or above the 97.5th percentile of the binomial
+distribution.</p>
+<p>In the resulting histogram, we find that even in a world where there
+was no true difference in disease prevalence, about 5% of our simulated
+experiments yielded statistically significant results purely by chance
+(the red bars).</p>
 <p>It is important to note that the significance level (α) that we
 choose for each individual test directly impacts the rate of false
-positives. In out example, we have set α=0.05 for each individual test,
+positives. In our example, we have set α=0.05 for each individual test,
 which means we are essentially saying that we are willing to accept a 5%
-chance of making a false positive error for each test.</p>
-<p>To our astonishment in <strong>Figure_3</strong>, we find that even
-in a world where there was no true difference in disease prevalence,
-about 5% of our simulated experiments yielded statistically significant
-results purely by chance (the red bars).</p>
+chance of making a false positive error for each test, and this means
+that for 100 tests, we expect abuot 5 false positives.</p>
 <p>By running this simulation multiple times, we can observe how often
 we get false positive results when there should be none. This helps us
 understand the likelihood of obtaining a significant result purely by
 chance, even if there is no true effect or difference.</p>
 <div class="section level3">
-<h3 id="keyspoints">Keyspoints<a class="anchor" aria-label="anchor" href="#keyspoints"></a></h3>
+<h3 id="key-points">Key points<a class="anchor" aria-label="anchor" href="#key-points"></a></h3>
 <ul><li>Through this exercise, we learn a valuable lesson about the dangers
 of multiple testing.</li>
 <li>We realize that without proper adjustments, the likelihood of
@@ -464,7 +466,7 @@ testing.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
