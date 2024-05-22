@@ -20,25 +20,25 @@ exercises: 2
 
 Suppose the prevalence of a disease in the general population is 4%. In this population, lives a group of individuals who have all been exposed to air pollution. Concerned about their health, we decide to embark on a quest to uncover whether being exposed to air pollution influenced the risk of contracting this disease.
 
-![Figure_1: Disease Prevalence in a population- Illustrating the Proportion of Individuals Affected by the disease as 4% of the Population](fig/01-Disease-prevalence.png)
+![Disease Prevalence in a population- Illustrating the Proportion of Individuals Affected by the disease as 4% of the Population](fig/01-Disease-prevalence.png)
 
 ## Setting the null and alternative hypothesis
 
 We would like to conduct a hypothesis test to find out whether the prevalence in the test group differs from the known 4%.
 
-### Null Hypothesis (H)
+### Null Hypothesis ($H_0$)
 
 The prevalence of the disease within test group exposed to air pollution is the same as the known prevalence in the general population (4%). This means that the proportion of individuals exposed to air pollution in the test group who have the disease is also 4%.
 
-### Alternative Hypothesis (H₁)
+### Alternative Hypothesis ($H_1$)
 
-The prevalence of the disease within the test group exposed to air pollution is different from the known prevalence in the general population. This suggests that the proportion of individuals exposed to air pollution in the test group who have the disease is either significantly higher or lower than 4%.
+The prevalence of the disease within the test group exposed to air pollution is different from the known prevalence in the general population. This means that the proportion of individuals exposed to air pollution in the test group who have the disease is either higher or lower than 4%.
 
 ## Data collection and testing
 
 We assemble a group of 100  individuals who have been exposed to air pollution (test group) from the population and each individual is carefully examined, checking for any signs of the disease.
-Out of the 100 individuals, we discover that 9 of them were indeed suffering from the disease.
-But we are not satisfied with just this knowledge. We want to know if this prevalence of the disease within the group exposed to air pollution was significantly different from the population's average, which is 4.
+Out of the 100 individuals, we discover that 9 of them were indeed suffering from the disease, so the *observed* proportion is 9%. This is different from 4%,
+but we are not satisfied with just this knowledge, since the observed difference in proportions could be due to chance. We want to know if this prevalence of the disease within the group exposed to air pollution was significantly different from the population's average, meaning that it's very unlikely to observe this difference just by chance.
 So, we decide to perform binomial test (please refer back to binomial tests tutorial) [The binomial distribution]("https://sarahkaspar.github.io/biostatistics-course/03-binomial.html"). With this test, we could compare the observed prevalence within our group that has been exposed to air pollution to the known prevalence in the entire population.
 
 We set our significance level (α) beforehand, typically at 0.05, to determine whether the results are statistically significant.
@@ -60,15 +60,15 @@ Conducting a single study might not provide conclusive evidence due to various f
 
 We decide to investigate the potential impact of air pollution on disease prevalence in 200 various locations. We want to assess whether there is a significant difference in disease rates between groups exposed to air pollution and the average for the whole population. 
 
-We want to know how hypothesis testing works, when we perform it simultaneously or in quick succession on many tests, each with its own significance level (chance of producing a false positive result).
+We want to know how hypothesis testing works, when we perform it simultaneously or in quick succession on many tests.
 
 We therefore decide to simulate the scenario where we conduct 200 tests, each with a 5% chance (alpha = 0.05) of producing a significant result (i.e., a p-value less than 0.05) even when the null hypothesis is true.
 
-Our null hypothesis is that there is no real difference in disease rates between the groups exposed to air pollution and the average for the whole population.
+Our null hypothesis in each location is that there is no real difference in disease rates between the groups exposed to air pollution and the average for the whole population.
 
-![Figure_2: Scenario - 100 individuals get tested for a disease. The disease prevalence is 0.04. The experiment is repeated 200 times](fig/Scenario_100 individuals get tested for a disease. The disease prevalence is 0.04. The experiment is repeated 200 times.png)
+![Scenario: 100 individuals get tested for a disease. The disease prevalence is 0.04. The experiment is repeated 200 times](fig/Scenario_100 individuals get tested for a disease. The disease prevalence is 0.04. The experiment is repeated 200 times.png)
 
-To do this, we write a program in r, which would give us the simulated results when the prevalence in the test group is 4% (null hypothesis is true). We run these experiments to see what would happen if we kept doing tests even when there was not actually any difference. 
+To do this, we write a program in R, which simulates study results when the prevalence in the test group is 4% (null hypothesis is true). We run these experiments to see what would happen if we kept doing tests even when there was not actually any difference. 
 
 ```{r message=FALSE, warning=FALSE}
 library(tidyverse)
@@ -99,15 +99,16 @@ Figure_3
 
 We are interested in determining if the observed proportion significantly deviates from the expected proportion (0.4) in either direction (either higher or lower). As this is a two-tailed binomial test, we needed to adjust the bounds for what is considered "significant" based on the significance level of 0.05. We are interested in the extreme tails of the distribution that contain 2.5% of the data on each side.
 
-We therefore use __qbinom()__ function in this simulation to calculate the quantiles of the binomial distribution corresponding to the 2.5th and 97.5th percentiles. This gives us the bounds that would contain 95% of the data under the null hypothesis. We then classify a group as "significant" if the observed number of patients falls below the 2.5th percentile or above the 97.5th percentile of the binomial distribution.
+We therefore use `qbinom()` function in this simulation to calculate the quantiles of the binomial distribution corresponding to the 2.5th and 97.5th percentiles. This gives us the bounds that would contain 95% of the data under the null hypothesis. We then classify a group as "significant" if the observed number of patients falls below the 2.5th percentile or above the 97.5th percentile of the binomial distribution.
 
-It is important to note that the significance level (α) that we choose for each individual test directly impacts the rate of false positives. In out example, we have set α=0.05 for each individual test, which means we are essentially saying that we are willing to accept a 5% chance of making a false positive error for each test.
+In the resulting histogram, we find that even in a world where there was no true difference in disease prevalence, about 5% of our simulated experiments yielded statistically significant results purely by chance (the red bars). 
 
-To our astonishment in __Figure_3__, we find that even in a world where there was no true difference in disease prevalence, about 5% of our simulated experiments yielded statistically significant results purely by chance (the red bars). 
+It is important to note that the significance level (α) that we choose for each individual test directly impacts the rate of false positives. In our example, we have set α=0.05 for each individual test, which means we are essentially saying that we are willing to accept a 5% chance of making a false positive error for each test, and this means that for 100 tests, we expect abuot 5 false positives.
 
 By running this simulation multiple times, we can observe how often we get false positive results when there should be none. This helps us understand the likelihood of obtaining a significant result purely by chance, even if there is no true effect or difference.
 
-### Keyspoints
+
+### Key points
 
 - Through this exercise, we learn a valuable lesson about the dangers of multiple testing.
 - We realize that without proper adjustments, the likelihood of encountering false positives (rejecting a true null hypothesis) increase with each additional comparison.
