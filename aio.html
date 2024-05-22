@@ -221,7 +221,19 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="Pairwise%20comparisons.html">4. Pairwise comparisons</a>
+        <a href="False%20discovery%20rate.html">4. False discovery rate</a>
+    </div>
+<!--/div.accordion-header-->
+        
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="Pairwise%20comparisons.html">5. Pairwise comparisons</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -960,7 +972,304 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
 </div>
-</section></section><section id="aio-Pairwise comparisons"><p>Content from <a href="Pairwise%20comparisons.html">Pairwise comparisons</a></p>
+</section></section><section id="aio-False discovery rate"><p>Content from <a href="False%20discovery%20rate.html">False discovery rate</a></p>
+<hr>
+<p>Last updated on 2024-05-22 |
+        
+        <a href="https://example.com/FIXME-template-source/edit/main/episodes/False%20discovery%20rate.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul>
+<li>How does correcting for the family-wise error rate (FWER) affect the
+number of significant hits in large-scale data, such as RNA-Seq analysis
+of 20,000 human genes?</li>
+<li>What is the interpretation of a p-value histogram, and how can it be
+used to assess the distribution of p-values in multiple testing
+scenarios?</li>
+<li>How can the Benjamini-Hochberg method be applied to control the
+false discovery rate (FDR) in RNA-Seq data, and what are the benefits of
+using this method over FWER correction?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul>
+<li>Demonstrate how correcting for the family-wise error rate (FWER)
+using methods like Bonferroni correction can lead to few or no
+significant hits in large-scale testing scenarios.</li>
+<li>Introduce the concept of p-value histograms, explain their
+interpretation, and illustrate how they can be used to visualize the
+distribution of p-values in multiple testing.</li>
+<li>Explain the Benjamini-Hochberg method for controlling the false
+discovery rate (FDR).</li>
+<li>Provide practical examples and R code to apply the
+Benjamini-Hochberg method to RNA-Seq data.</li>
+<li>Discuss the advantages of controlling the FDR over FWER in the
+context of large-scale genomic data.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section level1">
+<h1 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h1>
+<p>In high-throughput experiments like RNA-Seq, we often conduct
+thousands of statistical tests simultaneously. This large number of
+tests increases the risk of false positives. The <strong>False Discovery
+Rate (FDR)</strong> is the expected proportion of false positives among
+the rejected hypotheses. While controlling the family-wise error rate
+(FWER), the probability of making at least one type I error, is one
+approach to address false positives, it can be too conservative, leading
+to few or no significant results. An alternative approach is to control
+the false discovery rate (FDR), which offers a balance between
+identifying true positives and limiting false positives.</p>
+<div class="section level2">
+<h2 id="example-rna-seq-analysis-with-20000-genes">Example: RNA-Seq Analysis with 20,000 Genes<a class="anchor" aria-label="anchor" href="#example-rna-seq-analysis-with-20000-genes"></a>
+</h2>
+<p>Here we will consider an example where we analyze RNA-Seq data from
+20,000 human genes to identify differentially expressed genes between
+two conditions.</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">ggplot2</span><span class="op">)</span> <span class="co"># Load necessary library</span></span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">123</span><span class="op">)</span> <span class="co"># Simulate p-values for 20,000 genes</span></span>
+<span></span>
+<span><span class="va">p_values</span> <span class="op">&lt;-</span> <span class="fu">runif</span><span class="op">(</span><span class="fl">19000</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># 95% of p-values are uniformly distributed (noise)</span></span>
+<span></span>
+<span><span class="va">p_values</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="va">p_values</span>, <span class="fu">rbeta</span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="co"># 5% of p-values are drawn from a beta distribution (signal)</span></span>
+<span></span>
+<span><span class="co"># Histogram of p-values</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="fu">data.frame</span><span class="op">(</span><span class="va">p_values</span><span class="op">)</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">p_values</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_histogram</span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">50</span>, fill <span class="op">=</span> <span class="st">"lightblue"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"P-value Histogram"</span>, x <span class="op">=</span> <span class="st">"P-value"</span>, y <span class="op">=</span> <span class="st">"Frequency"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="fig/False%20discovery%20rate-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Finding the number of significant differentially expressed genes before FWER correction</span></span>
+<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.05</span></span>
+<span><span class="va">significant_hits</span> <span class="op">&lt;-</span> <span class="va">p_values</span> <span class="op">&lt;</span> <span class="va">alpha</span></span>
+<span><span class="va">significant_genes</span><span class="op">&lt;-</span><span class="fu">sum</span><span class="op">(</span><span class="va">significant_hits</span><span class="op">)</span> </span>
+<span><span class="va">significant_genes</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] 1167</code></pre>
+</div>
+</div>
+<div class="section level2">
+<h2 id="the-concept-of-p-value-histograms">The Concept of P-value Histograms<a class="anchor" aria-label="anchor" href="#the-concept-of-p-value-histograms"></a>
+</h2>
+<p>A p-value histogram is a graphical representation that displays the
+distribution of p-values obtained from multiple hypothesis tests. When
+conducting a large number of statistical tests, such as in genome-wide
+association studies or RNA-Seq analysis, p-value histograms provide a
+visual tool to assess the behavior and distribution of p-values across
+all tests.</p>
+<p>To create a p-value histogram, we plot the p-values on the x-axis and
+the frequency (or count) of those p-values on the y-axis. This
+visualization helps in understanding how the p-values are distributed
+across the range from 0 to 1.</p>
+<div class="section level3">
+<h3 id="interpretation-of-p-value-histograms">Interpretation of P-value Histograms<a class="anchor" aria-label="anchor" href="#interpretation-of-p-value-histograms"></a>
+</h3>
+<p>A p-value histogram provides insights into the distribution of
+p-values and helps identify patterns that might indicate issues or
+meaningful findings in our data. If all the null hypotheses are true
+(i.e., there is no effect), p-values should follow a uniform
+distribution. This means the histogram should show a relatively flat
+distribution of p-values across the range from 0 to 1. If there are true
+effects present, you would expect to see an excess of low p-values
+(close to 0) compared to what would be expected under a uniform
+distribution. This indicates potential significant findings. A large
+spike near zero can indicate that many tests are finding significant
+results, suggesting the presence of true positives. A right-skewed
+distribution, with most p-values clustering towards 1, might suggest
+that most tests are not finding significant results, indicating that
+there may be few true effects in the data.</p>
+<p>Therefore, by visualizing the distribution, we can get a sense of the
+overall significance landscape of our tests. In cases where the
+histogram shows a sharp spike at p-values near zero and another spike
+near one, it might indicate issues like p-hacking or poor experimental
+design. Understanding the distribution of p-values can inform the choice
+of multiple testing correction methods. For example, if there is an
+excess of low p-values, controlling the false discovery rate (FDR) might
+be more appropriate than controlling the family-wise error rate (FWER).
+After applying a multiple testing correction (such as the
+Benjamini-Hochberg method), a p-value histogram of the adjusted p-values
+can help evaluate the effectiveness of the correction in controlling
+false positives.</p>
+</div>
+</div>
+</div>
+<div class="section level1">
+<h1 id="the-impact-of-correcting-for-the-family-wise-error-rate-fwer-using-bonferroni-correction">The impact of correcting for the family-wise error rate (FWER) using
+Bonferroni correction<a class="anchor" aria-label="anchor" href="#the-impact-of-correcting-for-the-family-wise-error-rate-fwer-using-bonferroni-correction"></a>
+</h1>
+<p>Now, let us say we go ahead and use Bonferroni method to correct
+Family-wise error rate (FWER). We then check to see what is the number
+of significant differentially expressed genes after Bonferroni
+correction.</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Applying Bonferroni correction</span></span>
+<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.05</span></span>
+<span><span class="va">bonferroni_threshold</span> <span class="op">&lt;-</span> <span class="va">alpha</span> <span class="op">/</span> <span class="fu">length</span><span class="op">(</span><span class="va">p_values</span><span class="op">)</span></span>
+<span><span class="va">significant_bonferroni</span> <span class="op">&lt;-</span> <span class="va">p_values</span> <span class="op">&lt;</span> <span class="va">bonferroni_threshold</span></span>
+<span></span>
+<span><span class="va">significant_genes</span><span class="op">&lt;-</span><span class="fu">sum</span><span class="op">(</span><span class="va">significant_bonferroni</span><span class="op">)</span> <span class="co"># Number of significant differentially expressed genes after Bonferroni correction</span></span>
+<span><span class="va">significant_genes</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] 1</code></pre>
+</div>
+<div class="section level2">
+<h2 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a>
+</h2>
+<p>Applying the Bonferroni correction in this example results in one (1)
+significant differentially expressed gene due to the stringent
+threshold, demonstrating how FWER correction can be too conservative in
+large-scale testing.</p>
+</div>
+</div>
+<div class="section level1">
+<h1 id="controlling-fdr-using-the-benjamini-hochberg-method">Controlling FDR Using the Benjamini-Hochberg Method<a class="anchor" aria-label="anchor" href="#controlling-fdr-using-the-benjamini-hochberg-method"></a>
+</h1>
+<p>The Benjamini-Hochberg (BH) method is a statistical procedure used to
+control the FDR in multiple hypothesis testing, where the chance of
+obtaining false positives increases. The BH method helps control the
+proportion of false positives (false discoveries) among the rejected
+hypotheses, thus providing a more balanced approach than traditional
+methods like the <strong>Bonferroni correction</strong>, which can be
+overly conservative. The BH procedure adjusts the p-values from multiple
+tests to control the FDR. These adjusted p-values can be compared to a
+significance threshold to determine which results are significant.</p>
+<div class="section level2">
+<h2 id="steps-of-the-benjamini-hochberg-procedure">Steps of the Benjamini-Hochberg Procedure<a class="anchor" aria-label="anchor" href="#steps-of-the-benjamini-hochberg-procedure"></a>
+</h2>
+<p>First the observed p-values are arranged in ascending order. Next,
+ranks are assigned to the p-values, with the smallest p-value getting
+rank 1, the next smallest rank 2, and so on. Then, for each p-value, the
+BH critical value is calculated as;</p>
+<p>BH critical value=𝑖/𝑚*Q</p>
+<p>where, i is the rank, m is the total number of tests, and Q is the
+desired FDR level (e.g., 0.05).</p>
+<p>After this calculation, the largest p-value that is less than or
+equal to its BH critical value is identified. This p-value and all
+smaller p-values are considered significant. Optionally, one can adjust
+the p-values to reflect the BH correction using software functions.</p>
+<p>We will continue with our simulated p-values for 20,000 genes i to
+apply the Benjamini-Hochberg correction in r, and also plot the adjusted
+p values for comparison.</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Applying Benjamini-Hochberg correction</span></span>
+<span><span class="va">p_adjusted</span> <span class="op">&lt;-</span> <span class="fu">p.adjust</span><span class="op">(</span><span class="va">p_values</span>, method <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plotting the adjusted p-values</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="fu">data.frame</span><span class="op">(</span><span class="va">p_adjusted</span><span class="op">)</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">p_adjusted</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_histogram</span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">50</span>, fill <span class="op">=</span> <span class="st">"lightblue"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Adjusted P-value Histogram"</span>, x <span class="op">=</span> <span class="st">"Adjusted P-value"</span>, y <span class="op">=</span> <span class="st">"Frequency"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="fig/False%20discovery%20rate-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">significant_bh</span> <span class="op">&lt;-</span> <span class="va">p_adjusted</span> <span class="op">&lt;</span> <span class="va">alpha</span></span>
+<span></span>
+<span><span class="fu">sum</span><span class="op">(</span><span class="va">significant_bh</span><span class="op">)</span> <span class="co"># Number of significant hits after Benjamini-Hochberg correction</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] 3</code></pre>
+</div>
+</div>
+<div class="section level2">
+<h2 id="interpretation-1">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation-1"></a>
+</h2>
+<p>The Benjamini-Hochberg method controls the FDR, allowing for a
+greater number of significant differentially expressed genes (3)
+compared to the Bonferroni correction (1). This approach provides a more
+balanced and powerful method for identifying true positives in
+large-scale data.</p>
+</div>
+</div>
+<div class="section level1">
+<h1 id="advantages-of-controlling-the-fdr-over-fwer-in-the-context-of-large-scale-genomic-data">Advantages of controlling the FDR over FWER in the context of
+large-scale genomic data<a class="anchor" aria-label="anchor" href="#advantages-of-controlling-the-fdr-over-fwer-in-the-context-of-large-scale-genomic-data"></a>
+</h1>
+<p>Controlling the False Discovery Rate (FDR) offers several advantages
+over controlling the Family-Wise Error Rate (FWER) in the context of
+large-scale genomic data analysis.</p>
+<p>FDR control typically results in <strong>higher statistical
+power</strong> compared to FWER control. In large-scale genomic studies,
+where thousands or even millions of hypotheses are tested simultaneously
+(such as in transcriptomic analyses), FDR control allows for the
+detection of more true positives while still controlling the proportion
+of false discoveries. This increased power is crucial for identifying
+biologically relevant findings amidst the vast amount of data.</p>
+<p>FDR control is <strong>less conservative</strong> than FWER control.
+While FWER methods, such as the Bonferroni correction, set a stringent
+threshold for each individual test to maintain the overall Type I error
+rate, they often result in a high rate of false negatives. In contrast,
+FDR methods, balance between controlling false discoveries and
+maximizing the detection of true positives, leading to a more balanced
+approach.</p>
+<p>FDR control provides a <strong>more interpretable framework</strong>
+for large-scale genomic studies. By controlling the proportion of false
+discoveries among all rejected hypotheses, we can prioritize significant
+findings based on their estimated false discovery rate. This allows for
+a more nuanced interpretation of results, focusing on those hypotheses
+most likely to be true positives while still acknowledging the potential
+for false discoveries.</p>
+<p>FDR control allows for <strong>greater flexibility in hypothesis
+testing</strong> and exploration of large-scale genomic data.
+Researchers can conduct exploratory analyses without overly stringent
+correction methods limiting their ability to detect meaningful
+associations. This flexibility encourages hypothesis generation and
+discovery, leading to advancements in our understanding of complex
+biological systems.</p>
+<p>FDR control facilitates <strong>consistency</strong> in statistical
+inference across different studies and datasets. By controlling the
+false discovery rate at a predetermined threshold (e.g., 5%), we can
+compare results across studies and meta-analyses more reliably,
+regardless of variations in sample sizes or experimental designs.</p>
+
+<!-- 
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use. 
+ -->
+</div></section><section id="aio-Pairwise comparisons"><p>Content from <a href="Pairwise%20comparisons.html">Pairwise comparisons</a></p>
 <hr>
 <p>Last updated on 2024-05-21 |
         
@@ -1203,8 +1512,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/aio.html",
   "identifier": "https://FIXME-template-source.github.io/NA/aio.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-05-21",
-  "datePublished": "2024-05-21"
+  "dateModified": "2024-05-22",
+  "datePublished": "2024-05-22"
 }
 
   </script><script>

@@ -62,6 +62,8 @@ episodes:
 - What is multiple testing.Rmd
 - Types of errors.Rmd
 - Family-wise error rate.Rmd
+- False discovery rate.Rmd
+- Pairwise comparisons.Rmd
 # Information for Learners
 learners:
 
