@@ -54,6 +54,8 @@ Cancer screening exemplifies a medical testing paradox, where the interpretation
 Let us say that in a sample of 1000 women, 1% (10) have cancer, while the remaining 99% (990) do not have cancer. This gives us the prevalence of a disease. However, after testing, the test results show that out of the 10 women with cancer, 9 receive a __true positive__ result (correctly identified as positive), and 1 receives a __false negative__ result (incorrectly identified as negative). False negatives can delay the diagnosis and treatment of cancer, allowing the disease to progress unchecked and potentially reducing the effectiveness of treatment options. This can result in poorer outcomes and decreased survival rates for patients.
 In addition, out of the 990 women without cancer, 89 receive __false positive__ results (incorrectly identified as positive), and 901 receive __true negative__ results (correctly identified as negative). False positive can lead to unnecessary follow-up tests, procedures, and treatments for individuals who do not have cancer. It can cause anxiety, physical discomfort, and financial burden for patients, as well as strain on healthcare resources.
 
+![Figure_5: A tree diagram describing the outcomes of a breast cancer test](fig/cancer paradox.png)
+
 We could interpret that:
 
 - The __probability__ that a woman who receives a positive result actually has cancer is ≈ 1/10 (9/ (9 + 89)). This is the positive predictive value (PPV) of the test. 
