@@ -20,7 +20,7 @@ exercises: 2
 
 Suppose the prevalence of a disease in the general population is 4%. In this population, lives a group of individuals who have all been exposed to air pollution. Concerned about their health, we decide to embark on a quest to uncover whether being exposed to air pollution influenced the risk of contracting this disease.
 
-![Disease Prevalence in a population- Illustrating the Proportion of Individuals Affected by the disease as 4% of the Population](fig/01-Disease-prevalence.png)
+![Figure_1: Disease Prevalence in a population- Illustrating the Proportion of Individuals Affected by the disease as 4% of the Population](fig/01-Disease-prevalence.png)
 
 ## Setting the null and alternative hypothesis
 
@@ -71,7 +71,7 @@ We therefore decide to simulate the scenario where we conduct 200 tests, each wi
 
 Our null hypothesis in each location is that there is no real difference in disease rates between the groups exposed to air pollution and the average for the whole population.
 
-![Scenario: 100 individuals get tested for a disease. The disease prevalence is 0.04. The experiment is repeated 200 times](fig/Scenario_100 individuals get tested for a disease. The disease prevalence is 0.04. The experiment is repeated 200 times.png)
+![Figure_2: A Scenario where 100 individuals get tested for a disease. The disease prevalence is 0.04. The experiment is repeated 200 times](fig/Scenario_100 individuals get tested for a disease. The disease prevalence is 0.04. The experiment is repeated 200 times.png)
 
 To do this, we write a program in R, which simulates study results when the prevalence in the test group is 4% (null hypothesis is true). We run these experiments to see what would happen if we kept doing tests even when there was not actually any difference. 
 
@@ -93,14 +93,13 @@ data <- table(rbinom(n=200, size=100, prob=0.04)) %>%
   mutate(significant = ifelse(number < qbinom(0.025, size=100, prob=0.04) | number > qbinom(0.975, size=100, prob=0.04), 1, 0))
 
 # Plot the data
-Figure_3=data %>%
+data %>%
   ggplot(aes(Var1, Freq, fill = factor(significant))) +
   geom_col() +
   theme_bw() +
-  labs(x = "Number of patients with disease", y = "Frequency") +
+  labs(title="Figure_3: Test results of multiple testing ", x = "Number of patients with disease", y = "Frequency") +
   scale_fill_manual(values = c("0" = "blue", "1" = "red"),
                     labels = c("Not significant", "Significant"))
-Figure_3
 ```
 
 <img src="fig/What is multiple testing-rendered-Simulating 200 test groups-1.png" style="display: block; margin: auto;" />

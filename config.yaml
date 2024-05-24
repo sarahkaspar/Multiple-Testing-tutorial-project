@@ -64,6 +64,9 @@ episodes:
 - Family-wise error rate.Rmd
 - False discovery rate.Rmd
 - Pairwise comparisons.Rmd
+- Summary.Rmd
+- References.Rmd
+
 # Information for Learners
 learners:
 

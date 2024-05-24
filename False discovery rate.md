@@ -46,7 +46,7 @@ p_values <- c(p_values, rbeta(1000, 0.5, 1)) # 5% of p-values are drawn from a b
 # Histogram of p-values
 ggplot(data.frame(p_values), aes(x = p_values)) +
   geom_histogram(bins = 50, fill = "lightblue", color = "black") +
-  labs(title = "P-value Histogram", x = "P-value", y = "Frequency")
+  labs(title = "Figure_7: P-value Histogram", x = "P-value", y = "Frequency")
 ```
 
 <img src="fig/False discovery rate-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
@@ -119,14 +119,10 @@ We will continue with our simulated p-values for 20,000 genes i to apply the Ben
 p_adjusted <- p.adjust(p_values, method = "BH")
 
 # Plotting the adjusted p-values
-ggplot(data.frame(p_adjusted), aes(x = p_adjusted)) +
+Figure_8<-ggplot(data.frame(p_adjusted), aes(x = p_adjusted)) +
   geom_histogram(bins = 50, fill = "lightblue", color = "black") +
   labs(title = "Adjusted P-value Histogram", x = "Adjusted P-value", y = "Frequency")
-```
 
-<img src="fig/False discovery rate-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
-
-```r
 significant_bh <- p_adjusted < alpha
 
 sum(significant_bh) # Number of significant hits after Benjamini-Hochberg correction
