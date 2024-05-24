@@ -243,6 +243,30 @@
 </div>
 <!--/div.accordion-flush-->
 
+<div class="accordion accordion-flush" id="accordionFlush7">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading7">
+        <a href="Summary.html">6. Summary</a>
+    </div>
+<!--/div.accordion-header-->
+        
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush8">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading8">
+        <a href="References.html">7. References</a>
+    </div>
+<!--/div.accordion-header-->
+        
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
                 </div>
               </div>
             </div>
@@ -300,7 +324,7 @@
         
 <section id="aio-What is multiple testing"><p>Content from <a href="What%20is%20multiple%20testing.html">What is multiple testing</a></p>
 <hr>
-<p>Last updated on 2024-05-21 |
+<p>Last updated on 2024-05-24 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/What%20is%20multiple%20testing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -340,9 +364,9 @@ In this population, lives a group of individuals who have all been
 exposed to air pollution. Concerned about their health, we decide to
 embark on a quest to uncover whether being exposed to air pollution
 influenced the risk of contracting this disease.</p>
-<figure><img src="../fig/01-Disease-prevalence.png" alt="Disease Prevalence in a population- Illustrating the Proportion of Individuals Affected by the disease as 4% of the Population" class="figure mx-auto d-block"><div class="figcaption">Disease Prevalence in a population- Illustrating
-the Proportion of Individuals Affected by the disease as 4% of the
-Population</div>
+<figure><img src="../fig/01-Disease-prevalence.png" alt="Figure_1: Disease Prevalence in a population- Illustrating the Proportion of Individuals Affected by the disease as 4% of the Population" class="figure mx-auto d-block"><div class="figcaption">Figure_1: Disease Prevalence in a population-
+Illustrating the Proportion of Individuals Affected by the disease as 4%
+of the Population</div>
 </figure><div class="section level2">
 <h2 id="setting-the-null-and-alternative-hypothesis">Setting the null and alternative hypothesis<a class="anchor" aria-label="anchor" href="#setting-the-null-and-alternative-hypothesis"></a>
 </h2>
@@ -431,9 +455,9 @@ true.</p>
 <p>Our null hypothesis in each location is that there is no real
 difference in disease rates between the groups exposed to air pollution
 and the average for the whole population.</p>
-<figure><img src="../fig/Scenario_100%20individuals%20get%20tested%20for%20a%20disease.%20The%20disease%20prevalence%20is%200.04.%20The%20experiment%20is%20repeated%20200%20times.png" alt="Scenario: 100 individuals get tested for a disease. The disease prevalence is 0.04. The experiment is repeated 200 times" class="figure mx-auto d-block"><div class="figcaption">Scenario: 100 individuals get tested for a
-disease. The disease prevalence is 0.04. The experiment is repeated 200
-times</div>
+<figure><img src="../fig/Scenario_100%20individuals%20get%20tested%20for%20a%20disease.%20The%20disease%20prevalence%20is%200.04.%20The%20experiment%20is%20repeated%20200%20times.png" alt="Figure_2: A Scenario where 100 individuals get tested for a disease. The disease prevalence is 0.04. The experiment is repeated 200 times" class="figure mx-auto d-block"><div class="figcaption">Figure_2: A Scenario where 100 individuals get
+tested for a disease. The disease prevalence is 0.04. The experiment is
+repeated 200 times</div>
 </figure><p>To do this, we write a program in R, which simulates study results
 when the prevalence in the test group is 4% (null hypothesis is true).
 We run these experiments to see what would happen if we kept doing tests
@@ -458,14 +482,13 @@ even when there was not actually any difference.</p>
 <span>  <span class="fu">mutate</span><span class="op">(</span>significant <span class="op">=</span> <span class="fu">ifelse</span><span class="op">(</span><span class="va">number</span> <span class="op">&lt;</span> <span class="fu">qbinom</span><span class="op">(</span><span class="fl">0.025</span>, size<span class="op">=</span><span class="fl">100</span>, prob<span class="op">=</span><span class="fl">0.04</span><span class="op">)</span> <span class="op">|</span> <span class="va">number</span> <span class="op">&gt;</span> <span class="fu">qbinom</span><span class="op">(</span><span class="fl">0.975</span>, size<span class="op">=</span><span class="fl">100</span>, prob<span class="op">=</span><span class="fl">0.04</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Plot the data</span></span>
-<span><span class="va">Figure_3</span><span class="op">=</span><span class="va">data</span> <span class="op">%&gt;%</span></span>
+<span><span class="va">data</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">Var1</span>, <span class="va">Freq</span>, fill <span class="op">=</span> <span class="fu">factor</span><span class="op">(</span><span class="va">significant</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_col</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Number of patients with disease"</span>, y <span class="op">=</span> <span class="st">"Frequency"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title<span class="op">=</span><span class="st">"Figure_3: Test results of multiple testing "</span>, x <span class="op">=</span> <span class="st">"Number of patients with disease"</span>, y <span class="op">=</span> <span class="st">"Frequency"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">scale_fill_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"0"</span> <span class="op">=</span> <span class="st">"blue"</span>, <span class="st">"1"</span> <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span>,</span>
-<span>                    labels <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"Not significant"</span>, <span class="st">"Significant"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">Figure_3</span></span></code></pre>
+<span>                    labels <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"Not significant"</span>, <span class="st">"Significant"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/What%20is%20multiple%20testing-rendered-Simulating%20200%20test%20groups-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We are interested in determining if the observed proportion
 significantly deviates from the expected proportion (0.4) in either
@@ -541,7 +564,7 @@ any links that you are not going to use.
 </div>
 </div></section><section id="aio-Types of errors"><p>Content from <a href="Types%20of%20errors.html">Types of errors</a></p>
 <hr>
-<p>Last updated on 2024-05-21 |
+<p>Last updated on 2024-05-24 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Types%20of%20errors.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -691,7 +714,9 @@ negative). False positive can lead to unnecessary follow-up tests,
 procedures, and treatments for individuals who do not have cancer. It
 can cause anxiety, physical discomfort, and financial burden for
 patients, as well as strain on healthcare resources.</p>
-<p>We could interpret that:</p>
+<figure><img src="../fig/cancer%20paradox.png" alt="Figure_5: A tree diagram describing the outcomes of a breast cancer test" class="figure mx-auto d-block"><div class="figcaption">Figure_5: A tree diagram describing the outcomes
+of a breast cancer test</div>
+</figure><p>We could interpret that:</p>
 <ul>
 <li><p>The <strong>probability</strong> that a woman who receives a
 positive result actually has cancer is ≈ 1/10 (9/ (9 + 89)). This is the
@@ -765,7 +790,7 @@ any links that you are not going to use.
 </div>
 </div></section><section id="aio-Family-wise error rate"><p>Content from <a href="Family-wise%20error%20rate.html">Family-wise error rate</a></p>
 <hr>
-<p>Last updated on 2024-05-21 |
+<p>Last updated on 2024-05-24 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Family-wise%20error%20rate.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -859,9 +884,9 @@ tests.</p>
 </div>
 </div>
 </div>
-<figure><img src="../fig/Relationship%20between%20Overall%20Hypothesis%20and%20Individual%20Hypotheses.%20Effects%20of%20Air%20Pollution%20on%20Rdisease%20prevalence.png" alt="Relationship between Overall Hypothesis and Individual Hypotheses: Effects of Air Pollution on Disease Prevalence”" class="figure mx-auto d-block"><div class="figcaption">Relationship between Overall Hypothesis and
-Individual Hypotheses: Effects of Air Pollution on Disease
-Prevalence”</div>
+<figure><img src="../fig/Relationship%20between%20Overall%20Hypothesis%20and%20Individual%20Hypotheses.%20Effects%20of%20Air%20Pollution%20on%20Rdisease%20prevalence.png" alt="Figure_6: Relationship between Overall Hypothesis and Individual Hypotheses (Effects of Air Pollution on Disease Prevalence)" class="figure mx-auto d-block"><div class="figcaption">Figure_6: Relationship between Overall
+Hypothesis and Individual Hypotheses (Effects of Air Pollution on
+Disease Prevalence)</div>
 </figure><p>In this illustration, each individual hypothesis delves into a
 distinct facet of the overarching research inquiry, enabling researchers
 to thoroughly examine the intricate connection between air pollution
@@ -1021,7 +1046,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-False discovery rate"><p>Content from <a href="False%20discovery%20rate.html">False discovery rate</a></p>
 <hr>
-<p>Last updated on 2024-05-22 |
+<p>Last updated on 2024-05-24 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/False%20discovery%20rate.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -1110,7 +1135,7 @@ two conditions.</p>
 <span><span class="co"># Histogram of p-values</span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="fu">data.frame</span><span class="op">(</span><span class="va">p_values</span><span class="op">)</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">p_values</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_histogram</span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">50</span>, fill <span class="op">=</span> <span class="st">"lightblue"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"P-value Histogram"</span>, x <span class="op">=</span> <span class="st">"P-value"</span>, y <span class="op">=</span> <span class="st">"Frequency"</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Figure_7: P-value Histogram"</span>, x <span class="op">=</span> <span class="st">"P-value"</span>, y <span class="op">=</span> <span class="st">"Frequency"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/False%20discovery%20rate-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1244,15 +1269,11 @@ p values for comparison.</p>
 <span><span class="va">p_adjusted</span> <span class="op">&lt;-</span> <span class="fu">p.adjust</span><span class="op">(</span><span class="va">p_values</span>, method <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Plotting the adjusted p-values</span></span>
-<span><span class="fu">ggplot</span><span class="op">(</span><span class="fu">data.frame</span><span class="op">(</span><span class="va">p_adjusted</span><span class="op">)</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">p_adjusted</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="va">Figure_8</span><span class="op">&lt;-</span><span class="fu">ggplot</span><span class="op">(</span><span class="fu">data.frame</span><span class="op">(</span><span class="va">p_adjusted</span><span class="op">)</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">p_adjusted</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_histogram</span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">50</span>, fill <span class="op">=</span> <span class="st">"lightblue"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Adjusted P-value Histogram"</span>, x <span class="op">=</span> <span class="st">"Adjusted P-value"</span>, y <span class="op">=</span> <span class="st">"Frequency"</span><span class="op">)</span></span></code></pre>
-</div>
-<figure><img src="../fig/False%20discovery%20rate-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb8">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">significant_bh</span> <span class="op">&lt;-</span> <span class="va">p_adjusted</span> <span class="op">&lt;</span> <span class="va">alpha</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Adjusted P-value Histogram"</span>, x <span class="op">=</span> <span class="st">"Adjusted P-value"</span>, y <span class="op">=</span> <span class="st">"Frequency"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">significant_bh</span> <span class="op">&lt;-</span> <span class="va">p_adjusted</span> <span class="op">&lt;</span> <span class="va">alpha</span></span>
 <span></span>
 <span><span class="fu">sum</span><span class="op">(</span><span class="va">significant_bh</span><span class="op">)</span> <span class="co"># Number of significant hits after Benjamini-Hochberg correction</span></span></code></pre>
 </div>
@@ -1318,7 +1339,7 @@ regardless of variations in sample sizes or experimental designs.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -1541,6 +1562,166 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
 </div>
+</div></section><section id="aio-Summary"><p>Content from <a href="Summary.html">Summary</a></p>
+<hr>
+<p>Last updated on 2024-05-24 |
+        
+        <a href="https://example.com/FIXME-template-source/edit/main/episodes/Summary.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="section level1">
+<h1 id="error-rates">Error rates<a class="anchor" aria-label="anchor" href="#error-rates"></a>
+</h1>
+<p>We have seen that when dealing with multiple testing, it is crucial
+to understand the different types of error rates that can be controlled.
+<strong>Comparison-Wise Error Rate (CWER)</strong>, which is the
+probability of making a Type I error (false positive) in any single
+hypothesis test, does not account for the multiplicity of tests and can
+lead to an increased number of false positives when many tests are
+performed. <strong>Family-Wise Error Rate (FWER)</strong>, the
+probability of making at least one Type I error among all the hypothesis
+tests, is a stringent error rate control method, suitable for situations
+where even one false positive is highly problematic. Methods like the
+Bonferroni correction and Holm’s are often used to control FWER.
+<strong>False Discovery Rate (FDR)</strong>, the expected proportion of
+Type I errors among the rejected hypotheses, is less conservative than
+FWER and is useful in large-scale testing scenarios, like genomic
+studies, where some false positives are tolerable in exchange for higher
+power to detect true positives. The Benjamini-Hochberg procedure is a
+common method to control the FDR.</p>
+</div>
+<div class="section level1">
+<h1 id="choosing-the-appropriate-error-rate">Choosing the appropriate error rate<a class="anchor" aria-label="anchor" href="#choosing-the-appropriate-error-rate"></a>
+</h1>
+<p>The choice of error rate to control depends on the research question
+and the context of the study. For example, we could choose to control
+CWER when testing the efficacy of a single new drug against a placebo in
+a clinical trial, or when performing a single regression analysis to
+test the relationship between two variables.</p>
+<p>One would consider controlling FWER in clinical trials involving
+multiple endpoints, where any false positive could lead to incorrect
+conclusions about the drug’s safety or efficacy. in addition,
+psychological experiments where multiple outcomes are tested and any
+false positive could mislead theoretical interpretations would consider
+controlling FWER.</p>
+<p>The choise for controlling FDR is often considered in genome-wide
+association studies (GWAS) analyzing thousands of genetic variants
+simultaneously to identify potential associations with a disease, or in
+RNA-Seq experiments aiming to identify differentially expressed genes
+among tens of thousands of genes.</p>
+</div>
+<div class="section level1">
+<h1 id="a-cook-book-to-navigate-multiple-testing-effectively">A Cook book to navigate multiple testing effectively<a class="anchor" aria-label="anchor" href="#a-cook-book-to-navigate-multiple-testing-effectively"></a>
+</h1>
+<p>To navigate multiple testing effectively, we should:</p>
+<ol style="list-style-type: decimal">
+<li><p>start by <strong>clearly defining our research question</strong>,
+stating the specific hypothesis or set of hypotheses we aim to test, and
+considering the implications of potential false positives and false
+negatives.</p></li>
+<li><p>Next, we <strong>decide on the appropriate error rate to
+control</strong>, based on our research context and tolerance for Type I
+errors. this means assessing how critical it is to avoid any false
+positives (favoring FWER) versus allowing some false positives to
+increase detection power (favoring FDR).</p></li>
+<li><p>Finally, we <strong>select a suitable statistical method that
+controls our chosen error rate</strong> and aligns with our data type
+and experimental design, ensuring it is well-suited to the specifics of
+our study.</p></li>
+</ol>
+<div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
+  <h3 class="accordion-header" id="headingInstructor1">
+<div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
+</button>
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div class="accordion-body">
+<p>Inline instructor notes can help inform instructors of timing
+challenges associated with the lessons. They appear in the “Instructor
+View”</p>
+</div>
+</div>
+</div>
+</div>
+<!-- 
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use. 
+ -->
+</div></section><section id="aio-References"><p>Content from <a href="References.html">References</a></p>
+<hr>
+<p>Last updated on 2024-05-24 |
+        
+        <a href="https://example.com/FIXME-template-source/edit/main/episodes/References.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="section level1">
+<h1 id="books">Books<a class="anchor" aria-label="anchor" href="#books"></a>
+</h1>
+<ul>
+<li>Westfall, P. H., &amp; Young, S. S. (1993). Resampling-based
+multiple testing: Examples and methods for p-value adjustment (Vol.
+279). John Wiley &amp; Sons.</li>
+<li>Hochberg, Y. (1987). Multiple comparison procedures. Wiley Series in
+Probability and Statistics.</li>
+<li>Dudoit, S., Van Der Laan, M. J., &amp; van der Laan, M. J. (2008).
+Multiple testing procedures with applications to genomics
+(pp. XXXIII-588). New York: Springer.</li>
+</ul>
+</div>
+<div class="section level1">
+<h1 id="articles">Articles<a class="anchor" aria-label="anchor" href="#articles"></a>
+</h1>
+<ul>
+<li>Benjamini, Y., &amp; Hochberg, Y. (1995). Controlling the false
+discovery rate: a practical and powerful approach to multiple testing.
+Journal of the Royal statistical society: series B (Methodological),
+57(1), 289-300..</li>
+<li>Holm, S. (1979). A simple sequentially rejective multiple test
+procedure. Scandinavian journal of statistics, 65-70.</li>
+<li>Shaffer, J. P. (1995). Multiple hypothesis testing. Annual review of
+psychology, 46(1), 561-584.</li>
+<li>Storey, J. D., &amp; Tibshirani, R. (2003). Statistical significance
+for genomewide studies. Proceedings of the National Academy of Sciences,
+100(16), 9440-9445.</li>
+<li>Pollard, K. S., Dudoit, S., &amp; van der Laan, M. J. (2005).
+Multiple testing procedures: the multtest package and applications to
+genomics. In Bioinformatics and computational biology solutions using R
+and bioconductor (pp. 249-271). New York, NY: Springer New York.</li>
+</ul>
+</div>
+<div class="section level1">
+<h1 id="online-resources">Online Resources<a class="anchor" aria-label="anchor" href="#online-resources"></a>
+</h1>
+<ul>
+<li><p><a href="%22https://biodatascience.github.io/compbio/test/multtest.html%22" class="external-link">Introduction
+to multiple testing</a></p></li>
+<li><p><a href="%22https://journal.r-project.org/archive/2014/RJ-2014-027/RJ-2014-027.pdf%22" class="external-link">sgof:
+An R Package for Multiple Testing Problems</a></p></li>
+</ul>
+<div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
+  <h3 class="accordion-header" id="headingInstructor1">
+<div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
+</button>
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div class="accordion-body">
+<p>Inline instructor notes can help inform instructors of timing
+challenges associated with the lessons. They appear in the “Instructor
+View”</p>
+</div>
+</div>
+</div>
+</div>
+<!-- 
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use. 
+ -->
 </div></section>
 </div>
     </main>
@@ -1589,8 +1770,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/instructor/aio.html",
   "identifier": "https://FIXME-template-source.github.io/NA/instructor/aio.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-05-22",
-  "datePublished": "2024-05-22"
+  "dateModified": "2024-05-24",
+  "datePublished": "2024-05-24"
 }
 
   </script><script>
