@@ -70,12 +70,12 @@ Our null hypothesis in each location is that there is no real difference in dise
 
 To do this, we write a program in R, which simulates study results when the prevalence in the test group is 4% (null hypothesis is true). We run these experiments to see what would happen if we kept doing tests even when there was not actually any difference. 
 
-```{r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, echo=FALSE}
 library(tidyverse)
 ```
 
 
-```{r Simulating 200 test groups}
+```{r Simulating 200 test groups, echo=FALSE}
 #H0 is true: disease prevalence = 4%
 set.seed(33)
 

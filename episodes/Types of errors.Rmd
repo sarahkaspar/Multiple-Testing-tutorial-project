@@ -58,7 +58,7 @@ In addition, out of the 990 women without cancer, 89 receive __false positive__ 
 
 We could interpret that:
 
-- The __probability__ that a woman who receives a positive result actually has cancer is ≈ 1/10 (9/ (9 + 89)). This is the positive predictive value (PPV) of the test. 
+- The __probability__ that a woman who receives a positive result actually has cancer is ≈ 1/10 ( 9/ (9 + 89)). This is the positive predictive value (PPV) of the test. 
 
 - The __sensitivity__ of the test, which measures its ability to detect the presence of disease is 90% (9/10 * 100). This means that the false negative rate of the test is 10%.
 
