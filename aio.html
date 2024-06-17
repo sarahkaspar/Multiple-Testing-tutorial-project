@@ -322,7 +322,7 @@
         
 <section id="aio-What is multiple testing"><p>Content from <a href="What%20is%20multiple%20testing.html">What is multiple testing</a></p>
 <hr>
-<p>Last updated on 2024-05-24 |
+<p>Last updated on 2024-06-17 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/What%20is%20multiple%20testing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -459,34 +459,6 @@ repeated 200 times</div>
 when the prevalence in the test group is 4% (null hypothesis is true).
 We run these experiments to see what would happen if we kept doing tests
 even when there was not actually any difference.</p>
-<div class="codewrapper sourceCode" id="cb3">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb4">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#H0 is true: disease prevalence = 4%</span></span>
-<span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">33</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Generate simulated data</span></span>
-<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">table</span><span class="op">(</span><span class="fu">rbinom</span><span class="op">(</span>n<span class="op">=</span><span class="fl">200</span>, size<span class="op">=</span><span class="fl">100</span>, prob<span class="op">=</span><span class="fl">0.04</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">data.frame</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>number <span class="op">=</span> <span class="fu">as.numeric</span><span class="op">(</span><span class="fu">as.character</span><span class="op">(</span><span class="va">Var1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>significant <span class="op">=</span> <span class="fu">ifelse</span><span class="op">(</span><span class="va">number</span> <span class="op">&lt;</span> <span class="fu">qbinom</span><span class="op">(</span><span class="fl">0.025</span>, size<span class="op">=</span><span class="fl">100</span>, prob<span class="op">=</span><span class="fl">0.04</span><span class="op">)</span> <span class="op">|</span> <span class="va">number</span> <span class="op">&gt;</span> <span class="fu">qbinom</span><span class="op">(</span><span class="fl">0.975</span>, size<span class="op">=</span><span class="fl">100</span>, prob<span class="op">=</span><span class="fl">0.04</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Plot the data</span></span>
-<span><span class="va">data</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">Var1</span>, <span class="va">Freq</span>, fill <span class="op">=</span> <span class="fu">factor</span><span class="op">(</span><span class="va">significant</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_col</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title<span class="op">=</span><span class="st">"Figure_3: Test results of multiple testing "</span>, x <span class="op">=</span> <span class="st">"Number of patients with disease"</span>, y <span class="op">=</span> <span class="st">"Frequency"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_fill_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"0"</span> <span class="op">=</span> <span class="st">"blue"</span>, <span class="st">"1"</span> <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span>,</span>
-<span>                    labels <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"Not significant"</span>, <span class="st">"Significant"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
-</div>
 <figure><img src="fig/What%20is%20multiple%20testing-rendered-Simulating%20200%20test%20groups-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We are interested in determining if the observed proportion
 significantly deviates from the expected proportion (0.4) in either
 direction (either higher or lower). As this is a two-tailed binomial
@@ -547,7 +519,7 @@ any links that you are not going to use.
 </div>
 </div></section><section id="aio-Types of errors"><p>Content from <a href="Types%20of%20errors.html">Types of errors</a></p>
 <hr>
-<p>Last updated on 2024-05-24 |
+<p>Last updated on 2024-06-17 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Types%20of%20errors.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -701,8 +673,8 @@ of a breast cancer test</div>
 </figure><p>We could interpret that:</p>
 <ul>
 <li><p>The <strong>probability</strong> that a woman who receives a
-positive result actually has cancer is ≈ 1/10 (9/ (9 + 89)). This is the
-positive predictive value (PPV) of the test.</p></li>
+positive result actually has cancer is ≈ 1/10 ( 9/ (9 + 89)). This is
+the positive predictive value (PPV) of the test.</p></li>
 <li><p>The <strong>sensitivity</strong> of the test, which measures its
 ability to detect the presence of disease is 90% (9/10 * 100). This
 means that the false negative rate of the test is 10%.</p></li>
@@ -758,7 +730,7 @@ any links that you are not going to use.
 </div>
 </div></section><section id="aio-Family-wise error rate"><p>Content from <a href="Family-wise%20error%20rate.html">Family-wise error rate</a></p>
 <hr>
-<p>Last updated on 2024-05-24 |
+<p>Last updated on 2024-06-17 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Family-wise%20error%20rate.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -801,16 +773,16 @@ comparisons.</li>
 <p>In statistical hypothesis testing, conducting multiple tests
 simultaneously increases the likelihood of making at least one
 false-positive error. In this episode, we will explore the family-wise
-error rate (FWER), and discuss methods for adjusting p-values to account
-for multiple comparisons, using practical examples.</p>
+error rate (FWER), and discuss methods to account for multiple
+comparisons, using practical examples.</p>
 <section id="a-multi-hypothesis-testing-framework"><h2 class="section-heading">A Multi-Hypothesis Testing Framework<a class="anchor" aria-label="anchor" href="#a-multi-hypothesis-testing-framework"></a>
 </h2>
 <hr class="half-width">
-<p>In multiple testing scenarios, researchers often have an overarching
+<p>In multiple testing scenarios, we often have an overarching
 hypothesis that encompasses several individual hypotheses, each
 examining specific aspects or relationships within the data. This
-approach allows researchers to explore various facets of the research
-question comprehensively.</p>
+approach allows us to explore various facets of the research question
+comprehensively.</p>
 <p>Going back to our study investigating the effects of air pollution on
 the prevalence of a disease, the overarching hypothesis could be
 formulated as follows:</p>
@@ -855,8 +827,8 @@ tests.</p>
 Hypothesis and Individual Hypotheses (Effects of Air Pollution on
 Disease Prevalence)</div>
 </figure><p>In this illustration, each individual hypothesis delves into a
-distinct facet of the overarching research inquiry, enabling researchers
-to thoroughly examine the intricate connection between air pollution
+distinct facet of the overarching research inquiry, enabling us to
+thoroughly examine the intricate connection between air pollution
 exposure and disease prevalence. By scrutinizing the impacts of various
 air pollutants on the disease, this method encourages a systematic
 exploration of diverse factors and aids in revealing potential
@@ -872,35 +844,84 @@ hypotheses, resulting in p-values for each test. For simplicity, let us
 maintain our significance level at <span class="math inline">\(\alpha=0.05\)</span> for each individual test. We
 can conduct binomial tests for each hypothesis and calculate the
 p-values in R.</p>
-<div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">n</span> <span class="op">=</span> <span class="fl">100</span> <span class="co"># number of test persons</span></span>
-<span><span class="va">p</span> <span class="op">=</span> <span class="fl">0.04</span> <span class="co"># Known prevalence of the disease in the general population</span></span>
-<span></span>
-<span><span class="va">individuals_suffered</span> <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="fl">15</span>, <span class="fl">20</span>, <span class="fl">5</span><span class="op">)</span> <span class="co"># number of individuals who suffered from the disease for each hypothesis</span></span>
-<span></span>
-<span><span class="va">p_values</span> <span class="op">=</span> <span class="fu">sapply</span><span class="op">(</span><span class="va">individuals_suffered</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">p_value</span> <span class="op">=</span> <span class="fu">dbinom</span><span class="op">(</span><span class="va">x</span>, size <span class="op">=</span> <span class="va">n</span>, prob <span class="op">=</span> <span class="va">p</span><span class="op">)</span></span>
-<span>  <span class="kw">return</span><span class="op">(</span><span class="va">p_value</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span><span class="co">#Calculate the p-values for each hypothesis using the binomial probability mass function</span></span>
-<span></span>
-<span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span><span class="op">(</span><span class="va">p_values</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu">cat</span><span class="op">(</span><span class="fu">sprintf</span><span class="op">(</span><span class="st">"Hypothesis %d: p = %.4f\n"</span>, <span class="va">i</span>, <span class="va">p_values</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="co"># Print the p-values for each hypothesis</span></span></code></pre>
-</div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>Hypothesis 1: p = 0.0000
-Hypothesis 2: p = 0.0000
+Hypothesis 2: p = 0.0285
 Hypothesis 3: p = 0.1595</code></pre>
+</div>
+<div class="section level3">
+<h3 id="the-probability-of-having-at-least-one-false-positive-among-m-tests-fwer">The probability of having at least one false positive among <span class="math inline">\(m\)</span> tests (FWER)<a class="anchor" aria-label="anchor" href="#the-probability-of-having-at-least-one-false-positive-among-m-tests-fwer"></a>
+</h3>
+<p>Let us assume each test has a probability <span class="math inline">\(\alpha\)</span> of producing a false positive, and
+that we have <span class="math inline">\(m\)</span> independent
+tests.</p>
+<p>The probability that a single test does not produce a false positive
+is calculated as: <span class="math display">\[1-\alpha\]</span></p>
+<p>Since the tests are independent, the probability that none of the
+<span class="math inline">\(m\)</span> tests produces a false positive
+is calculated as: <span class="math display">\[(1-\alpha)^m\]</span></p>
+<p>Therefore, the probability of at least one false positive is the
+complement of the probability that none of the tests produce a false
+positive, and is calculated as: <span class="math display">\[P(\text{at
+least one false positive})=1−(1−\alpha)^m\]</span></p>
+<div id="challenge1" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#challenge1"></a>
+</h3>
+<div class="callout-content">
+<ol style="list-style-type: decimal">
+<li>In the above example, we have three different tests. Will the
+probability of making one false positive still be 0.05?</li>
+<li>What can we do to decrease the probability of any false
+positive?</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div class="accordion-body">
+<ol style="list-style-type: decimal">
+<li>We can use R to calculate the probability of at least one false
+positive for our example with three tests:</li>
+</ol>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
+<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.05</span></span>
+<span></span>
+<span><span class="fl">1</span> <span class="op">-</span> <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">alpha</span><span class="op">)</span><span class="op">^</span><span class="va">m</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] 0.142625</code></pre>
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li>By decreasing the alpha.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
 </div>
 </section><section id="the-bonferroni-correction"><h2 class="section-heading">The Bonferroni correction<a class="anchor" aria-label="anchor" href="#the-bonferroni-correction"></a>
 </h2>
 <hr class="half-width">
+<div class="section level3">
+<h3 id="adjusting-the-significance-level">Adjusting the significance level<a class="anchor" aria-label="anchor" href="#adjusting-the-significance-level"></a>
+</h3>
 <p>Now, to calculate the probability of having any false-positive within
 the set of tests (also known as familywise error rate or FWER), we can
 use methods such as the Bonferroni correction. This method adjust the
@@ -912,7 +933,7 @@ the number of tests conducted (m).</p>
 <p>Where:</p>
 <p>α is the desired overall significance level (usually set to 0.05). m
 is the number of hypothesis tests conducted.</p>
-<div class="codewrapper sourceCode" id="cb3">
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -932,17 +953,17 @@ is the number of hypothesis tests conducted.</p>
 <p>Since in our example above we have three tests (three hypotheses),
 the Bonferroni corrected significance level is <span class="math inline">\(\alpha_{\text{bonf}} = 0.05/3 \approx
 0.0167\)</span>.</p>
-<div class="section level3">
-<h3 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a>
-</h3>
+<div class="section level4">
+<h4 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a>
+</h4>
 <p>For each individual test, we compare the calculated p-value to this
 adjusted significance level. If the p-value is less than or equal to
 0.0167, we reject the null hypothesis for that test.</p>
 <p>Based on the Bonferroni correction, we reject the null hypothesis for
-Hypotheses 1 and 2, indicating significant associations between
-particulate matter and nitrogen dioxide exposure with disease
-prevalence. However, for Hypothesis 3 (ozone), we fail to reject the
-null hypothesis, suggesting no significant association with disease
+Hypotheses 1, indicating significant associations between particulate
+matter with disease prevalence. However, for Hypothesis 2 (nitrogen
+dioxide exposure) and 3 (ozone exposure), we fail to reject the null
+hypothesis, suggesting no significant association with disease
 prevalence at the adjusted significance level. This adjustment for
 multiple testing helps control the overall probability of making at
 least one false-positive error across all tests conducted.</p>
@@ -958,14 +979,54 @@ overarching null hypothesis accordingly. This could involve exploring
 additional factors, conducting more comprehensive analyses, or
 considering alternative statistical approaches to account for potential
 confounding variables or sources of variability in the data.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="adjusting-the-p-value">Adjusting the p-value<a class="anchor" aria-label="anchor" href="#adjusting-the-p-value"></a>
+</h3>
 <p>Instead of changing the significance level, another (equivalent)
 calculation is adjusting the p-values obtained from individual
 hypothesis tests, followed by comparing the adjusted p-values to the
 desired FWER. With this procedure, we can reject those individual null
 hypotheses that have a p-value below the desired FWER (<span class="math inline">\(p &lt; \text{FWER}\)</span>).</p>
 <p><span class="math display">\[p_{\text{Bonf}}= p \times m\]</span></p>
-<p>In R, this can be done as follows:</p>
-<div class="codewrapper sourceCode" id="cb5">
+<div id="challenge2" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#challenge2"></a>
+</h3>
+<div class="callout-content">
+<ol style="list-style-type: decimal">
+<li><p>Look up <code>p.adjust</code>. This function adjusts P-values for
+Multiple Comparisons.</p></li>
+<li><p>Using our previous example, can you adjust the p-values obtained
+from individual hypothesis tests?</p></li>
+<li><p>Which of the individual hypotheses can will be rejected at a
+FWER=0.05?</p></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div class="accordion-body">
+<ol style="list-style-type: decimal">
+<li>You can look up the function as follows:</li>
+</ol>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">help</span><span class="op">(</span><span class="st">"p.adjust"</span><span class="op">)</span></span></code></pre>
+</div>
+<p>2.In R, one can adjust the p-values as follows:</p>
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -974,11 +1035,13 @@ hypotheses that have a p-value below the desired FWER (<span class="math inline"
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] 2.539669e-05 6.747937e-09 4.785324e-01</code></pre>
+<pre class="output" tabindex="0"><code>[1] 2.539669e-05 8.556039e-02 4.785324e-01</code></pre>
 </div>
-<p>We can check which of the individual hypotheses can will be rejected
-at a <span class="math inline">\(\text{FWER}=0.05\)</span>:</p>
-<div class="codewrapper sourceCode" id="cb7">
+<ol start="3" style="list-style-type: decimal">
+<li>We can check which of the individual hypotheses will be rejected at
+a FWER=0.05:</li>
+</ol>
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -987,7 +1050,11 @@ at a <span class="math inline">\(\text{FWER}=0.05\)</span>:</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1]  TRUE  TRUE FALSE</code></pre>
+<pre class="output" tabindex="0"><code>[1]  TRUE FALSE FALSE</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <p>The conclusion is the same as when changing the significance level
 for each test.</p>
@@ -999,7 +1066,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-False discovery rate"><p>Content from <a href="False%20discovery%20rate.html">False discovery rate</a></p>
 <hr>
-<p>Last updated on 2024-05-24 |
+<p>Last updated on 2024-06-17 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/False%20discovery%20rate.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1063,46 +1130,65 @@ to few or no significant results. An alternative approach is to control
 the false discovery rate (FDR), which offers a balance between
 identifying true positives and limiting false positives.</p>
 <div class="section level2">
-<h2 id="example-rna-seq-analysis-with-20000-genes">Example: RNA-Seq Analysis with 20,000 Genes<a class="anchor" aria-label="anchor" href="#example-rna-seq-analysis-with-20000-genes"></a>
+<h2 id="example-the-airway-dataset-in-r">Example: The Airway dataset in R<a class="anchor" aria-label="anchor" href="#example-the-airway-dataset-in-r"></a>
 </h2>
-<p>Here we will consider an example where we analyze RNA-Seq data from
-20,000 human genes to identify differentially expressed genes between
-two conditions.</p>
-<div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<p>The Airway dataset contains gene expression data from a study
+investigating the effects of dexamethasone (a corticosteroid medication)
+on airway smooth muscle cells. The dataset is part of the airway package
+in Bioconductor, a project that provides tools for the analysis and
+comprehension of high-throughput genomic data.</p>
+<p>We can analyze differentially expressed genes (DEGs) between treated
+and untreated samples using the airway dataset. Here, the null
+hypothesis states that there is no difference in gene expression between
+the two groups ( dexamethasone treated and untreated). Conducting
+thousands of statistical tests (one for each gene) increases the chance
+of false positives. With the generated p-values for each gene, we are
+going to see the effect of controlling for false positive using FWER and
+FDR.</p>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">ggplot2</span><span class="op">)</span> <span class="co"># Load necessary library</span></span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb2">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">123</span><span class="op">)</span> <span class="co"># Simulate p-values for 20,000 genes</span></span>
-<span></span>
-<span><span class="va">p_values</span> <span class="op">&lt;-</span> <span class="fu">runif</span><span class="op">(</span><span class="fl">19000</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># 95% of p-values are uniformly distributed (noise)</span></span>
-<span></span>
-<span><span class="va">p_values</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="va">p_values</span>, <span class="fu">rbeta</span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="co"># 5% of p-values are drawn from a beta distribution (signal)</span></span>
-<span></span>
-<span><span class="co"># Histogram of p-values</span></span>
-<span><span class="fu">ggplot</span><span class="op">(</span><span class="fu">data.frame</span><span class="op">(</span><span class="va">p_values</span><span class="op">)</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">p_values</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_histogram</span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">50</span>, fill <span class="op">=</span> <span class="st">"lightblue"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Figure_7: P-value Histogram"</span>, x <span class="op">=</span> <span class="st">"P-value"</span>, y <span class="op">=</span> <span class="st">"Frequency"</span><span class="op">)</span></span></code></pre>
-</div>
-<figure><img src="fig/False%20discovery%20rate-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb3">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Finding the number of significant differentially expressed genes before FWER correction</span></span>
-<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.05</span></span>
-<span><span class="va">significant_hits</span> <span class="op">&lt;-</span> <span class="va">p_values</span> <span class="op">&lt;</span> <span class="va">alpha</span></span>
-<span><span class="va">significant_genes</span><span class="op">&lt;-</span><span class="fu">sum</span><span class="op">(</span><span class="va">significant_hits</span><span class="op">)</span> </span>
-<span><span class="va">significant_genes</span></span></code></pre>
+<pre class="error" tabindex="0"><code>Error in file(file, "rt"): cannot open the connection</code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] 1167</code></pre>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'significant_hits' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'significant_genes' not found</code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -1158,30 +1244,33 @@ Bonferroni correction<a class="anchor" aria-label="anchor" href="#the-impact-of-
 Family-wise error rate (FWER). We then check to see what is the number
 of significant differentially expressed genes after Bonferroni
 correction.</p>
-<div class="codewrapper sourceCode" id="cb5">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Applying Bonferroni correction</span></span>
-<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.05</span></span>
-<span><span class="va">bonferroni_threshold</span> <span class="op">&lt;-</span> <span class="va">alpha</span> <span class="op">/</span> <span class="fu">length</span><span class="op">(</span><span class="va">p_values</span><span class="op">)</span></span>
-<span><span class="va">significant_bonferroni</span> <span class="op">&lt;-</span> <span class="va">p_values</span> <span class="op">&lt;</span> <span class="va">bonferroni_threshold</span></span>
-<span></span>
-<span><span class="va">significant_genes</span><span class="op">&lt;-</span><span class="fu">sum</span><span class="op">(</span><span class="va">significant_bonferroni</span><span class="op">)</span> <span class="co"># Number of significant differentially expressed genes after Bonferroni correction</span></span>
-<span><span class="va">significant_genes</span></span></code></pre>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] 1</code></pre>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'significant_bonferroni' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'genes_passed_bonferroni' not found</code></pre>
 </div>
 <div class="section level2">
 <h2 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a>
 </h2>
-<p>Applying the Bonferroni correction in this example results in one (1)
-significant differentially expressed gene due to the stringent
-threshold, demonstrating how FWER correction can be too conservative in
-large-scale testing.</p>
+<p>Applying the Bonferroni correction in this example results in
+<strong>706</strong> differentially expressed gene after bonferroni
+correction due to the stringent threshold, demonstrating how FWER
+correction can be too conservative in large-scale testing.</p>
 </div>
 </div>
 <div class="section level1">
@@ -1210,39 +1299,48 @@ desired FDR level (e.g., 0.05).</p>
 equal to its BH critical value is identified. This p-value and all
 smaller p-values are considered significant. Optionally, one can adjust
 the p-values to reflect the BH correction using software functions.</p>
-<p>We will continue with our simulated p-values for 20,000 genes i to
-apply the Benjamini-Hochberg correction in r, and also plot the adjusted
-p values for comparison.</p>
-<div class="codewrapper sourceCode" id="cb7">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<p>We will continue with generated p_values to apply the
+Benjamini-Hochberg correction in r, and also plot the adjusted p values
+for comparison.</p>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Applying Benjamini-Hochberg correction</span></span>
-<span><span class="va">p_adjusted</span> <span class="op">&lt;-</span> <span class="fu">p.adjust</span><span class="op">(</span><span class="va">p_values</span>, method <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Plotting the adjusted p-values</span></span>
-<span><span class="va">Figure_8</span><span class="op">&lt;-</span><span class="fu">ggplot</span><span class="op">(</span><span class="fu">data.frame</span><span class="op">(</span><span class="va">p_adjusted</span><span class="op">)</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">p_adjusted</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_histogram</span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">50</span>, fill <span class="op">=</span> <span class="st">"lightblue"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Adjusted P-value Histogram"</span>, x <span class="op">=</span> <span class="st">"Adjusted P-value"</span>, y <span class="op">=</span> <span class="st">"Frequency"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">significant_bh</span> <span class="op">&lt;-</span> <span class="va">p_adjusted</span> <span class="op">&lt;</span> <span class="va">alpha</span></span>
-<span></span>
-<span><span class="fu">sum</span><span class="op">(</span><span class="va">significant_bh</span><span class="op">)</span> <span class="co"># Number of significant hits after Benjamini-Hochberg correction</span></span></code></pre>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] 3</code></pre>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'p_adjusted' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'adjusted_data' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'p_adjusted' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'significant_bh' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'Benjamini_Hochberg_genes' not found</code></pre>
 </div>
 </div>
 <div class="section level2">
 <h2 id="interpretation-1">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation-1"></a>
 </h2>
 <p>The Benjamini-Hochberg method controls the FDR, allowing for a
-greater number of significant differentially expressed genes (3)
-compared to the Bonferroni correction (1). This approach provides a more
-balanced and powerful method for identifying true positives in
-large-scale data.</p>
+greater number of significant differentially expressed genes
+(<strong>2357</strong>) compared to the Bonferroni correction
+(<strong>706</strong>). This approach provides a more balanced and
+powerful method for identifying true positives in large-scale data.</p>
 </div>
 </div>
 <div class="section level1">
@@ -1292,7 +1390,7 @@ any links that you are not going to use.
  -->
 </div></section><section id="aio-Pairwise comparisons"><p>Content from <a href="Pairwise%20comparisons.html">Pairwise comparisons</a></p>
 <hr>
-<p>Last updated on 2024-05-21 |
+<p>Last updated on 2024-06-17 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Pairwise%20comparisons.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1333,39 +1431,18 @@ error rate?</li>
 </h1>
 <p>Pairwise comparisons are a fundamental concept in statistical
 analysis, allowing us to compare the means or proportions of multiple
-groups or conditions. In this tutorial, we will explore the concept of
+groups or conditions. In this episode, we will explore the concept of
 pairwise comparisons, their importance in statistical testing, and how
 they relate to the broader context of multiple testing.</p>
 <div class="section level2">
 <h2 id="understanding-pairwise-comparisons">Understanding Pairwise Comparisons<a class="anchor" aria-label="anchor" href="#understanding-pairwise-comparisons"></a>
 </h2>
-<p>Pairwise comparisons involve comparing the means or proportions of
-every possible pair of groups or conditions in a dataset. These
-comparisons are used to identify specific differences between groups or
-conditions that may not be apparent from overall statistical tests
-(e.g., ANOVA). The comparisons are commonly used in various fields,
-including medicine, biology, social sciences, and economics, to compare
-treatment groups, experimental conditions, or categorical variables.</p>
-<p>Pairwise comparisons play a crucial role in statistical testing,
-particularly in the context of multiple comparisons. They allow us to
-examine specific comparisons of interest while controlling for the
-overall familywise error rate.</p>
-</div>
-<div class="section level2">
-<h2 id="methods-for-performing-pairwise-comparisons">Methods for Performing Pairwise Comparisons<a class="anchor" aria-label="anchor" href="#methods-for-performing-pairwise-comparisons"></a>
-</h2>
-<p>Parametric methods, such as ANOVA post-hoc tests (e.g., Tukey’s HSD)
-are used when assumptions of normality and homogeneity of variance are
-met. Non-parametric methods, such as pairwise Wilcoxon tests, are
-suitable when data do not meet the assumptions of parametric tests. In
-R, performing pairwise comparisons is straightforward using built-in
-functions and packages.</p>
 <p>In our example of air pollution, fine particulate matter and other
 pollutants can induce systemic inflammation in the body, leading to an
 increase in circulating inflammatory markers like C-reactive protein
-(CRP). To test the amounts of CRP due to air polution,we decide to
-divide the population into four groups based on different levels of
-exposure to air pollution. Lets assume these groups are as follow:</p>
+(CRP). Suppose we decide to divide the population into four groups based
+on different levels of exposure to air pollution. Lets assume these
+groups are as follow:</p>
 <ul>
 <li>Low exposure: Individuals living in rural areas with minimal
 industrial activity and low traffic density.</li>
@@ -1376,45 +1453,73 @@ industrial activity and high traffic density.</li>
 <li>Very high exposure: Individuals living near industrial zones, major
 highways, or heavily polluted urban areas.</li>
 </ul>
+<p>We then take the CRP values from individuals from these four exposure
+groups.</p>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>       CRP     Exposure
+1 1.379049 Low_exposure
+2 2.039645 Low_exposure
+3 5.617417 Low_exposure
+4 2.641017 Low_exposure
+5 2.758575 Low_exposure
+6 5.930130 Low_exposure</code></pre>
+</div>
+<p>The above table is generated using the head(data) function to display
+the first six rows of the data frame, where we see the CRP levels for
+each exposure category, where in this case the “Exposure” column is a
+categorical variable with four groups of exposure levels (Low_exposure,
+Moderate_exposure, High_exposure, and Very_high_exposure).</p>
+<figure><img src="fig/Pairwise%20comparisons-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Generally, from the above plot, as exposure level increases from low
+to very high, we might expect to see a corresponding increase in the
+median exposure level and higher median C-reactive protein (CRP)
+values.</p>
 <p>Our null hypothesis is that there is no difference in CRP amounts in
 the different groups. Our significance levels is 0.05.</p>
-<figure><img src="fig/Pairwise%20comparisons-rendered-unnamed-chunk-1-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Generally, as exposure level increases from low to very high, we
-might expect to see a corresponding increase in the median exposure
-level and higher median C-reactive protein (CRP) values.</p>
-<div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Perform one-way ANOVA</span></span>
-<span><span class="va">anova_result</span> <span class="op">&lt;-</span> <span class="fu">aov</span><span class="op">(</span><span class="va">value</span> <span class="op">~</span> <span class="va">group</span>, data <span class="op">=</span> <span class="va">data</span><span class="op">)</span></span>
-<span><span class="fu">summary</span><span class="op">(</span><span class="va">anova_result</span><span class="op">)</span></span></code></pre>
-</div>
+<p>First we would do ANOVA, which would tell us whether there are any
+differences between the groups.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>             Df Sum Sq Mean Sq F value  Pr(&gt;F)    
-group         3   60.8  20.268   5.754 0.00086 ***
+Exposure      3   60.8  20.268   5.754 0.00086 ***
 Residuals   196  690.4   3.523                    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb3">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Perform Tukey post-hoc test</span></span>
-<span><span class="va">tukey_result</span> <span class="op">&lt;-</span> <span class="fu">TukeyHSD</span><span class="op">(</span><span class="va">anova_result</span><span class="op">)</span></span>
-<span><span class="va">tukey_result</span></span></code></pre>
+<p>The ANOVA output above, shows statistically significant differences
+among the means of the four exposure groups. It does this by comparing
+the variability within each group to the variability between the groups.
+We therefore reject the null hypothesis of equal means.</p>
 </div>
+<div class="section level2">
+<h2 id="why-do-we-need-multiple-comparisons">Why do we need multiple comparisons?<a class="anchor" aria-label="anchor" href="#why-do-we-need-multiple-comparisons"></a>
+</h2>
+<p>ANOVA alone does not tell us which specific groups differ
+significantly from each other. To determine this, we need to conduct
+further analysis. Multiple comparison procedures (also known as post-hoc
+tests) are used to compare pairs of groups in order to identify where
+the differences lie. These tests provide more detailed information about
+which specific group means are different from each other.</p>
+<div class="section level3">
+<h3 id="methods-for-performing-pairwise-comparisons">Methods for Performing Pairwise Comparisons<a class="anchor" aria-label="anchor" href="#methods-for-performing-pairwise-comparisons"></a>
+</h3>
+<p>Parametric methods, such as ANOVA post-hoc tests (e.g., Tukey’s HSD)
+are used when assumptions of normality and homogeneity of variance are
+met. Non-parametric methods, such as pairwise Wilcoxon tests, are
+suitable when data do not meet the assumptions of parametric tests. In
+R, performing pairwise comparisons is straightforward using built-in
+functions and packages.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>  Tukey multiple comparisons of means
     95% family-wise confidence level
 
-Fit: aov(formula = value ~ group, data = data)
+Fit: aov(formula = CRP ~ Exposure, data = data)
 
-$group
+$Exposure
                                            diff        lwr       upr     p adj
 Moderate_exposure-Low_exposure        0.7240094 -0.2486521 1.6966710 0.2193881
 High_exposure-Low_exposure            0.4233920 -0.5492695 1.3960536 0.6727404
@@ -1424,35 +1529,78 @@ Very_high_exposure-Moderate_exposure  0.7847971 -0.1878644 1.7574587 0.1597266
 Very_high_exposure-High_exposure      1.0854145  0.1127530 2.0580761 0.0219956</code></pre>
 </div>
 <p>We perform a Tukey post-hoc test using <strong>TukeyHSD()</strong> to
-determine which specific group means differ significantly from each
-other. The results provide pairwise comparisons of group means along
-with adjusted p-values to account for multiple comparisons.</p>
+determine which specific exposure group means differ significantly from
+each other. The results provide pairwise comparisons of group means
+along with adjusted p-values to account for multiple comparisons.</p>
 </div>
-<div class="section level2">
-<h2 id="interpreting-pairwise-comparison-results">Interpreting Pairwise Comparison Results<a class="anchor" aria-label="anchor" href="#interpreting-pairwise-comparison-results"></a>
-</h2>
+<div class="section level3">
+<h3 id="interpreting-pairwise-comparison-results">Interpreting Pairwise Comparison Results<a class="anchor" aria-label="anchor" href="#interpreting-pairwise-comparison-results"></a>
+</h3>
 <p>Understanding significance levels and p-values obtained from pairwise
 comparisons is essential for interpreting results accurately. The
 p-values obtained from pairwise comparisons using the Tukey test are
-adjusted to control the familywise error rate (FWER) or the false
-discovery rate (FDR). Adjusted p-values reflect the probability of
-observing a given result (or more extreme) under the assumption that all
-null hypotheses are true, while accounting for the number of comparisons
-made. Here, we interpret pairwise comparison results with adjusted
-p-values from the Tukey test by assessing whether the adjusted p-value
-is less than the chosen significance level (α) (0.05). If the adjusted
-p-value is below the significance level, we conclude that the observed
-difference is statistically significant after correcting for multiple
-comparisons.</p>
+adjusted to control the familywise error rate (FWER). Adjusted p-values
+reflect the probability of observing a given result (or more extreme)
+under the assumption that all null hypotheses are true, while accounting
+for the number of comparisons made. Here, we interpret pairwise
+comparison results with adjusted p-values from the Tukey test by
+assessing whether the adjusted p-value is less than the chosen
+significance level (α) (0.05). If the adjusted p-value is below the
+significance level, we conclude that the observed difference is
+statistically significant after correcting for multiple comparisons.</p>
+<p>In some research scenarios, the comparisons between groups are
+designed to answer specific, pre-defined research questions that are not
+directly addressed by traditional ANOVA and subsequent p-value
+adjustments.In this case, ANOVA and p-value adjustment don’t make any
+sense.</p>
+<p>For example, imagine we are conducting a study to investigate the
+effect of different types of exercise (A, B, C, D) on three different
+health outcomes (X, Y, Z). Our primary interest here is to compare each
+type of exercise directly with respect to each health outcome, rather
+than comparing all exercises together using ANOVA.</p>
+<p>Probable research questions would be:</p>
+<ul>
+<li>Does exercise type A have a different effect than exercise type B on
+health outcome X?</li>
+<li>Is there a difference in the effect of exercise type A compared to
+exercise type C on health outcome Y?</li>
+<li>How does exercise type D compare to exercise type B in terms of
+health outcome Z?</li>
+</ul>
+<p>In this case, instead of conducting a single ANOVA followed by
+post-hoc tests to compare all exercises simultaneously, each comparison
+is treated as a separate research question. The focus is on comparing
+specific pairs of exercise types for each health outcome.</p>
+<p>This means that we would analyze each comparison (e.g., A vs B for X,
+A vs C for Y, D vs B for Z) independently using appropriate statistical
+tests suited for comparing two groups (e.g., t-tests, Wilcoxon rank-sum
+tests, etc.). Since these comparisons are independent and are addressing
+distinct research questions, there is no need for ANOVA or adjustment of
+p-values across comparisons.</p>
+<p>We would then interpret the results of each pairwise comparison based
+on their individual statistical significance and effect sizes relevant
+to the specific research question posed. This approach allows for a
+focused investigation into the differences between specific pairs of
+exercise types and their effects on different health outcomes. This
+tailored approach ensures that the statistical analysis aligns closely
+with the specific objectives of the study, providing meaningful insights
+into the relationships between variables of interest.</p>
+</div>
 </div>
 <div class="section level2">
-<h2 id="additional-resources">Additional resources<a class="anchor" aria-label="anchor" href="#additional-resources"></a>
+<h2 id="what-we-learn">What we learn<a class="anchor" aria-label="anchor" href="#what-we-learn"></a>
 </h2>
-<p>For further reading and hands-on practice with pairwise comparisons
-in R, refer to <a href="%22https://www.rdocumentation.org/%22" class="external-link">R
-documentation on pairwise comparisons</a>, <a href="%22https://www.coursera.org/specializations/statistics%22" class="external-link">Applied
-Statistics with R</a> and <a href="%22http://users.stat.umn.edu/~gary/book/fcdae.pdf%22" class="external-link">book by
-Oehlert 2010</a> resources.</p>
+<p>Pairwise comparisons involve comparing the means or proportions of
+every possible pair of groups or conditions in a dataset. These
+comparisons are used to identify specific differences between groups or
+conditions that may not be apparent from overall statistical tests (like
+the above case ANOVA). These comparisons play a crucial role in
+statistical testing, particularly in the context of multiple
+comparisons. They allow us to examine specific comparisons of interest
+while controlling for the overall familywise error rate. The comparisons
+are commonly used in various fields, including medicine, biology, social
+sciences, and economics, to compare treatment groups, experimental
+conditions, or categorical variables.</p>
 </div>
 <div class="section level2">
 <h2 id="data-snooping-figure_6-data-snooping">Data snooping <img src="fig/Data%20snooping.png" alt="Figure_6: Data snooping" class="figure"><a class="anchor" aria-label="anchor" href="#data-snooping-figure_6-data-snooping"></a>
@@ -1468,7 +1616,10 @@ statistically significant or interesting. For example, one might compare
 only the “Very_high_exposure” group with the other groups, ignoring
 other potential comparisons. This selective comparison increases the
 likelihood of finding a significant result by chance alone.</p>
-<p>After observing the initial boxplot, we might want to conduct
+<p>Additionally, in some cases, we might decide not to perform all
+tests. We could just visually inspect our plot, and only perform the
+test that seems most promising when comparing the bars by eye. For
+example, after observing the initial boxplot, we might want to conduct
 numerous additional analyses or subgroup comparisons based on observed
 patterns, without pre-specifying these comparisons. This approach can
 lead to inflated Type I error rates (false positives) if corrections for
@@ -1479,6 +1630,15 @@ if a particular exposure group shows a larger mean than others, a
 decision might be made to focus solely on interventions or policies
 targeting that group without considering the broader context or
 potential confounding factors.</p>
+</div>
+<div class="section level2">
+<h2 id="additional-resources">Additional resources<a class="anchor" aria-label="anchor" href="#additional-resources"></a>
+</h2>
+<p>For further reading and hands-on practice with pairwise comparisons
+in R, refer to <a href="%22https://www.rdocumentation.org/%22" class="external-link">R
+documentation on pairwise comparisons</a>, <a href="%22https://www.coursera.org/specializations/statistics%22" class="external-link">Applied
+Statistics with R</a> and <a href="%22http://users.stat.umn.edu/~gary/book/fcdae.pdf%22" class="external-link">book by
+Oehlert 2010</a> resources.</p>
 
 <!-- 
 Place links that you need to refer to multiple times across pages here. Delete
@@ -1487,7 +1647,7 @@ any links that you are not going to use.
 </div>
 </div></section><section id="aio-Summary"><p>Content from <a href="Summary.html">Summary</a></p>
 <hr>
-<p>Last updated on 2024-05-24 |
+<p>Last updated on 2024-06-17 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Summary.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1559,7 +1719,7 @@ any links that you are not going to use.
  -->
 </div></section><section id="aio-References"><p>Content from <a href="References.html">References</a></p>
 <hr>
-<p>Last updated on 2024-05-24 |
+<p>Last updated on 2024-06-17 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/References.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1661,8 +1821,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/aio.html",
   "identifier": "https://FIXME-template-source.github.io/NA/aio.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-06-11",
-  "datePublished": "2024-06-11"
+  "dateModified": "2024-06-17",
+  "datePublished": "2024-06-17"
 }
 
   </script><script>

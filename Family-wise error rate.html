@@ -283,7 +283,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Family-wise error rate</h1>
-        <p>Last updated on 2024-05-24 |
+        <p>Last updated on 2024-06-17 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Family-wise%20error%20rate.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -328,15 +328,15 @@ comparisons.</li>
 <p>In statistical hypothesis testing, conducting multiple tests
 simultaneously increases the likelihood of making at least one
 false-positive error. In this episode, we will explore the family-wise
-error rate (FWER), and discuss methods for adjusting p-values to account
-for multiple comparisons, using practical examples.</p>
+error rate (FWER), and discuss methods to account for multiple
+comparisons, using practical examples.</p>
 <section id="a-multi-hypothesis-testing-framework"><h2 class="section-heading">A Multi-Hypothesis Testing Framework<a class="anchor" aria-label="anchor" href="#a-multi-hypothesis-testing-framework"></a>
 </h2>
-<hr class="half-width"><p>In multiple testing scenarios, researchers often have an overarching
+<hr class="half-width"><p>In multiple testing scenarios, we often have an overarching
 hypothesis that encompasses several individual hypotheses, each
 examining specific aspects or relationships within the data. This
-approach allows researchers to explore various facets of the research
-question comprehensively.</p>
+approach allows us to explore various facets of the research question
+comprehensively.</p>
 <p>Going back to our study investigating the effects of air pollution on
 the prevalence of a disease, the overarching hypothesis could be
 formulated as follows:</p>
@@ -381,8 +381,8 @@ tests.</p>
 Hypothesis and Individual Hypotheses (Effects of Air Pollution on
 Disease Prevalence)</div>
 </figure><p>In this illustration, each individual hypothesis delves into a
-distinct facet of the overarching research inquiry, enabling researchers
-to thoroughly examine the intricate connection between air pollution
+distinct facet of the overarching research inquiry, enabling us to
+thoroughly examine the intricate connection between air pollution
 exposure and disease prevalence. By scrutinizing the impacts of various
 air pollutants on the disease, this method encourages a systematic
 exploration of diverse factors and aids in revealing potential
@@ -398,35 +398,76 @@ hypotheses, resulting in p-values for each test. For simplicity, let us
 maintain our significance level at <span class="math inline">\(\alpha=0.05\)</span> for each individual test. We
 can conduct binomial tests for each hypothesis and calculate the
 p-values in R.</p>
-<div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">n</span> <span class="op">=</span> <span class="fl">100</span> <span class="co"># number of test persons</span></span>
-<span><span class="va">p</span> <span class="op">=</span> <span class="fl">0.04</span> <span class="co"># Known prevalence of the disease in the general population</span></span>
-<span></span>
-<span><span class="va">individuals_suffered</span> <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="fl">15</span>, <span class="fl">20</span>, <span class="fl">5</span><span class="op">)</span> <span class="co"># number of individuals who suffered from the disease for each hypothesis</span></span>
-<span></span>
-<span><span class="va">p_values</span> <span class="op">=</span> <span class="fu">sapply</span><span class="op">(</span><span class="va">individuals_suffered</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">p_value</span> <span class="op">=</span> <span class="fu">dbinom</span><span class="op">(</span><span class="va">x</span>, size <span class="op">=</span> <span class="va">n</span>, prob <span class="op">=</span> <span class="va">p</span><span class="op">)</span></span>
-<span>  <span class="kw">return</span><span class="op">(</span><span class="va">p_value</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span><span class="co">#Calculate the p-values for each hypothesis using the binomial probability mass function</span></span>
-<span></span>
-<span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span><span class="op">(</span><span class="va">p_values</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu">cat</span><span class="op">(</span><span class="fu">sprintf</span><span class="op">(</span><span class="st">"Hypothesis %d: p = %.4f\n"</span>, <span class="va">i</span>, <span class="va">p_values</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="co"># Print the p-values for each hypothesis</span></span></code></pre>
-</div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>Hypothesis 1: p = 0.0000
-Hypothesis 2: p = 0.0000
+Hypothesis 2: p = 0.0285
 Hypothesis 3: p = 0.1595</code></pre>
+</div>
+<div class="section level3">
+<h3 id="the-probability-of-having-at-least-one-false-positive-among-m-tests-fwer">The probability of having at least one false positive among <span class="math inline">\(m\)</span> tests (FWER)<a class="anchor" aria-label="anchor" href="#the-probability-of-having-at-least-one-false-positive-among-m-tests-fwer"></a></h3>
+<p>Let us assume each test has a probability <span class="math inline">\(\alpha\)</span> of producing a false positive, and
+that we have <span class="math inline">\(m\)</span> independent
+tests.</p>
+<p>The probability that a single test does not produce a false positive
+is calculated as: <span class="math display">\[1-\alpha\]</span></p>
+<p>Since the tests are independent, the probability that none of the
+<span class="math inline">\(m\)</span> tests produces a false positive
+is calculated as: <span class="math display">\[(1-\alpha)^m\]</span></p>
+<p>Therefore, the probability of at least one false positive is the
+complement of the probability that none of the tests produce a false
+positive, and is calculated as: <span class="math display">\[P(\text{at
+least one false positive})=1−(1−\alpha)^m\]</span></p>
+<div id="challenge1" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#challenge1"></a>
+</h3>
+<div class="callout-content">
+<ol style="list-style-type: decimal"><li>In the above example, we have three different tests. Will the
+probability of making one false positive still be 0.05?</li>
+<li>What can we do to decrease the probability of any false
+positive?</li>
+</ol></div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div class="accordion-body">
+<ol style="list-style-type: decimal"><li>We can use R to calculate the probability of at least one false
+positive for our example with three tests:</li>
+</ol><div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
+<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.05</span></span>
+<span></span>
+<span><span class="fl">1</span> <span class="op">-</span> <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">alpha</span><span class="op">)</span><span class="op">^</span><span class="va">m</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] 0.142625</code></pre>
+</div>
+<ol start="2" style="list-style-type: decimal"><li>By decreasing the alpha.</li>
+</ol></div>
+</div>
+</div>
+</div>
 </div>
 </section><section id="the-bonferroni-correction"><h2 class="section-heading">The Bonferroni correction<a class="anchor" aria-label="anchor" href="#the-bonferroni-correction"></a>
 </h2>
-<hr class="half-width"><p>Now, to calculate the probability of having any false-positive within
+<hr class="half-width"><div class="section level3">
+<h3 id="adjusting-the-significance-level">Adjusting the significance level<a class="anchor" aria-label="anchor" href="#adjusting-the-significance-level"></a></h3>
+<p>Now, to calculate the probability of having any false-positive within
 the set of tests (also known as familywise error rate or FWER), we can
 use methods such as the Bonferroni correction. This method adjust the
 significance level for each test to control for multiple testing.</p>
@@ -437,7 +478,7 @@ the number of tests conducted (m).</p>
 <p>Where:</p>
 <p>α is the desired overall significance level (usually set to 0.05). m
 is the number of hypothesis tests conducted.</p>
-<div class="codewrapper sourceCode" id="cb3">
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -457,16 +498,16 @@ is the number of hypothesis tests conducted.</p>
 <p>Since in our example above we have three tests (three hypotheses),
 the Bonferroni corrected significance level is <span class="math inline">\(\alpha_{\text{bonf}} = 0.05/3 \approx
 0.0167\)</span>.</p>
-<div class="section level3">
-<h3 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a></h3>
+<div class="section level4">
+<h4 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a></h4>
 <p>For each individual test, we compare the calculated p-value to this
 adjusted significance level. If the p-value is less than or equal to
 0.0167, we reject the null hypothesis for that test.</p>
 <p>Based on the Bonferroni correction, we reject the null hypothesis for
-Hypotheses 1 and 2, indicating significant associations between
-particulate matter and nitrogen dioxide exposure with disease
-prevalence. However, for Hypothesis 3 (ozone), we fail to reject the
-null hypothesis, suggesting no significant association with disease
+Hypotheses 1, indicating significant associations between particulate
+matter with disease prevalence. However, for Hypothesis 2 (nitrogen
+dioxide exposure) and 3 (ozone exposure), we fail to reject the null
+hypothesis, suggesting no significant association with disease
 prevalence at the adjusted significance level. This adjustment for
 multiple testing helps control the overall probability of making at
 least one false-positive error across all tests conducted.</p>
@@ -482,14 +523,49 @@ overarching null hypothesis accordingly. This could involve exploring
 additional factors, conducting more comprehensive analyses, or
 considering alternative statistical approaches to account for potential
 confounding variables or sources of variability in the data.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="adjusting-the-p-value">Adjusting the p-value<a class="anchor" aria-label="anchor" href="#adjusting-the-p-value"></a></h3>
 <p>Instead of changing the significance level, another (equivalent)
 calculation is adjusting the p-values obtained from individual
 hypothesis tests, followed by comparing the adjusted p-values to the
 desired FWER. With this procedure, we can reject those individual null
 hypotheses that have a p-value below the desired FWER (<span class="math inline">\(p &lt; \text{FWER}\)</span>).</p>
 <p><span class="math display">\[p_{\text{Bonf}}= p \times m\]</span></p>
-<p>In R, this can be done as follows:</p>
-<div class="codewrapper sourceCode" id="cb5">
+<div id="challenge2" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#challenge2"></a>
+</h3>
+<div class="callout-content">
+<ol style="list-style-type: decimal"><li><p>Look up <code>p.adjust</code>. This function adjusts P-values for
+Multiple Comparisons.</p></li>
+<li><p>Using our previous example, can you adjust the p-values obtained
+from individual hypothesis tests?</p></li>
+<li><p>Which of the individual hypotheses can will be rejected at a
+FWER=0.05?</p></li>
+</ol></div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div class="accordion-body">
+<ol style="list-style-type: decimal"><li>You can look up the function as follows:</li>
+</ol><div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">help</span><span class="op">(</span><span class="st">"p.adjust"</span><span class="op">)</span></span></code></pre>
+</div>
+<p>2.In R, one can adjust the p-values as follows:</p>
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -498,11 +574,11 @@ hypotheses that have a p-value below the desired FWER (<span class="math inline"
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] 2.539669e-05 6.747937e-09 4.785324e-01</code></pre>
+<pre class="output" tabindex="0"><code>[1] 2.539669e-05 8.556039e-02 4.785324e-01</code></pre>
 </div>
-<p>We can check which of the individual hypotheses can will be rejected
-at a <span class="math inline">\(\text{FWER}=0.05\)</span>:</p>
-<div class="codewrapper sourceCode" id="cb7">
+<ol start="3" style="list-style-type: decimal"><li>We can check which of the individual hypotheses will be rejected at
+a FWER=0.05:</li>
+</ol><div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -511,7 +587,11 @@ at a <span class="math inline">\(\text{FWER}=0.05\)</span>:</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1]  TRUE  TRUE FALSE</code></pre>
+<pre class="output" tabindex="0"><code>[1]  TRUE FALSE FALSE</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <p>The conclusion is the same as when changing the significance level
 for each test.</p>
@@ -579,8 +659,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/Family-wise error rate.html",
   "identifier": "https://FIXME-template-source.github.io/NA/Family-wise error rate.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-05-24",
-  "datePublished": "2024-06-11"
+  "dateModified": "2024-06-17",
+  "datePublished": "2024-06-17"
 }
 
   </script><script>

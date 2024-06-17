@@ -275,7 +275,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>False discovery rate</h1>
-        <p>Last updated on 2024-05-24 |
+        <p>Last updated on 2024-06-17 |
         
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/False%20discovery%20rate.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -342,45 +342,64 @@ to few or no significant results. An alternative approach is to control
 the false discovery rate (FDR), which offers a balance between
 identifying true positives and limiting false positives.</p>
 <div class="section level2">
-<h2 id="example-rna-seq-analysis-with-20000-genes">Example: RNA-Seq Analysis with 20,000 Genes<a class="anchor" aria-label="anchor" href="#example-rna-seq-analysis-with-20000-genes"></a></h2>
-<p>Here we will consider an example where we analyze RNA-Seq data from
-20,000 human genes to identify differentially expressed genes between
-two conditions.</p>
-<div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h2 id="example-the-airway-dataset-in-r">Example: The Airway dataset in R<a class="anchor" aria-label="anchor" href="#example-the-airway-dataset-in-r"></a></h2>
+<p>The Airway dataset contains gene expression data from a study
+investigating the effects of dexamethasone (a corticosteroid medication)
+on airway smooth muscle cells. The dataset is part of the airway package
+in Bioconductor, a project that provides tools for the analysis and
+comprehension of high-throughput genomic data.</p>
+<p>We can analyze differentially expressed genes (DEGs) between treated
+and untreated samples using the airway dataset. Here, the null
+hypothesis states that there is no difference in gene expression between
+the two groups ( dexamethasone treated and untreated). Conducting
+thousands of statistical tests (one for each gene) increases the chance
+of false positives. With the generated p-values for each gene, we are
+going to see the effect of controlling for false positive using FWER and
+FDR.</p>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">ggplot2</span><span class="op">)</span> <span class="co"># Load necessary library</span></span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb2">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">123</span><span class="op">)</span> <span class="co"># Simulate p-values for 20,000 genes</span></span>
-<span></span>
-<span><span class="va">p_values</span> <span class="op">&lt;-</span> <span class="fu">runif</span><span class="op">(</span><span class="fl">19000</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># 95% of p-values are uniformly distributed (noise)</span></span>
-<span></span>
-<span><span class="va">p_values</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="va">p_values</span>, <span class="fu">rbeta</span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="co"># 5% of p-values are drawn from a beta distribution (signal)</span></span>
-<span></span>
-<span><span class="co"># Histogram of p-values</span></span>
-<span><span class="fu">ggplot</span><span class="op">(</span><span class="fu">data.frame</span><span class="op">(</span><span class="va">p_values</span><span class="op">)</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">p_values</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_histogram</span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">50</span>, fill <span class="op">=</span> <span class="st">"lightblue"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Figure_7: P-value Histogram"</span>, x <span class="op">=</span> <span class="st">"P-value"</span>, y <span class="op">=</span> <span class="st">"Frequency"</span><span class="op">)</span></span></code></pre>
-</div>
-<figure><img src="../fig/False%20discovery%20rate-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb3">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Finding the number of significant differentially expressed genes before FWER correction</span></span>
-<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.05</span></span>
-<span><span class="va">significant_hits</span> <span class="op">&lt;-</span> <span class="va">p_values</span> <span class="op">&lt;</span> <span class="va">alpha</span></span>
-<span><span class="va">significant_genes</span><span class="op">&lt;-</span><span class="fu">sum</span><span class="op">(</span><span class="va">significant_hits</span><span class="op">)</span> </span>
-<span><span class="va">significant_genes</span></span></code></pre>
+<pre class="error" tabindex="0"><code>Error in file(file, "rt"): cannot open the connection</code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] 1167</code></pre>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'significant_hits' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'significant_genes' not found</code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -433,29 +452,32 @@ Bonferroni correction<a class="anchor" aria-label="anchor" href="#the-impact-of-
 Family-wise error rate (FWER). We then check to see what is the number
 of significant differentially expressed genes after Bonferroni
 correction.</p>
-<div class="codewrapper sourceCode" id="cb5">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Applying Bonferroni correction</span></span>
-<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.05</span></span>
-<span><span class="va">bonferroni_threshold</span> <span class="op">&lt;-</span> <span class="va">alpha</span> <span class="op">/</span> <span class="fu">length</span><span class="op">(</span><span class="va">p_values</span><span class="op">)</span></span>
-<span><span class="va">significant_bonferroni</span> <span class="op">&lt;-</span> <span class="va">p_values</span> <span class="op">&lt;</span> <span class="va">bonferroni_threshold</span></span>
-<span></span>
-<span><span class="va">significant_genes</span><span class="op">&lt;-</span><span class="fu">sum</span><span class="op">(</span><span class="va">significant_bonferroni</span><span class="op">)</span> <span class="co"># Number of significant differentially expressed genes after Bonferroni correction</span></span>
-<span><span class="va">significant_genes</span></span></code></pre>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] 1</code></pre>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'significant_bonferroni' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'genes_passed_bonferroni' not found</code></pre>
 </div>
 <div class="section level2">
 <h2 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a></h2>
-<p>Applying the Bonferroni correction in this example results in one (1)
-significant differentially expressed gene due to the stringent
-threshold, demonstrating how FWER correction can be too conservative in
-large-scale testing.</p>
+<p>Applying the Bonferroni correction in this example results in
+<strong>706</strong> differentially expressed gene after bonferroni
+correction due to the stringent threshold, demonstrating how FWER
+correction can be too conservative in large-scale testing.</p>
 </div>
 </div>
 <div class="section level1">
@@ -482,38 +504,47 @@ desired FDR level (e.g., 0.05).</p>
 equal to its BH critical value is identified. This p-value and all
 smaller p-values are considered significant. Optionally, one can adjust
 the p-values to reflect the BH correction using software functions.</p>
-<p>We will continue with our simulated p-values for 20,000 genes i to
-apply the Benjamini-Hochberg correction in r, and also plot the adjusted
-p values for comparison.</p>
-<div class="codewrapper sourceCode" id="cb7">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<p>We will continue with generated p_values to apply the
+Benjamini-Hochberg correction in r, and also plot the adjusted p values
+for comparison.</p>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Applying Benjamini-Hochberg correction</span></span>
-<span><span class="va">p_adjusted</span> <span class="op">&lt;-</span> <span class="fu">p.adjust</span><span class="op">(</span><span class="va">p_values</span>, method <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Plotting the adjusted p-values</span></span>
-<span><span class="va">Figure_8</span><span class="op">&lt;-</span><span class="fu">ggplot</span><span class="op">(</span><span class="fu">data.frame</span><span class="op">(</span><span class="va">p_adjusted</span><span class="op">)</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">p_adjusted</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_histogram</span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">50</span>, fill <span class="op">=</span> <span class="st">"lightblue"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Adjusted P-value Histogram"</span>, x <span class="op">=</span> <span class="st">"Adjusted P-value"</span>, y <span class="op">=</span> <span class="st">"Frequency"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">significant_bh</span> <span class="op">&lt;-</span> <span class="va">p_adjusted</span> <span class="op">&lt;</span> <span class="va">alpha</span></span>
-<span></span>
-<span><span class="fu">sum</span><span class="op">(</span><span class="va">significant_bh</span><span class="op">)</span> <span class="co"># Number of significant hits after Benjamini-Hochberg correction</span></span></code></pre>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] 3</code></pre>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'p_adjusted' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'adjusted_data' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'p_adjusted' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'significant_bh' not found</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'Benjamini_Hochberg_genes' not found</code></pre>
 </div>
 </div>
 <div class="section level2">
 <h2 id="interpretation-1">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation-1"></a></h2>
 <p>The Benjamini-Hochberg method controls the FDR, allowing for a
-greater number of significant differentially expressed genes (3)
-compared to the Bonferroni correction (1). This approach provides a more
-balanced and powerful method for identifying true positives in
-large-scale data.</p>
+greater number of significant differentially expressed genes
+(<strong>2357</strong>) compared to the Bonferroni correction
+(<strong>706</strong>). This approach provides a more balanced and
+powerful method for identifying true positives in large-scale data.</p>
 </div>
 </div>
 <div class="section level1">
@@ -561,7 +592,7 @@ regardless of variations in sample sizes or experimental designs.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -636,8 +667,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/instructor/False discovery rate.html",
   "identifier": "https://FIXME-template-source.github.io/NA/instructor/False discovery rate.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-05-24",
-  "datePublished": "2024-06-11"
+  "dateModified": "2024-06-17",
+  "datePublished": "2024-06-17"
 }
 
   </script><script>
