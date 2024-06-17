@@ -26,41 +26,50 @@ exercises: 2
 
 In high-throughput experiments like RNA-Seq, we often conduct thousands of statistical tests simultaneously. This large number of tests increases the risk of false positives. The __False Discovery Rate (FDR)__ is the expected proportion of false positives among the rejected hypotheses. While controlling the family-wise error rate (FWER), the probability of making at least one type I error, is one approach to address false positives, it can be too conservative, leading to few or no significant results. An alternative approach is to control the false discovery rate (FDR), which offers a balance between identifying true positives and limiting false positives. 
 
-## Example: RNA-Seq Analysis with 20,000 Genes
+## Example: The Airway dataset in R
 
-Here we will consider an example where we analyze RNA-Seq data from 20,000 human genes to identify differentially expressed genes between two conditions.
+The Airway dataset contains gene expression data from a study investigating the effects of dexamethasone (a corticosteroid medication) on airway smooth muscle cells. The dataset is part of the airway package in Bioconductor, a project that provides tools for the analysis and comprehension of high-throughput genomic data.
+
+We can analyze differentially expressed genes (DEGs) between treated and untreated samples using the airway dataset. Here, the null hypothesis states that there is no difference in gene expression between the two groups ( dexamethasone treated and untreated). Conducting thousands of statistical tests (one for each gene) increases the chance of false positives. With the generated p-values for each gene, we are going to see the effect of controlling for false positive using FWER and FDR. 
 
 
-```r
-library(ggplot2) # Load necessary library
+```{.error}
+Error in file(file, "rt"): cannot open the connection
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'data_0' not found
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'data_0' not found
 ```
 
 
-```r
-set.seed(123) # Simulate p-values for 20,000 genes
-
-p_values <- runif(19000, min = 0, max = 1) # 95% of p-values are uniformly distributed (noise)
-
-p_values <- c(p_values, rbeta(1000, 0.5, 1)) # 5% of p-values are drawn from a beta distribution (signal)
-
-# Histogram of p-values
-ggplot(data.frame(p_values), aes(x = p_values)) +
-  geom_histogram(bins = 50, fill = "lightblue", color = "black") +
-  labs(title = "Figure_7: P-value Histogram", x = "P-value", y = "Frequency")
+```{.error}
+Error in eval(expr, envir, enclos): object 'data_0' not found
 ```
 
-<img src="fig/False discovery rate-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
-
-```r
-# Finding the number of significant differentially expressed genes before FWER correction
-alpha <- 0.05
-significant_hits <- p_values < alpha
-significant_genes<-sum(significant_hits) 
-significant_genes
+```{.error}
+Error in eval(expr, envir, enclos): object 'data_0' not found
 ```
 
-```{.output}
-[1] 1167
+
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'data_0' not found
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'data_0' not found
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'significant_hits' not found
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'significant_genes' not found
 ```
 
 ## The Concept of P-value Histograms
@@ -79,23 +88,25 @@ Therefore, by visualizing the distribution, we can get a sense of the overall si
 Now, let us say we go ahead and use Bonferroni method to correct Family-wise error rate (FWER). We then check to see what is the number of significant differentially expressed genes after Bonferroni correction. 
 
 
-```r
-# Applying Bonferroni correction
-alpha <- 0.05
-bonferroni_threshold <- alpha / length(p_values)
-significant_bonferroni <- p_values < bonferroni_threshold
-
-significant_genes<-sum(significant_bonferroni) # Number of significant differentially expressed genes after Bonferroni correction
-significant_genes
+```{.error}
+Error in eval(expr, envir, enclos): object 'data_0' not found
 ```
 
-```{.output}
-[1] 1
+```{.error}
+Error in eval(expr, envir, enclos): object 'data_0' not found
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'significant_bonferroni' not found
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'genes_passed_bonferroni' not found
 ```
 
 ## Interpretation
 
-Applying the Bonferroni correction in this example results in one (1) significant differentially expressed gene due to the stringent threshold, demonstrating how FWER correction can be too conservative in large-scale testing.
+Applying the Bonferroni correction in this example results in __706__ differentially expressed gene after bonferroni correction  due to the stringent threshold, demonstrating how FWER correction can be too conservative in large-scale testing.
 
 # Controlling FDR Using the Benjamini-Hochberg Method
 
@@ -111,30 +122,36 @@ Q is the desired FDR level (e.g., 0.05).
 
 After this calculation, the largest p-value that is less than or equal to its BH critical value is identified. This p-value and all smaller p-values are considered significant. Optionally, one can adjust the p-values to reflect the BH correction using software functions.
 
-We will continue with our simulated p-values for 20,000 genes i to apply the Benjamini-Hochberg correction in r, and also plot the adjusted p values for comparison. 
+We will continue with generated p_values to apply the Benjamini-Hochberg correction in r, and also plot the adjusted p values for comparison. 
 
 
-```r
-# Applying Benjamini-Hochberg correction
-p_adjusted <- p.adjust(p_values, method = "BH")
-
-# Plotting the adjusted p-values
-Figure_8<-ggplot(data.frame(p_adjusted), aes(x = p_adjusted)) +
-  geom_histogram(bins = 50, fill = "lightblue", color = "black") +
-  labs(title = "Adjusted P-value Histogram", x = "Adjusted P-value", y = "Frequency")
-
-significant_bh <- p_adjusted < alpha
-
-sum(significant_bh) # Number of significant hits after Benjamini-Hochberg correction
+```{.error}
+Error in eval(expr, envir, enclos): object 'data_0' not found
 ```
 
-```{.output}
-[1] 3
+```{.error}
+Error in eval(expr, envir, enclos): object 'p_adjusted' not found
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'adjusted_data' not found
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'p_adjusted' not found
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'significant_bh' not found
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'Benjamini_Hochberg_genes' not found
 ```
 
 ## Interpretation
 
-The Benjamini-Hochberg method controls the FDR, allowing for a greater number of significant differentially expressed genes (3) compared to the Bonferroni correction (1). This approach provides a more balanced and powerful method for identifying true positives in large-scale data.
+The Benjamini-Hochberg method controls the FDR, allowing for a greater number of significant differentially expressed genes (__2357__) compared to the Bonferroni correction (__706__). This approach provides a more balanced and powerful method for identifying true positives in large-scale data.
 
 # Advantages of controlling the FDR over FWER in the context of large-scale genomic data
 

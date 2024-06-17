@@ -76,31 +76,7 @@ Our null hypothesis in each location is that there is no real difference in dise
 To do this, we write a program in R, which simulates study results when the prevalence in the test group is 4% (null hypothesis is true). We run these experiments to see what would happen if we kept doing tests even when there was not actually any difference. 
 
 
-```r
-library(tidyverse)
-```
 
-
-
-```r
-#H0 is true: disease prevalence = 4%
-set.seed(33)
-
-# Generate simulated data
-data <- table(rbinom(n=200, size=100, prob=0.04)) %>%
-  data.frame() %>%
-  mutate(number = as.numeric(as.character(Var1))) %>%
-  mutate(significant = ifelse(number < qbinom(0.025, size=100, prob=0.04) | number > qbinom(0.975, size=100, prob=0.04), 1, 0))
-
-# Plot the data
-data %>%
-  ggplot(aes(Var1, Freq, fill = factor(significant))) +
-  geom_col() +
-  theme_bw() +
-  labs(title="Figure_3: Test results of multiple testing ", x = "Number of patients with disease", y = "Frequency") +
-  scale_fill_manual(values = c("0" = "blue", "1" = "red"),
-                    labels = c("Not significant", "Significant"))
-```
 
 <img src="fig/What is multiple testing-rendered-Simulating 200 test groups-1.png" style="display: block; margin: auto;" />
 
