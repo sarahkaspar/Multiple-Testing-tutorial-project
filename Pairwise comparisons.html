@@ -336,24 +336,27 @@ industrial activity and moderate traffic density.</li>
 industrial activity and high traffic density.</li>
 <li>Very high exposure: Individuals living near industrial zones, major
 highways, or heavily polluted urban areas.</li>
-</ul><p>We then take the CRP values from individuals from these four exposure
-groups.</p>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>       CRP     Exposure
-1 1.379049 Low_exposure
-2 2.039645 Low_exposure
-3 5.617417 Low_exposure
-4 2.641017 Low_exposure
-5 2.758575 Low_exposure
-6 5.930130 Low_exposure</code></pre>
-</div>
-<p>The above table is generated using the head(data) function to display
-the first six rows of the data frame, where we see the CRP levels for
-each exposure category, where in this case the “Exposure” column is a
-categorical variable with four groups of exposure levels (Low_exposure,
-Moderate_exposure, High_exposure, and Very_high_exposure).</p>
+</ul><p><strong>Table 2</strong> shows the first six rows of CRP values of
+individuals in the four exposure groups.</p>
+<table class="table"><caption>Table 2: CRP values of individuals in the four exposure
+groups</caption>
+<thead><tr class="header"><th align="right">CRP</th>
+<th align="left">Exposure</th>
+</tr></thead><tbody><tr class="odd"><td align="right">1.379049</td>
+<td align="left">Low_exposure</td>
+</tr><tr class="even"><td align="right">2.039645</td>
+<td align="left">Low_exposure</td>
+</tr><tr class="odd"><td align="right">5.617417</td>
+<td align="left">Low_exposure</td>
+</tr><tr class="even"><td align="right">2.641017</td>
+<td align="left">Low_exposure</td>
+</tr><tr class="odd"><td align="right">2.758576</td>
+<td align="left">Low_exposure</td>
+</tr><tr class="even"><td align="right">5.930130</td>
+<td align="left">Low_exposure</td>
+</tr></tbody></table><p>In this case the “Exposure” column is a categorical variable with
+four groups of exposure levels (Low_exposure, Moderate_exposure,
+High_exposure, and Very_high_exposure).</p>
 <figure><img src="fig/Pairwise%20comparisons-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Generally, from the above plot, as exposure level increases from low
 to very high, we might expect to see a corresponding increase in the
 median exposure level and higher median C-reactive protein (CRP)

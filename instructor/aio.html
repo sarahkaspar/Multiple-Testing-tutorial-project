@@ -364,9 +364,9 @@ In this population, lives a group of individuals who have all been
 exposed to air pollution. Concerned about their health, we decide to
 embark on a quest to uncover whether being exposed to air pollution
 influenced the risk of contracting this disease.</p>
-<figure><img src="../fig/01-Disease-prevalence.png" alt="Figure_1: Disease Prevalence in a population- Illustrating the Proportion of Individuals Affected by the disease as 4% of the Population" class="figure mx-auto d-block"><div class="figcaption">Figure_1: Disease Prevalence in a population-
-Illustrating the Proportion of Individuals Affected by the disease as 4%
-of the Population</div>
+<figure><img src="../fig/01-Disease-prevalence.png" alt="Figure_1: Disease prevalence in a population- Illustrating the proportion of individuals affected by the disease as 4% of the population" class="figure mx-auto d-block"><div class="figcaption">Figure_1: Disease prevalence in a population-
+Illustrating the proportion of individuals affected by the disease as 4%
+of the population</div>
 </figure><div class="section level2">
 <h2 id="setting-the-null-and-alternative-hypothesis">Setting the null and alternative hypothesis<a class="anchor" aria-label="anchor" href="#setting-the-null-and-alternative-hypothesis"></a>
 </h2>
@@ -745,7 +745,7 @@ relevance and ethical soundness of their findings.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -1169,14 +1169,14 @@ context of large-scale genomic data.</li>
 </h1>
 <p>In high-throughput experiments like RNA-Seq, we often conduct
 thousands of statistical tests simultaneously. This large number of
-tests increases the risk of false positives. The <strong>False Discovery
-Rate (FDR)</strong> is the expected proportion of false positives among
-the rejected hypotheses. While controlling the family-wise error rate
-(FWER), the probability of making at least one type I error, is one
-approach to address false positives, it can be too conservative, leading
-to few or no significant results. An alternative approach is to control
-the false discovery rate (FDR), which offers a balance between
-identifying true positives and limiting false positives.</p>
+tests increases the risk of false positives. While controlling the
+family-wise error rate (FWER), the probability of making at least one
+type I error, is one approach to address false positives, it can be too
+conservative, leading to few or no significant results. An alternative
+approach is to control the <strong>False Discovery Rate (FDR)</strong>,
+the expected proportion of false positives among the rejected
+hypotheses, which offers a balance between identifying true positives
+and limiting false positives.</p>
 <div class="section level2">
 <h2 id="example-the-airway-dataset-in-r">Example: The Airway dataset in R<a class="anchor" aria-label="anchor" href="#example-the-airway-dataset-in-r"></a>
 </h2>
@@ -1185,59 +1185,48 @@ investigating the effects of dexamethasone (a corticosteroid medication)
 on airway smooth muscle cells. The dataset is part of the airway package
 in Bioconductor, a project that provides tools for the analysis and
 comprehension of high-throughput genomic data.</p>
-<p>We can analyze differentially expressed genes (DEGs) between treated
-and untreated samples using the airway dataset. Here, the null
-hypothesis states that there is no difference in gene expression between
-the two groups ( dexamethasone treated and untreated). Conducting
-thousands of statistical tests (one for each gene) increases the chance
-of false positives. With the generated p-values for each gene, we are
-going to see the effect of controlling for false positive using FWER and
-FDR.</p>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in file(file, "rt"): cannot open the connection</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'significant_hits' not found</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'significant_genes' not found</code></pre>
-</div>
+<p>In differentially expressed genes (DEGs) analysis, thousands of
+statistical tests (one for each gene) are conducted, which increases the
+chance of false positives. Using the airway dataset, we can decide to
+analyze DEGs between treated and untreated samples. Here, the null
+hypothesis would state that there is no difference in gene expression
+between the two groups ( dexamethasone treated and untreated). The
+<strong>Table 1</strong> below shows the first six rows of the generated
+p-values for each gene, the data which, we are going use to see how
+using FWER and FDR to controlling for false positive differ.</p>
+<table class="table">
+<caption>Table 1: P_Values for each analysed gene</caption>
+<thead><tr class="header">
+<th align="left">gene</th>
+<th align="right">pvalue</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">ENSG00000000003</td>
+<td align="right">0.0286636</td>
+</tr>
+<tr class="even">
+<td align="left">ENSG00000000419</td>
+<td align="right">0.0428183</td>
+</tr>
+<tr class="odd">
+<td align="left">ENSG00000000457</td>
+<td align="right">0.7874802</td>
+</tr>
+<tr class="even">
+<td align="left">ENSG00000000460</td>
+<td align="right">0.6972820</td>
+</tr>
+<tr class="odd">
+<td align="left">ENSG00000000938</td>
+<td align="right">0.6215698</td>
+</tr>
+<tr class="even">
+<td align="left">ENSG00000000971</td>
+<td align="right">0.0885597</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level2">
 <h2 id="the-concept-of-p-value-histograms">The Concept of P-value Histograms<a class="anchor" aria-label="anchor" href="#the-concept-of-p-value-histograms"></a>
@@ -1252,31 +1241,120 @@ all tests.</p>
 the frequency (or count) of those p-values on the y-axis. This
 visualization helps in understanding how the p-values are distributed
 across the range from 0 to 1.</p>
+<p>Here, we will use our generated p-values for each analysed gene to
+create a histogram.</p>
+<figure><img src="../fig/False%20discovery%20rate-rendered-unnamed-chunk-1-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We will also find out how many genes were significantly
+differentially expressed between the treated and untreated cells at
+α=0.05 before we correct for type 1 error.</p>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>4655 is the number of significant differentially expressed genes before FWER correction</code></pre>
+</div>
+<div id="discussion1" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#discussion1"></a>
+</h3>
+<div class="callout-content">
+<ul>
+<li>Now suppose we reject all tests with a p-value less than α=0.05. How
+can we visually determine an estimate of the false discovery proportion
+with a plot in r?</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">alpha</span> <span class="op">=</span> <span class="fl">0.05</span></span>
+<span><span class="va">binw</span> <span class="op">=</span><span class="fl">0.01</span></span>
+<span><span class="va">pi0</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="fu">mean</span><span class="op">(</span><span class="va">gene_pvalues</span><span class="op">$</span><span class="va">pvalue</span> <span class="op">&gt;</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">gene_pvalues</span>,</span>
+<span>  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">pvalue</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="va">binw</span>, boundary <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">pi0</span> <span class="op">*</span> <span class="va">binw</span> <span class="op">*</span> <span class="fu">nrow</span><span class="op">(</span><span class="va">gene_pvalues</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">alpha</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/False%20discovery%20rate-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure>
+</div>
+</div>
+</div>
+</div>
+<p>Notice that there are many null hypotheses that appear at low
+p-values. Therefore, indiscriminately declaring all p-values less than
+0.05 as significant will lead to a high number of false discoveries.
+Additionally, some true alternative hypotheses may have high p-values,
+leading to missed detections (false negatives) that our test cannot
+identify.</p>
 <div class="section level3">
 <h3 id="interpretation-of-p-value-histograms">Interpretation of P-value Histograms<a class="anchor" aria-label="anchor" href="#interpretation-of-p-value-histograms"></a>
 </h3>
-<p>A p-value histogram provides insights into the distribution of
-p-values and helps identify patterns that might indicate issues or
-meaningful findings in our data. If all the null hypotheses are true
-(i.e., there is no effect), p-values should follow a uniform
+<p>A p-value histogram helps identify patterns that might indicate
+issues or meaningful findings in our data. If all the null hypotheses
+are true (i.e., there is no effect), p-values should follow a uniform
 distribution. This means the histogram should show a relatively flat
-distribution of p-values across the range from 0 to 1. If there are true
-effects present, you would expect to see an excess of low p-values
-(close to 0) compared to what would be expected under a uniform
-distribution. This indicates potential significant findings. A large
-spike near zero can indicate that many tests are finding significant
-results, suggesting the presence of true positives. A right-skewed
-distribution, with most p-values clustering towards 1, might suggest
-that most tests are not finding significant results, indicating that
-there may be few true effects in the data.</p>
-<p>Therefore, by visualizing the distribution, we can get a sense of the
-overall significance landscape of our tests. In cases where the
-histogram shows a sharp spike at p-values near zero and another spike
-near one, it might indicate issues like p-hacking or poor experimental
-design. Understanding the distribution of p-values can inform the choice
-of multiple testing correction methods. For example, if there is an
-excess of low p-values, controlling the false discovery rate (FDR) might
-be more appropriate than controlling the family-wise error rate (FWER).
+distribution of p-values across the range from 0 to 1.</p>
+<figure><img src="../fig/null_pvalues.png" alt="Figure_8: How p-values would look like if most or all our hypotheses were null" class="figure mx-auto d-block"><div class="figcaption">Figure_8: How p-values would look like if most
+or all our hypotheses were null</div>
+</figure><p>However, seeing this does not mean they actually are all null. It
+means that at most a small percentage of hypotheses are non-null and
+could be identified by a correction method. That is why applying an
+uncorrected rule like “Accept everything with p-value less than 0.05” is
+certain to give you many false discoveries.</p>
+<p>If there are true effects present, you would expect to see an excess
+of low p-values (close to 0) compared to what would be expected under a
+uniform distribution. This indicates potential significant findings. A
+large spike near zero can indicate that many tests are finding
+significant results, suggesting the presence of true positives.</p>
+<figure><img src="../fig/reg_pvalues.png" alt="Figure_9: A peak close to 0 is where our alternative hypotheses live- along with some potential false positives" class="figure mx-auto d-block"><div class="figcaption">Figure_9: A peak close to 0 is where our
+alternative hypotheses live- along with some potential false
+positives</div>
+</figure><p>A right-skewed distribution, with most p-values clustering towards 1,
+might suggest that most tests are not finding significant results,
+indicating that there may be few true effects in the data.</p>
+<figure><img src="../fig/conservative_pvalues.png" alt="Figure_10: Conservative p-values, something is wrong with your test!" class="figure mx-auto d-block"><div class="figcaption">Figure_10: Conservative p-values, something is
+wrong with your test!</div>
+</figure><p>P-values are designed to be uniform under the null hypothesis.
+Therefore, if we observe deviations from this expectation, it should not
+lead us to conclude that there are no significant hypotheses. Instead,
+it suggests that there may be issues with our testing methodology. For
+example, our test assumptions might not align with the actual data
+distribution. It is possible that the test assumes a certain data
+distribution (like continuous or normal), which doesn’t match the actual
+characteristics of our data—such as it being discrete or highly
+non-normal.</p>
+<p>Some histogram likeshown in <strong>Figure 11</strong> might exhibit
+pronounced spikes at p-values near zero and near one.</p>
+<figure><img src="../fig/bimodal_pvalues.png" alt="Figure_11: Bimodal p-values" class="figure mx-auto d-block"><div class="figcaption">Figure_11: Bimodal p-values</div>
+</figure><p>This behavior often signals potential issues such as p-hacking or
+deficiencies in experimental design. For instance, in the context of a
+one-tailed test (e.g., assessing whether each gene increases expression
+in response to a drug), p-values nearing 1 may indicate significance in
+the opposite direction—instances where genes decreased their expression.
+If you wish to identify such cases, consider switching to a two-sided
+test. Alternatively, if these cases are irrelevant, filtering out
+instances where estimates point in that direction could be
+effective.</p>
+<p>Moreover, in RNA-Seq data, for example, certain genes may show no
+reads across all conditions, leading some differential expression tools
+to return a p-value of 1. Identifying and filtering out such problematic
+cases beforehand can help streamline our analysis without sacrificing
+information.”</p>
+<p>Understanding the distribution of p-values can inform the choice of
+multiple testing correction methods. For example, if there is an excess
+of low p-values, controlling the false discovery rate (FDR) might be
+more appropriate than controlling the family-wise error rate (FWER).
 After applying a multiple testing correction (such as the
 Benjamini-Hochberg method), a p-value histogram of the adjusted p-values
 can help evaluate the effectiveness of the correction in controlling
@@ -1288,37 +1366,21 @@ false positives.</p>
 <h1 id="the-impact-of-correcting-for-the-family-wise-error-rate-fwer-using-bonferroni-correction">The impact of correcting for the family-wise error rate (FWER) using
 Bonferroni correction<a class="anchor" aria-label="anchor" href="#the-impact-of-correcting-for-the-family-wise-error-rate-fwer-using-bonferroni-correction"></a>
 </h1>
-<p>Now, let us say we go ahead and use Bonferroni method to correct
-Family-wise error rate (FWER). We then check to see what is the number
-of significant differentially expressed genes after Bonferroni
-correction.</p>
+<p>Now, if we proceed to apply the Bonferroni method to correct the
+family-wise error rate (FWER), we can then determine the number of genes
+that show significant differential expression after the correction.</p>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'significant_bonferroni' not found</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'genes_passed_bonferroni' not found</code></pre>
+<pre class="output" tabindex="0"><code>706 is the number of significant differentially expressed genes after Bonferroni correction for FWER</code></pre>
 </div>
 <div class="section level2">
 <h2 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a>
 </h2>
 <p>Applying the Bonferroni correction in this example results in
-<strong>706</strong> differentially expressed gene after bonferroni
-correction due to the stringent threshold, demonstrating how FWER
-correction can be too conservative in large-scale testing.</p>
+<strong>706</strong> differentially expressed genes due to the stringent
+threshold, demonstrating how FWER correction can be too conservative in
+large-scale testing.</p>
 </div>
 </div>
 <div class="section level1">
@@ -1340,45 +1402,21 @@ significance threshold to determine which results are significant.</p>
 ranks are assigned to the p-values, with the smallest p-value getting
 rank 1, the next smallest rank 2, and so on. Then, for each p-value, the
 BH critical value is calculated as;</p>
-<p>BH critical value=𝑖/𝑚*Q</p>
+<p><span class="math display">\[\text{BH critical value} = \frac{i}{m}
+\times Q\]</span></p>
 <p>where, i is the rank, m is the total number of tests, and Q is the
 desired FDR level (e.g., 0.05).</p>
 <p>After this calculation, the largest p-value that is less than or
 equal to its BH critical value is identified. This p-value and all
 smaller p-values are considered significant. Optionally, one can adjust
 the p-values to reflect the BH correction using software functions.</p>
-<p>We will continue with generated p_values to apply the
+<p>Now, let us continue with the generated p_values to apply the
 Benjamini-Hochberg correction in r, and also plot the adjusted p values
 for comparison.</p>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<figure><img src="../fig/False%20discovery%20rate-rendered-unnamed-chunk-6-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'data_0' not found</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'p_adjusted' not found</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'adjusted_data' not found</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'p_adjusted' not found</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'significant_bh' not found</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'Benjamini_Hochberg_genes' not found</code></pre>
+<pre class="output" tabindex="0"><code>2357 is the number of significant differentially expressed genes that pass the FDR threshold</code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -1395,42 +1433,34 @@ powerful method for identifying true positives in large-scale data.</p>
 <h1 id="advantages-of-controlling-the-fdr-over-fwer-in-the-context-of-large-scale-genomic-data">Advantages of controlling the FDR over FWER in the context of
 large-scale genomic data<a class="anchor" aria-label="anchor" href="#advantages-of-controlling-the-fdr-over-fwer-in-the-context-of-large-scale-genomic-data"></a>
 </h1>
-<p>Controlling the False Discovery Rate (FDR) offers several advantages
-over controlling the Family-Wise Error Rate (FWER) in the context of
-large-scale genomic data analysis.</p>
-<p>FDR control typically results in <strong>higher statistical
-power</strong> compared to FWER control. In large-scale genomic studies,
-where thousands or even millions of hypotheses are tested simultaneously
-(such as in transcriptomic analyses), FDR control allows for the
-detection of more true positives while still controlling the proportion
-of false discoveries. This increased power is crucial for identifying
-biologically relevant findings amidst the vast amount of data.</p>
-<p>FDR control is <strong>less conservative</strong> than FWER control.
-While FWER methods, such as the Bonferroni correction, set a stringent
-threshold for each individual test to maintain the overall Type I error
-rate, they often result in a high rate of false negatives. In contrast,
-FDR methods, balance between controlling false discoveries and
-maximizing the detection of true positives, leading to a more balanced
-approach.</p>
-<p>FDR control provides a <strong>more interpretable framework</strong>
-for large-scale genomic studies. By controlling the proportion of false
-discoveries among all rejected hypotheses, we can prioritize significant
-findings based on their estimated false discovery rate. This allows for
-a more nuanced interpretation of results, focusing on those hypotheses
-most likely to be true positives while still acknowledging the potential
-for false discoveries.</p>
-<p>FDR control allows for <strong>greater flexibility in hypothesis
-testing</strong> and exploration of large-scale genomic data.
-Researchers can conduct exploratory analyses without overly stringent
-correction methods limiting their ability to detect meaningful
-associations. This flexibility encourages hypothesis generation and
-discovery, leading to advancements in our understanding of complex
-biological systems.</p>
-<p>FDR control facilitates <strong>consistency</strong> in statistical
-inference across different studies and datasets. By controlling the
-false discovery rate at a predetermined threshold (e.g., 5%), we can
-compare results across studies and meta-analyses more reliably,
-regardless of variations in sample sizes or experimental designs.</p>
+<ul>
+<li><p>Higher statistical power: FDR control allows for higher power
+compared to FWER control. In large-scale genomic studies, this means
+detecting more true positives while still controlling false discoveries.
+Since FDR methods are less stringent than FWER methods like Bonferroni
+correction, they balance between controlling false discoveries and
+maximizing true positives, reducing false negatives.</p></li>
+<li><p>Consistency across studies: By setting a fixed FDR threshold
+(e.g., 5%), results are more comparable across different studies and
+meta-analyses, enhancing consistency in statistical inference.</p></li>
+</ul>
+<p>It is important to note that while FDR is preferred in many genomic
+screens due to its ability to handle a large number of hypotheses, FWER
+control remains appropriate in scenarios where minimizing any false
+positives is critical. Each method has its place depending on the
+research context and goals.</p>
+<p>NB//: The aim of any multiple hypothesis test correction methods,
+such as controlling the Family-Wise Error Rate (FWER) or the False
+Discovery Rate (FDR), is to determine an appropriate threshold or cutoff
+for declaring statistical significance across multiple tests or
+hypotheses.</p>
+<div class="section level3">
+<h3 id="further-reading">Further reading<a class="anchor" aria-label="anchor" href="#further-reading"></a>
+</h3>
+<ul>
+<li><a href="%22http://varianceexplained.org/statistics/interpreting-pvalue-histogram/%22" class="external-link">How
+to interpret a p-value histogram</a></li>
+</ul>
 <div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
@@ -1450,6 +1480,7 @@ View”</p>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
+</div>
 </div></section><section id="aio-Pairwise comparisons"><p>Content from <a href="Pairwise%20comparisons.html">Pairwise comparisons</a></p>
 <hr>
 <p>Last updated on 2024-06-18 |
@@ -1516,24 +1547,45 @@ industrial activity and high traffic density.</li>
 <li>Very high exposure: Individuals living near industrial zones, major
 highways, or heavily polluted urban areas.</li>
 </ul>
-<p>We then take the CRP values from individuals from these four exposure
-groups.</p>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>       CRP     Exposure
-1 1.379049 Low_exposure
-2 2.039645 Low_exposure
-3 5.617417 Low_exposure
-4 2.641017 Low_exposure
-5 2.758575 Low_exposure
-6 5.930130 Low_exposure</code></pre>
-</div>
-<p>The above table is generated using the head(data) function to display
-the first six rows of the data frame, where we see the CRP levels for
-each exposure category, where in this case the “Exposure” column is a
-categorical variable with four groups of exposure levels (Low_exposure,
-Moderate_exposure, High_exposure, and Very_high_exposure).</p>
+<p><strong>Table 2</strong> shows the first six rows of CRP values of
+individuals in the four exposure groups.</p>
+<table class="table">
+<caption>Table 2: CRP values of individuals in the four exposure
+groups</caption>
+<thead><tr class="header">
+<th align="right">CRP</th>
+<th align="left">Exposure</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">1.379049</td>
+<td align="left">Low_exposure</td>
+</tr>
+<tr class="even">
+<td align="right">2.039645</td>
+<td align="left">Low_exposure</td>
+</tr>
+<tr class="odd">
+<td align="right">5.617417</td>
+<td align="left">Low_exposure</td>
+</tr>
+<tr class="even">
+<td align="right">2.641017</td>
+<td align="left">Low_exposure</td>
+</tr>
+<tr class="odd">
+<td align="right">2.758576</td>
+<td align="left">Low_exposure</td>
+</tr>
+<tr class="even">
+<td align="right">5.930130</td>
+<td align="left">Low_exposure</td>
+</tr>
+</tbody>
+</table>
+<p>In this case the “Exposure” column is a categorical variable with
+four groups of exposure levels (Low_exposure, Moderate_exposure,
+High_exposure, and Very_high_exposure).</p>
 <figure><img src="../fig/Pairwise%20comparisons-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Generally, from the above plot, as exposure level increases from low
 to very high, we might expect to see a corresponding increase in the
 median exposure level and higher median C-reactive protein (CRP)
@@ -1708,7 +1760,7 @@ Oehlert 2010</a> resources.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -1869,7 +1921,7 @@ An R Package for Multiple Testing Problems</a></p></li>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
