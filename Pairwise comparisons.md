@@ -29,20 +29,21 @@ In our example of air pollution, fine particulate matter and other pollutants ca
 - High exposure: Individuals living in urban areas with significant industrial activity and high traffic density.
 - Very high exposure: Individuals living near industrial zones, major highways, or heavily polluted urban areas.
 
-We then take the CRP values from individuals from these four exposure groups.
+__Table 2__ shows the first six rows of CRP values of individuals in the four exposure groups. 
 
 
-```{.output}
-       CRP     Exposure
-1 1.379049 Low_exposure
-2 2.039645 Low_exposure
-3 5.617417 Low_exposure
-4 2.641017 Low_exposure
-5 2.758575 Low_exposure
-6 5.930130 Low_exposure
-```
+Table: Table 2: CRP values of individuals in the four exposure groups
 
-The above table is generated using the head(data) function to display the first six rows of the data frame, where we see the CRP levels for each exposure category, where in this case the "Exposure" column is a categorical variable with four groups of exposure levels (Low_exposure, Moderate_exposure, High_exposure, and Very_high_exposure). 
+|      CRP|Exposure     |
+|--------:|:------------|
+| 1.379049|Low_exposure |
+| 2.039645|Low_exposure |
+| 5.617417|Low_exposure |
+| 2.641017|Low_exposure |
+| 2.758576|Low_exposure |
+| 5.930130|Low_exposure |
+
+In this case the "Exposure" column is a categorical variable with four groups of exposure levels (Low_exposure, Moderate_exposure, High_exposure, and Very_high_exposure). 
 
 <img src="fig/Pairwise comparisons-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
 

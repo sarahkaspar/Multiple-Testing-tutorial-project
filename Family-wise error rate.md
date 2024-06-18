@@ -86,6 +86,7 @@ Therefore, the probability of at least one false positive is the complement of t
 
 1. We can use R to calculate the probability of at least one false positive for our example with three tests:
 
+
 ```r
 m <- 3
 alpha <- 0.05

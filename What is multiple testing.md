@@ -20,7 +20,7 @@ exercises: 2
 
 Suppose the prevalence of a disease in the general population is 4%. In this population, lives a group of individuals who have all been exposed to air pollution. Concerned about their health, we decide to embark on a quest to uncover whether being exposed to air pollution influenced the risk of contracting this disease.
 
-![Figure_1: Disease Prevalence in a population- Illustrating the Proportion of Individuals Affected by the disease as 4% of the Population](fig/01-Disease-prevalence.png)
+![Figure_1: Disease prevalence in a population- Illustrating the proportion of individuals affected by the disease as 4% of the population](fig/01-Disease-prevalence.png)
 
 ## Setting the null and alternative hypothesis
 
