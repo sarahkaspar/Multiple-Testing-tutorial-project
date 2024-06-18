@@ -38,13 +38,13 @@ We can analyze differentially expressed genes (DEGs) between treated and untreat
 library(tidyverse)
 
 # Read the CSV file
-data_0 <- read.csv("C:/Users/Caro/Desktop/Multiple_Testing/episodes/data/DEG_pvalues.csv")
+gene_pvalues <- read.csv("C:/Users/Caro/Desktop/Multiple_Testing/episodes/data/DEG_pvalues.csv")
 
 # Check the first few rows of data_0
-head(data_0)
+head(gene_pvalues)
 
 # Histogram of p-values
-ggplot(data_0, aes(x = pvalue)) +
+ggplot(gene_pvalues, aes(x = pvalue)) +
   geom_histogram(bins = 100, fill = "lightblue", color = "black") +
   labs(title = "Figure_7: P-value Histogram", x = "P-value", y = "Frequency")
 
@@ -52,9 +52,9 @@ ggplot(data_0, aes(x = pvalue)) +
 
 ```{r message=FALSE, warning=FALSE, echo=FALSE, results='hide'}
 # Check for NA values in pvalue column
-sum(is.na(data_0$pvalue))
+sum(is.na(gene_pvalues$pvalue))
 # Exclude NA values
-data_0 <- na.omit(data_0)  # Removes rows with NA values
+gene_pvalues <- na.omit(gene_pvalues)  # Removes rows with NA values
 
 ```
 
@@ -62,11 +62,10 @@ data_0 <- na.omit(data_0)  # Removes rows with NA values
 ```{r message=FALSE, warning=FALSE, echo=FALSE}
 
 # Finding the number of significant differentially expressed genes before FWER correction
-# Calculate significant genes based on p-values
-alpha <- 0.05
 
-data_0$pvalue <- as.numeric(as.character(data_0$pvalue))
-significant_hits <- data_0$pvalue < alpha
+alpha <- 0.05
+gene_pvalues$pvalue <- as.numeric(as.character(gene_pvalues$pvalue))
+significant_hits <- gene_pvalues$pvalue < alpha
 significant_genes <- sum(significant_hits)
 
 # Print the number of significant genes
@@ -92,8 +91,8 @@ Now, let us say we go ahead and use Bonferroni method to correct Family-wise err
 ```{r echo=FALSE}
 # Applying Bonferroni correction
 alpha <- 0.05
-bonferroni_threshold <- alpha / length(data_0$pvalue)
-significant_bonferroni <- data_0$pvalue < bonferroni_threshold
+bonferroni_threshold <- alpha / length(gene_pvalues$pvalue)
+significant_bonferroni <- gene_pvalues$pvalue < bonferroni_threshold
 
 genes_passed_bonferroni<-sum(significant_bonferroni) # Number of significant differentially expressed genes after Bonferroni correction
 
@@ -124,7 +123,7 @@ We will continue with generated p_values to apply the Benjamini-Hochberg correct
 
 ```{r echo=FALSE}
 # Apply Benjamini-Hochberg correction
-p_adjusted <- p.adjust(data_0$pvalue, method = "BH")
+p_adjusted <- p.adjust(gene_pvalues$pvalue, method = "BH")
 
 # Create a dataframe for plotting
 adjusted_data <- data.frame(adjusted_pvalue = p_adjusted)
