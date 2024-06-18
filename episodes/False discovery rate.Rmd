@@ -32,7 +32,23 @@ The Airway dataset contains gene expression data from a study investigating the 
 
 We can analyze differentially expressed genes (DEGs) between treated and untreated samples using the airway dataset. Here, the null hypothesis states that there is no difference in gene expression between the two groups ( dexamethasone treated and untreated). Conducting thousands of statistical tests (one for each gene) increases the chance of false positives. With the generated p-values for each gene, we are going to see the effect of controlling for false positive using FWER and FDR. 
 
+```{r}
+# Install or update BiocManager package if necessary
+#if (!requireNamespace("BiocManager", quietly = TRUE)) {
+#  install.packages("BiocManager")
+#}
+
+# Load BiocManager
+#library(BiocManager)
+#BiocManager::install("DESeq2", force = TRUE)
+#BiocManager::install("airway", force = TRUE)
+
+
+```
+
+
 ```{r message=FALSE, warning=FALSE, echo=FALSE}
+
 
 # Load tidyverse (includes ggplot2)
 library(tidyverse)
