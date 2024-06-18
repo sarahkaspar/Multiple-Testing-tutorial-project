@@ -8,8 +8,8 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) {
 
 # Load BiocManager
 library(BiocManager)
-BiocManager::install("DESeq2")
-BiocManager::install("airway")
+BiocManager::install("DESeq2", force = TRUE)
+BiocManager::install("airway", force = TRUE)
 library(DESeq2)
 library(airway)
 #Load the Airway Dataset

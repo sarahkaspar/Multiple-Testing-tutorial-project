@@ -29,9 +29,11 @@ In our example of air pollution, fine particulate matter and other pollutants ca
 - High exposure: Individuals living in urban areas with significant industrial activity and high traffic density.
 - Very high exposure: Individuals living near industrial zones, major highways, or heavily polluted urban areas.
 
-We then take the CRP values from individuals from these four exposure groups.
+__Table 2__ shows the first six rows of CRP values of individuals in the four exposure groups. 
 
 ```{r echo=FALSE}
+
+library(knitr)
 set.seed(123)  # for reproducibility
 Low_exposure <- rnorm(50, mean = 2.5, sd = 2)
 Moderate_exposure <- rnorm(50, mean = 3.0, sd = 2)
@@ -39,6 +41,7 @@ High_exposure <- rnorm(50, mean = 3.5, sd = 2)
 Very_high_exposure <- rnorm(50, mean = 4, sd = 2)
 
 # Combine data into a single data frame with the desired column names
+
 data <- data.frame(
   CRP = c(Low_exposure, Moderate_exposure, High_exposure, Very_high_exposure),
   Exposure = rep(c("Low_exposure","Moderate_exposure","High_exposure", "Very_high_exposure"), each = 50)
@@ -46,11 +49,12 @@ data <- data.frame(
 
 # Reorder the levels of the 'exposure' factor variable
 data$Exposure <- factor(data$Exposure, levels = c("Low_exposure", "Moderate_exposure", "High_exposure", "Very_high_exposure"))
-head(data)##show the table of the data 
+
+kable(head(data), caption = "Table 2: CRP values of individuals in the four exposure groups")##show the table of the data 
 
 ```
 
-The above table is generated using the head(data) function to display the first six rows of the data frame, where we see the CRP levels for each exposure category, where in this case the "Exposure" column is a categorical variable with four groups of exposure levels (Low_exposure, Moderate_exposure, High_exposure, and Very_high_exposure). 
+In this case the "Exposure" column is a categorical variable with four groups of exposure levels (Low_exposure, Moderate_exposure, High_exposure, and Very_high_exposure). 
 
 ```{r echo=FALSE}
 library(ggplot2)
