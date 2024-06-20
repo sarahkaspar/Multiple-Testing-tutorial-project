@@ -100,9 +100,11 @@ alpha = 0.05
 binw =0.01
 pi0 = 2 * mean(gene_pvalues$pvalue > 0.5)
 ggplot(gene_pvalues,
-  aes(x = pvalue)) + geom_histogram(binwidth = binw, boundary = 0) +
+  aes(x = pvalue)) + 
+  geom_histogram(binwidth = binw, boundary = 0,fill = "lightblue", color = "black") +
   geom_hline(yintercept = pi0 * binw * nrow(gene_pvalues), col = "blue") +
   geom_vline(xintercept = alpha, col = "red")
+
 ```
 
 
@@ -112,60 +114,71 @@ Notice that there are many null hypotheses that appear at low p-values. Therefor
 
 ### Interpretation of P-value Histograms
 
-A p-value histogram helps identify patterns that might indicate issues or meaningful findings in our data. If all the null hypotheses are true (i.e., there is no effect), p-values should follow a uniform distribution. This means the histogram should show a relatively flat distribution of p-values across the range from 0 to 1. 
+A p-value histogram helps identify patterns that might indicate issues or meaningful findings in our data. If all the null hypotheses are true (i.e., there is no effect), p-values should follow a uniform distribution. This means the histogram should show a relatively flat distribution of p-values across the range from 0 to 1 (__Figure 8__). 
 
 ![Figure_8: How p-values would look like if most or all our hypotheses were null](fig/null_pvalues.png)
 
 
 However, seeing this does not mean they actually are all null. It means that at most a small percentage of hypotheses are non-null and could be identified by a correction method. That is why applying an uncorrected rule like “Accept everything with p-value less than 0.05” is certain to give you many false discoveries. 
 
-If there are true effects present, you would expect to see an excess of low p-values (close to 0) compared to what would be expected under a uniform distribution. This indicates potential significant findings. A large spike near zero can indicate that many tests are finding significant results, suggesting the presence of true positives. 
+If there are true effects present, you would expect to see an excess of low p-values (close to 0) compared to what would be expected under a uniform distribution (__Figure 9__). This indicates potential significant findings. A large spike near zero can indicate that many tests are finding significant results, suggesting the presence of true positives. 
 
 ![Figure_9: A peak close to 0 is where our alternative hypotheses live- along with some potential false positives](fig/reg_pvalues.png)
 
 
-A right-skewed distribution, with most p-values clustering towards 1, might suggest that most tests are not finding significant results, indicating that there may be few true effects in the data.
+A right-skewed distribution, with most p-values clustering towards 1 (__Figure 10__), might suggest that most tests are not finding significant results, indicating that there may be few true effects in the data.
 
 ![Figure_10: Conservative p-values, something is wrong with your test!](fig/conservative_pvalues.png)
 
 P-values are designed to be uniform under the null hypothesis. Therefore, if we observe deviations from this expectation, it should not lead us to conclude that there are no significant hypotheses. Instead, it suggests that there may be issues with our testing methodology. For example, our test assumptions might not align with the actual data distribution. It is possible that the test assumes a certain data distribution (like continuous or normal), which doesn't match the actual characteristics of our data—such as it being discrete or highly non-normal.
 
-Some histogram likeshown in  __Figure 11__ might exhibit pronounced spikes at p-values near zero and near one. 
+Some histogram like shown in  __Figure 11__ might exhibit pronounced spikes at p-values near zero and near one. 
 
 ![Figure_11: Bimodal p-values](fig/bimodal_pvalues.png)
 
 This behavior often signals potential issues such as p-hacking or deficiencies in experimental design. For instance, in the context of a one-tailed test (e.g., assessing whether each gene increases expression in response to a drug), p-values nearing 1 may indicate significance in the opposite direction—instances where genes decreased their expression. If you wish to identify such cases, consider switching to a two-sided test. Alternatively, if these cases are irrelevant, filtering out instances where estimates point in that direction could be effective.
 
-Moreover, in RNA-Seq data, for example, certain genes may show no reads across all conditions, leading some differential expression tools to return a p-value of 1. Identifying and filtering out such problematic cases beforehand can help streamline our analysis without sacrificing information."
+Moreover, in RNA-Seq data, for example, certain genes may show no reads across all conditions, leading some differential expression tools to return a p-value of 1. Identifying and filtering out such problematic cases beforehand can help streamline our analysis without sacrificing information.
 
 Understanding the distribution of p-values can inform the choice of multiple testing correction methods. For example, if there is an excess of low p-values, controlling the false discovery rate (FDR) might be more appropriate than controlling the family-wise error rate (FWER). After applying a multiple testing correction (such as the Benjamini-Hochberg method), a p-value histogram of the adjusted p-values can help evaluate the effectiveness of the correction in controlling false positives.
 
-# The impact of correcting for the family-wise error rate (FWER) using Bonferroni correction
+## The impact of correcting for the family-wise error rate (FWER) using Bonferroni correction
 
 Now, if we proceed to apply the Bonferroni method to correct the family-wise error rate (FWER), we can then determine the number of genes that show significant differential expression after the correction. 
 
 ```{r echo=FALSE}
-# Applying Bonferroni correction
+
 alpha <- 0.05
-bonferroni_threshold <- alpha / length(gene_pvalues$pvalue)
-significant_bonferroni <- gene_pvalues$pvalue < bonferroni_threshold
+# Apply Bonferroni correction
+P_adj_bonf<-p.adjust(gene_pvalues$pvalue, method = "bonferroni")
 
-genes_passed_bonferroni<-sum(significant_bonferroni) # Number of significant differentially expressed genes after Bonferroni correction
+# Create a dataframe for plotting
+adjusted_data <- data.frame(adjusted_pvalue = P_adj_bonf)
 
-#display the number
-cat(sprintf("%d is the number of significant differentially expressed genes after Bonferroni correction for FWER\n", genes_passed_bonferroni))
+# Plotting the Bonferroni adjusted p-values
+ggplot(adjusted_data, aes(x = adjusted_pvalue)) +
+  geom_histogram(bins = 100, fill = "lightblue", color = "black") +
+  labs(title = "Figure_12: Bonferroni Adjusted P-value Histogram", x = "Bonferroni Adjusted P-value", y = "Frequency")+
+  ylim(0, 2500) # Set y-axis limits from 0 to 2500
+
+significant_Bonferroni <- P_adj_bonf < alpha
+
+Bonferroni_genes<-sum(significant_Bonferroni) # Number of significant hits after Benjamini-Hochberg correction
+
+#display the number of genes that pass the FDR threshold
+cat(sprintf("%d is the number of significant differentially expressed genes after Bonferroni correction for FWER\n", Bonferroni_genes))
 
 ```
 
-## Interpretation
+### Interpretation
 
 Applying the Bonferroni correction in this example results in __706__ differentially expressed genes due to the stringent threshold, demonstrating how FWER correction can be too conservative in large-scale testing.
 
-# Controlling FDR Using the Benjamini-Hochberg Method
+## Controlling FDR Using the Benjamini-Hochberg Method
 
 The Benjamini-Hochberg (BH) method is a statistical procedure used to control the FDR in multiple hypothesis testing, where the chance of obtaining false positives increases. The BH method helps control the proportion of false positives (false discoveries) among the rejected hypotheses, thus providing a more balanced approach than traditional methods like the __Bonferroni correction__, which can be overly conservative. The BH procedure adjusts the p-values from multiple tests to control the FDR. These adjusted p-values can be compared to a significance threshold to determine which results are significant.
 
-## Steps of the Benjamini-Hochberg Procedure
+### Steps of the Benjamini-Hochberg Procedure
 First the observed p-values are arranged in ascending order. Next, ranks are assigned to the p-values, with the smallest p-value getting rank 1, the next smallest rank 2, and so on. Then, for each p-value, the BH critical value is calculated as;
 
 $$\text{BH critical value} = \frac{i}{m} \times Q$$
@@ -186,8 +199,9 @@ adjusted_data <- data.frame(adjusted_pvalue = p_adjusted)
 
 # Plotting the adjusted p-values
 ggplot(adjusted_data, aes(x = adjusted_pvalue)) +
-  geom_histogram(bins = 30, fill = "lightblue", color = "black") +
-  labs(title = "Figure_8: Adjusted P-value Histogram", x = "Adjusted P-value", y = "Frequency")
+  geom_histogram(bins = 100, fill = "lightblue", color = "black") +
+  labs(title = "Figure_13: Benjamini-Hochberg Adjusted P-value Histogram", x = "Benjamini-Hochberg Adjusted P-value", y = "Frequency")+
+  ylim(0, 2500) # Set y-axis limits from 0 to 2500
 
 significant_bh <- p_adjusted < alpha
 
@@ -198,11 +212,11 @@ cat(sprintf("%d is the number of significant differentially expressed genes that
 
 ```
 
-## Interpretation
+### Interpretation
 
 The Benjamini-Hochberg method controls the FDR, allowing for a greater number of significant differentially expressed genes (__2357__) compared to the Bonferroni correction (__706__). This approach provides a more balanced and powerful method for identifying true positives in large-scale data.
 
-# Advantages of controlling the FDR over FWER in the context of large-scale genomic data
+## Advantages of controlling the FDR over FWER in the context of large-scale genomic data
 
 - Higher statistical power: FDR control allows for higher power compared to FWER control. In large-scale genomic studies, this means detecting more true positives while still controlling false discoveries. Since FDR methods are less stringent than FWER methods like Bonferroni correction, they balance between controlling false discoveries and maximizing true positives, reducing false negatives.
 
@@ -215,7 +229,7 @@ NB//: The aim of any multiple hypothesis test correction methods, such as contro
 
 
 
-### Further reading 
+## Further reading 
 
 - [How to interpret a p-value histogram]("http://varianceexplained.org/statistics/interpreting-pvalue-histogram/")
 
