@@ -41,7 +41,7 @@ The three null hypotheses can be combined to the following overall null hypothes
 **$H_{0}$**: Air pollution is not associated with an increased prevalence of the disease.
 
 :::: callout ::::::::::::
-As soon as one of the individual null hypotheses is rejected, we also reject the overall null hypothesis. Therefore, we'll want to make sure that we have not a single false positive among our individual hypothesis tests.
+As soon as one of the individual null hypotheses is rejected, we also reject the overall null hypothesis. Rejecting the overall null hypothesis would mean that at least one of the individual null hypotheses is false. Therefore, we will want to make sure that we have not a single false positive among our individual hypothesis tests.
 :::::::::::::::::::::::
 
 ![Figure_6: Relationship between Overall Hypothesis and Individual Hypotheses (Effects of Air Pollution on Disease
@@ -49,8 +49,6 @@ Prevalence)](fig/Relationship between Overall Hypothesis and Individual Hypothes
 
 
 In this illustration, each individual hypothesis delves into a distinct facet of the overarching research inquiry, enabling us to thoroughly examine the intricate connection between air pollution exposure and disease prevalence. By scrutinizing the impacts of various air pollutants on the disease, this method encourages a systematic exploration of diverse factors and aids in revealing potential associations or patterns within the data set.
-
-
 
 Now, let us assume that after data collection, for hypothesis 1, we  find that 15 out of 100 individuals exposed to high levels of particulate matter develop the disease, for hypothesis 2, 20 out of 100 individuals exposed to high levels of nitrogen dioxide develop the disease and for hypothesis 3, 5 out of 100 individuals exposed to high levels of ozone develop the disease.
 

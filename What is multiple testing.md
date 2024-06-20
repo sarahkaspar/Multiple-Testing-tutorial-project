@@ -59,7 +59,7 @@ The P-value we get, is the probability of obtaining extreme outcome, assuming th
 
 The binomial test result (~0.012) reveals that the prevalence of the disease among the individuals exposed to air pollution was indeed significantly different from that of the population.
 
-# What if we did many similar experiments?
+## What if we did many similar experiments?
 
 Conducting a single study might not provide conclusive evidence due to various factors such as sample variability, random chance, and other unknown influences. 
 
@@ -86,11 +86,18 @@ We therefore use `qbinom()` function in this simulation to calculate the quantil
 
 In the resulting histogram, we find that even in a world where there was no true difference in disease prevalence, about 5% of our simulated experiments yielded statistically significant results purely by chance (the red bars). 
 
-It is important to note that the significance level (α) that we choose for each individual test directly impacts the rate of false positives. In our example, we have set α=0.05 for each individual test, which means we are essentially saying that we are willing to accept a 5% chance of making a false positive error for each test, and this means that for 100 tests, we expect abuot 5 false positives.
+It is important to note that the significance level (α) that we choose for each individual test directly impacts the rate of false positives. This is basically the __Comparison-Wise Error Rate (CWER)__, the probability of making a Type I error (false positive) in a single hypothesis test. In our example, we have set α=0.05 for each individual test, which means we are essentially saying that we are willing to accept a 5% chance of making a false positive error for each test, and this means that for 100 tests, we expect about 5 false positives.
 
 By running this simulation multiple times, we can observe how often we get false positive results when there should be none. This helps us understand the likelihood of obtaining a significant result purely by chance, even if there is no true effect or difference.
 
+::::::::::::::::: challenge
 
+- If we set α=0.01 for each individual test, which means we are essentially saying that we are willing to accept a 1% chance of making a false positive error for each test,what is the number of false positives we should expect for 100 tests?
+::::::::::::::::::::::
+
+:::::::::::::::: solution
+
+::::::::::::::::::::::::::
 ### Key points
 
 - Through this exercise, we learn a valuable lesson about the dangers of multiple testing.
