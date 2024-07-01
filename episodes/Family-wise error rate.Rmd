@@ -71,7 +71,7 @@ for (i in 1:length(p_values)) {
 }# Print the p-values for each hypothesis
 ```
 
-### The probability of having at least one false positive among \(m\) tests (FWER)
+## The probability of having at least one false positive among \(m\) tests (FWER)
 
 Let us assume each test has a probability \(\alpha\) of producing a false positive, and that we have \(m\) independent tests.
 
