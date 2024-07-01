@@ -61,7 +61,7 @@ Hypothesis 2: p = 0.0285
 Hypothesis 3: p = 0.1595
 ```
 
-### The probability of having at least one false positive among \(m\) tests (FWER)
+## The probability of having at least one false positive among \(m\) tests (FWER)
 
 Let us assume each test has a probability \(\alpha\) of producing a false positive, and that we have \(m\) independent tests.
 
