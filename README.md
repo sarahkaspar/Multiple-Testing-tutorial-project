@@ -1,3 +1,6 @@
-## buoyant-barnacles
+## Tutorial on multiple testing
+This lesson was forked and further developed from [carolynmukirikambona/Multiple-Testing-tutorial-project](https://github.com/sarahkaspar/Multiple-Testing-tutorial-project).
+It is deployed [here](https://sarahkaspar.github.io/Multiple-Testing-tutorial-project/index.html).
 
-    This is the lesson repository for buoyant-barnacles
+## Authors
+Sarah Kaspar, Carolyn Mukiri Kambona
