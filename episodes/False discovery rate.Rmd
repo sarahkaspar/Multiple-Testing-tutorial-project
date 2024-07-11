@@ -30,11 +30,12 @@ In high-throughput experiments like RNA-Seq, we often conduct thousands of stati
 
 The Airway dataset contains gene expression data from a study investigating the effects of dexamethasone (a corticosteroid medication) on airway smooth muscle cells. The dataset is part of the airway package in Bioconductor, a project that provides tools for the analysis and comprehension of high-throughput genomic data.
 
-In differentially expressed genes (DEGs) analysis, thousands of statistical tests (one for each gene) are conducted, which increases the chance of false positives. Using the airway dataset, we can decide to analyze DEGs between treated and untreated samples. Here, the null hypothesis would state that there is no difference in gene expression between the two groups ( dexamethasone treated and untreated). The __Table 1__ below shows the first six rows of the generated p-values for each gene, the data which, we are going use to see how using FWER and FDR to controlling for false positive differ. 
+In differentially expressed genes (DEGs) analysis, thousands of statistical tests (one for each gene) are conducted, which increases the chance of false positives. Using the airway dataset, we can decide to analyze DEGs between treated and untreated samples. Here, the null hypothesis would state that there is no difference in gene expression between the two groups ( dexamethasone treated and untreated). The table below shows the first six rows of the generated p-values for each gene, the data which, we are going use to see how using FWER and FDR to controlling for false positive differ. 
 
 
 ```{r display_table, results='asis', echo=FALSE}
 library(knitr)
+library(tidyverse)
 # Read the CSV file with the generated p_values for each gene
 gene_pvalues <- read.csv("data/DEG_pvalues.csv")
 # Check the first few rows 
@@ -54,40 +55,121 @@ To create a p-value histogram, we plot the p-values on the x-axis, typically ran
 
 Decomposing a p-value histogram involves analyzing the distribution of p-values to understand the underlying behavior of your hypothesis tests. This process can help you identify whether your results are due to true effects, random chance, or other factors. 
 
-![Figure_8: A p-value histogram decomposition](fig/p_value histogram decomposition.png)
+![A p-value histogram decomposition (adapted from MSMB)](fig/p_value histogram decomposition.png)
 
 in reference to __figure 8__, We think of the p-values as coming from two components: The uniform component (the area in gray) which comes from tests where the null hypothesis is true, and an alternative component (the area in blue) which comes from tests where the alternative is true. These tend to have lower p-values.
  
 Say, we determine some cut-off p-value, indicated by the red line. Then we can visually estimate what percentage of tests right at this threshold are false positives, namely by dividing the length of the light red segment by the overall length of the line. That’s the local __fdr__, and it applies to tests rejected just at this threshold. 
 Now we will probably reject all the tests below the threshold, and to get the fraction of false positives within those, we divide the dark gray area by the the total area to the left of the red line. This is the capital letter __FDR__ and it’s an average property of all tests rejected below the threshold.
 
-![Figure_8: How p-value histogram relates to the confusion matrix](fig/How p-value histogram relates to the confusion matrix.png)
+![How the p-value histogram relates to the confusion matrix](fig/How p-value histogram relates to the confusion matrix.png)
 We can visualize again the connection of the p-value histogram to the confusion matrix. The four areas (dark blue, light blue, dark gray and light gray) correspond to the fractions of True Positives, False Negatives, False Positives and True Negatives, respectively, for the p-value threshold indicated by the red line.
 in the sace of differential expression of genes, if we set the threshold very low, we will have a low FDR (low fraction of false positives), but will miss many of the differentially expressed genes. When we move the red line to the right, that is increase the threshold, we’ll capture more and more of the differentially expressed genes, but at the cost of more and more false positives, and if we go too far, we will almost exclusively admit more False Positives.
 
 
 ### Interpretation of P-value Histograms
 
-If all the null hypotheses are true (i.e., there is no effect), p-values should follow a uniform distribution. This means the histogram should show a relatively flat distribution of p-values across the range from 0 to 1, with each bin having roughly the same height (__Figure 8__). 
+Many figures in this section are from a [post in varianceexplained.org](http://varianceexplained.org/statistics/interpreting-pvalue-histogram/)
 
-![Figure_8: How p-values would look like if most or all our hypotheses were null](fig/null_pvalues.png)
+If all the null hypotheses are true (i.e., there is no effect), p-values should follow a uniform distribution. This means the histogram should show a relatively flat distribution of p-values across the range from 0 to 1, with each bin having roughly the same height. 
+
+![How p-values would look like if most or all our hypotheses were null](fig/null_pvalues.png)
 
 However, seeing this does not mean they actually are all null. It means that at most a small percentage of hypotheses are non-null and could be identified by a correction method. That is why applying an uncorrected rule like “Accept everything with p-value less than 0.05” is certain to give you many false discoveries. 
 
 If there are true effects present, you would expect to see an excess of low p-values (close to 0) compared to what would be expected under a uniform distribution (__Figure 9__). This indicates potential significant findings. A large spike near zero can indicate that many tests are finding significant results, suggesting the presence of true positives. 
 
-![Figure_9: A peak close to 0 is where our alternative hypotheses live- along with some potential false positives](fig/reg_pvalues.png)
+#### Why are p-values uniformly distributed under the null hypothesis?
+
+They are uniformly distributed under the null hypothesis by definition - unfortunately, this definition is rather un-intuitive. 
+
+Let's recap what we learned about test statistics and distributions. 
+We learned that in the t-test, the test statistic $t$ follows a *t-distribution* under the null hypothesis. So, when the null hypothesis is true, we expect the value of $t$ to be randomly drawn from a t-distribution.
+For demonstration purposes, we can simulate 2000 draws from a t-distribution (here, I choose the degrees of freedom to be $\nu = 5$, which is an arbitrary choice) and visualize their distribution.
+```{r}
+set.seed(55)
+ts <- rt(2000, df=5)
+data.frame(t=ts) %>% 
+  ggplot(aes(x=t))+
+  geom_histogram(binwidth=0.2)
+```
+Since we'll decide significance based on the absolute value of t, $|t|$, I'll calculate it here: 
+```{r}
+abs_t <- abs(ts)# take their absolute values
+data.frame(abs_t=abs_t) %>% 
+  ggplot(aes(x=abs_t))+
+  geom_histogram(binwidth=0.1)
+```
+
+This is our null distribution of absolute t-values. 
+In hypothesis testing, we ask: "What is the probability in the null distribution to observe a value at least as extreme as the observed $|t|$?" 
+So, what we're looking at to answer this question is the *cumulative distribution* of $|t|$. While in practice, we're looking at the theoretical cumulative distribution, we'll here look at the cumulative distribution of our simulation, hence an *empirical* cumulative distribution. 
+
+```{r}
+data.frame(abs_t = abs_t) %>% 
+  ggplot(aes(x=abs_t))+
+  stat_ecdf()
+```
+This cumulative distribution function answers the question "for a given value of $|t|$, how many other elements of the simulation are *smaller than* this value?". Which is exactly the opposite of what we're asking when calculating a p-value. In fact, the p-value is defined as $1-\text{CDF}(|t|)$, which looks like this:
+
+```{r}
+data.frame(abs_t = abs_t) %>% 
+  ggplot(aes(x=abs_t))+
+  geom_line(aes(y = 1 - ..y..), stat='ecdf')+
+  labs(y="1-ECDF")
+```
+
+Code adapted from [here](https://stackoverflow.com/questions/37221303/how-to-plot-reverse-complementary-ecdf-using-ggplot).
+So when we calculate a p-value, we (visually speaking) look up the observed value of $|t|$ (`abs_t`) on the x-axis, and match it to the corresponding 1-ECDF on the y-axis, which is the resulting $p$. 
+
+What does this tell us about the distribution of p-values? 
+We could go and slice the 1-ECDF into chunks of 5% of the data points:
+```{r}
+data.frame(abs_t = abs_t) %>% 
+  ggplot(aes(x=abs_t))+
+  geom_line(aes(y = 1 - ..y..), stat='ecdf')+
+  labs(y="1-ECDF")+
+  geom_hline(yintercept = seq(0,1,by=0.05),
+             col="gray")
+```
+
+The observations in each slice will make up one bin in the p-value histogram which we're going to create next.
+
+All of these chunks should contain about 5% of the p-values - **by the definition of the p-value via the cumulative distribution**.
+For instance, the upper  5% of the $|t|$-values will be between XXX and XXX, so we give them p-values between 0.00 and 0.05. The next 5% of the $|t|$-values will be between XXX and XXX, so we give them p-values between 0.05 and 0.10. And so on... resulting in the following p-value histogram again sliced by 5%-bins for demonstration:
+
+```{r}
+data.frame(abs_t = abs_t) %>% 
+  mutate(p = pt(abs_t, df=5,lower.tail=FALSE)*2) %>% 
+  ggplot(aes(p))+
+  geom_histogram(binwidth=0.05, boundary=0)
+```
+
+We could also define the p-value via the empirical null distribution:
+```{r}
+abs_t_vec <- abs_t
+data.frame(abs_t = abs_t) %>% 
+  rowwise() %>% 
+  mutate(p = mean(abs_t>abs_t_vec)) %>% 
+  ggplot(aes(p))+
+  geom_histogram(binwidth=0.05, boundary=0)
+```
+
+Again, each 5% bin contains 5% (=100) of the p-values, because the p-values are defined by the percentage of values of $|t|$ in the simulated null distribution which are smaller than the observed one. 
 
 
-A right-skewed distribution, with most p-values clustering towards 1 (__Figure 10__), might suggest that most tests are not finding significant results, indicating that there may be few true effects in the data.
+![A peak close to 0 is where our alternative hypotheses live- along with some potential false positives](fig/reg_pvalues.png)
 
-![Figure_10: Conservative p-values, something is wrong with your test!](fig/conservative_pvalues.png)
+
+A right-skewed distribution, with most p-values clustering towards 1, might suggest that most tests are not finding significant results, indicating that there may be few true effects in the data.
+
+![Conservative p-values, something is wrong with your test!](fig/conservative_pvalues.png)
 
 P-values are designed to be uniform under the null hypothesis. Therefore, if we observe deviations from this expectation, it should not lead us to conclude that there are no significant hypotheses. Instead, it suggests that there may be issues with our testing methodology. For example, our test assumptions might not align with the actual data distribution. It is possible that the test assumes a certain data distribution (like continuous or normal), which doesn't match the actual characteristics of our data—such as it being discrete or highly non-normal.
 
 Some histogram like shown in  __Figure 11__ might exhibit pronounced spikes at p-values near zero and near one. 
 
-![Figure_11: Bimodal p-values](fig/bimodal_pvalues.png)
+![Bimodal p-values](fig/bimodal_pvalues.png)
 
 This behavior often signals potential issues such as p-hacking or deficiencies in experimental design. For instance, in the context of a one-tailed test (e.g., assessing whether each gene increases expression in response to a drug), p-values nearing 1 may indicate significance in the opposite direction—instances where genes decreased their expression. If you wish to identify such cases, consider switching to a two-sided test. Alternatively, if these cases are irrelevant, filtering out instances where estimates point in that direction could be effective.
 
