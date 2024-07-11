@@ -2,7 +2,12 @@
 title: Overview
 ---
 
-# Summary
+## Authors
+
+Sarah Kaspar 
+Carolyn Mukiri Kambona
+
+## Summary
 
 At the end of this course, you will be able to:
 
