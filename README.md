@@ -3,4 +3,4 @@ This lesson was forked and further developed from [carolynmukirikambona/Multiple
 It is deployed [here](https://sarahkaspar.github.io/Multiple-Testing-tutorial-project/index.html).
 
 ## Authors
-Sarah Kaspar, Carolyn Mukiri Kambona
+Sarah Kaspar, Carolyn Mukiri Kambona, author 3
