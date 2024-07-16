@@ -20,7 +20,7 @@ exercises: 2
 
 Suppose the prevalence of a disease in the general population is 4%. In this population, lives a group of individuals who have all been exposed to air pollution. Concerned about their health, we decide to embark on a quest to uncover whether being exposed to air pollution influenced the risk of contracting this disease.
 
-![Figure_1: Disease prevalence in a population- Illustrating the proportion of individuals affected by the disease as 4% of the population](fig/01-Disease-prevalence.png)
+![Disease prevalence in a population- Illustrating the proportion of individuals affected by the disease as 4% of the population](fig/01-Disease-prevalence.png)
 
 ## Setting the null and alternative hypothesis
 
@@ -87,13 +87,14 @@ data <- table(rbinom(n=200, size=100, prob=0.04)) %>%
 
 # Plot the data
 data %>%
-  ggplot(aes(Var1, Freq, fill = factor(significant))) +
+  ggplot(aes(Var1, Freq, fill = significant)) +
   geom_col() +
   theme_bw() +
   labs(title="Figure_3: Test results of multiple testing ", x = "Number of patients with disease", y = "Frequency") +
-  scale_fill_manual(values = c("0" = "blue", "1" = "red"),
-                    labels = c("Not significant", "Significant"))
-
+  #scale_fill_manual(values = c("0" = "blue", "1" = "red"),
+   #                 labels = c("Not significant", "Significant"))
+  guides(fill = "none")+
+NULL
 ```
 
 We are interested in determining if the observed proportion significantly deviates from the expected proportion (0.4) in either direction (either higher or lower). As this is a two-tailed binomial test, we needed to adjust the bounds for what is considered "significant" based on the significance level of 0.05. We are interested in the extreme tails of the distribution that contain 2.5% of the data on each side.

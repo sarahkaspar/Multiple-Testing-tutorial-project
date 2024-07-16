@@ -1,5 +1,6 @@
 name: "Bot: Remove Temporary PR Branch"
 
+
 on:
   workflow_run:
     workflows: ["Bot: Send Close Pull Request Signal"]
