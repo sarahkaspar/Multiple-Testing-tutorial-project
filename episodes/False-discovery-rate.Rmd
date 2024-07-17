@@ -33,7 +33,7 @@ The Airway dataset contains gene expression data from a study investigating the 
 In differentially expressed genes (DEGs) analysis, thousands of statistical tests (one for each gene) are conducted, which increases the chance of false positives. Using the airway dataset, we can decide to analyze DEGs between treated and untreated samples. Here, the null hypothesis would state that there is no difference in gene expression between the two groups ( dexamethasone treated and untreated). The table below shows the first six rows of the generated p-values for each gene, the data which, we are going use to see how using FWER and FDR to controlling for false positive differ. 
 
 
-```{r display_table, results='asis', echo=FALSE}
+```{r display_table, results='asis', echo=FALSE, warning=FALSE, message=FALSE}
 library(knitr)
 library(tidyverse)
 # Read the CSV file with the generated p_values for each gene
@@ -57,12 +57,13 @@ Decomposing a p-value histogram involves analyzing the distribution of p-values 
 
 ![A p-value histogram decomposition (adapted from MSMB)](fig/p_value histogram decomposition.png)
 
-in reference to __figure 8__, We think of the p-values as coming from two components: The uniform component (the area in gray) which comes from tests where the null hypothesis is true, and an alternative component (the area in blue) which comes from tests where the alternative is true. These tend to have lower p-values.
+We think of the p-values as coming from two components: The uniform component (the area in gray) which comes from tests where the null hypothesis is true, and an alternative component (the area in blue) which comes from tests where the alternative is true. These tend to have lower p-values.
  
 Say, we determine some cut-off p-value, indicated by the red line. Then we can visually estimate what percentage of tests right at this threshold are false positives, namely by dividing the length of the light red segment by the overall length of the line. That’s the local __fdr__, and it applies to tests rejected just at this threshold. 
 Now we will probably reject all the tests below the threshold, and to get the fraction of false positives within those, we divide the dark gray area by the the total area to the left of the red line. This is the capital letter __FDR__ and it’s an average property of all tests rejected below the threshold.
 
 ![How the p-value histogram relates to the confusion matrix](fig/How p-value histogram relates to the confusion matrix.png)
+
 We can visualize again the connection of the p-value histogram to the confusion matrix. The four areas (dark blue, light blue, dark gray and light gray) correspond to the fractions of True Positives, False Negatives, False Positives and True Negatives, respectively, for the p-value threshold indicated by the red line.
 in the sace of differential expression of genes, if we set the threshold very low, we will have a low FDR (low fraction of false positives), but will miss many of the differentially expressed genes. When we move the red line to the right, that is increase the threshold, we’ll capture more and more of the differentially expressed genes, but at the cost of more and more false positives, and if we go too far, we will almost exclusively admit more False Positives.
 

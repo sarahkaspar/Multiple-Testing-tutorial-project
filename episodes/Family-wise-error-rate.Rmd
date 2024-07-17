@@ -130,7 +130,7 @@ Now, to calculate the probability of having any false positive within the set of
 
 The Bonferroni procedure adjusts the significance level for each individual test by dividing the desired overall significance level by the number of tests conducted (m).
 
-$$α_{\text{Bonf}}= α/m $$
+$$\alpha_{\text{Bonf}}= \alpha/m $$
 
 Where:
 
@@ -210,8 +210,49 @@ p.adjust(p_values, method = "bonferroni") < 0.05
 
 :::::::::::::::::::::::::::::::
 
-
 The conclusion is the same as when changing the significance level for each test.
+
+## Family-wise error rate and power
+
+### What is statistical power?
+Statistical power is the probability of detecting an effect with a statistical test, given that the effect really exists. Expressing this with the terms that we learned in this tutorial, power is defined as 
+
+$$ P(\text{rejection} | \text{null hypothesis is false}).$$
+
+
+:::::::::::: challenge
+Suppose we test a set of hypotheses. How does applying the Bonferroni correction impact the power of these tests?
+
+::::::::::::::: solution
+The Bonferroni correction decreases the power of the test, especially when we have many tests. 
+:::::::::::::::::::::::
+::::::::::::::::::::::
+
+### The number of tests matters
+
+Remember that the adjusted significance level depends on the number of tests that we conduct: 
+
+$$\alpha_{\text{Bonf}}= \alpha/m $$
+
+Let's look at some adjusted significance levels for different numbers of tests, given that we like to control the family-wise error rate at $\alpha_\text{FWER} = 0.05$:
+
+```{r}
+n_test <- seq(1,20000)
+alpha_adjusted <- 0.05/n_test
+
+data.frame(n_test,alpha_adjusted) %>% 
+ggplot(aes(x=n_test, y=log10(alpha_adjusted)))+
+  geom_line()
+
+```
+We see that the adjusted $\alpha$ is dropping quickly. For $20000$ tests, which is a reasonable number in genomic screens, alpha will be:
+
+```{r}
+last(alpha_adjusted)
+```
+
+We'll only reject the null for tests that produce a p-value $<0.0000025$, which means the chances of finding a hit are reduced drastically compared to before adjustment.
+
 
 ::::::::::::::::::::::::::::::::::::::: instructor
 
