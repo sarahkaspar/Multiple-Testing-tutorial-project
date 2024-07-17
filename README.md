@@ -1,3 +1,3 @@
-## buoyant-barnacles
+## Tutorial on multiple testing
 
-    This is the lesson repository for buoyant-barnacles
+   
