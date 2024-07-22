@@ -6,7 +6,7 @@ exercises: 2
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How does blub correcting for the family-wise error rate (FWER) affect the number of significant hits in large-scale data, such as RNA-Seq analysis of 20,000 human genes?
+- How does correcting for the family-wise error rate (FWER) affect the number of significant hits in large-scale data, such as RNA-Seq analysis of 20,000 human genes?
 - What is the interpretation of a p-value histogram, and how can it be used to assess the distribution of p-values in multiple testing scenarios?
 - How can the Benjamini-Hochberg method be applied to control the false discovery rate (FDR) in RNA-Seq data, and what are the benefits of using this method over FWER correction?
 
@@ -33,7 +33,7 @@ The Airway dataset contains gene expression data from a study investigating the 
 In differentially expressed genes (DEGs) analysis, thousands of statistical tests (one for each gene) are conducted, which increases the chance of false positives. Using the airway dataset, we can decide to analyze DEGs between treated and untreated samples. Here, the null hypothesis would state that there is no difference in gene expression between the two groups ( dexamethasone treated and untreated). The table below shows the first six rows of the generated p-values for each gene, the data which, we are going use to see how using FWER and FDR to controlling for false positive differ. 
 
 
-```{r display_table, results='asis', echo=FALSE}
+```{r display_table, results='asis', echo=FALSE, warning=FALSE, message=FALSE}
 library(knitr)
 library(tidyverse)
 # Read the CSV file with the generated p_values for each gene
@@ -57,12 +57,13 @@ Decomposing a p-value histogram involves analyzing the distribution of p-values 
 
 ![A p-value histogram decomposition (adapted from MSMB)](fig/p_value histogram decomposition.png)
 
-in reference to __figure 8__, We think of the p-values as coming from two components: The uniform component (the area in gray) which comes from tests where the null hypothesis is true, and an alternative component (the area in blue) which comes from tests where the alternative is true. These tend to have lower p-values.
+We think of the p-values as coming from two components: The uniform component (the area in gray) which comes from tests where the null hypothesis is true, and an alternative component (the area in blue) which comes from tests where the alternative is true. These tend to have lower p-values.
  
 Say, we determine some cut-off p-value, indicated by the red line. Then we can visually estimate what percentage of tests right at this threshold are false positives, namely by dividing the length of the light red segment by the overall length of the line. That’s the local __fdr__, and it applies to tests rejected just at this threshold. 
 Now we will probably reject all the tests below the threshold, and to get the fraction of false positives within those, we divide the dark gray area by the the total area to the left of the red line. This is the capital letter __FDR__ and it’s an average property of all tests rejected below the threshold.
 
 ![How the p-value histogram relates to the confusion matrix](fig/How p-value histogram relates to the confusion matrix.png)
+
 We can visualize again the connection of the p-value histogram to the confusion matrix. The four areas (dark blue, light blue, dark gray and light gray) correspond to the fractions of True Positives, False Negatives, False Positives and True Negatives, respectively, for the p-value threshold indicated by the red line.
 in the sace of differential expression of genes, if we set the threshold very low, we will have a low FDR (low fraction of false positives), but will miss many of the differentially expressed genes. When we move the red line to the right, that is increase the threshold, we’ll capture more and more of the differentially expressed genes, but at the cost of more and more false positives, and if we go too far, we will almost exclusively admit more False Positives.
 
@@ -95,18 +96,10 @@ data.frame(t=ts) %>%
 ```
 Since we'll decide significance based on the absolute value of t, $|t|$, I'll calculate it here: 
 ```{r}
-library(RColorBrewer)
-abs_t_vec <- abs_t
-
 abs_t <- abs(ts)# take their absolute values
 data.frame(abs_t=abs_t) %>% 
-  rowwise() %>% 
-  mutate(p = mean(abs_t>abs_t_vec)) %>% 
-  ungroup() %>% 
-  mutate(quantile = factor(ntile(abs_t,10)))%>% 
-  ggplot(aes(x=abs_t, fill=quantile))+
-  geom_histogram(bins = 100, boundary = 0)+
-  scale_fill_brewer(palette="Set3")
+  ggplot(aes(x=abs_t))+
+  geom_histogram(binwidth=0.1)
 ```
 
 This is our null distribution of absolute t-values. 
@@ -118,17 +111,17 @@ data.frame(abs_t = abs_t) %>%
   ggplot(aes(x=abs_t))+
   stat_ecdf()
 ```
-This cumulative distribution function answers the question: "For a given value of $|t|$, how many other elements of the simulation are *smaller than* this value?". Which is exactly the opposite of what we're asking when calculating a p-value. In fact, the p-value is defined as $1-\text{CDF}(|t|)$, which looks like this:
+This cumulative distribution function answers the question "for a given value of $|t|$, how many other elements of the simulation are *smaller than* this value?". Which is exactly the opposite of what we're asking when calculating a p-value. In fact, the p-value is defined as $1-\text{CDF}(|t|)$, which looks like this:
 
 ```{r}
 data.frame(abs_t = abs_t) %>% 
   ggplot(aes(x=abs_t))+
-  geom_line(aes(y = 1 - after_stat(y)), stat='ecdf')+
+  geom_line(aes(y = 1 - ..y..), stat='ecdf')+
   labs(y="1-ECDF")
 ```
 
 Code adapted from [here](https://stackoverflow.com/questions/37221303/how-to-plot-reverse-complementary-ecdf-using-ggplot).
-So when we calculate a p-value, we (visually speaking) look up the observed value of $|t|$ (`abs_t`) on the x-axis, and match it to the corresponding 1-ECDF on the y-axis, which is the resulting $p$ (what percentage of values in the null distribution is more extreme than the observed one?). 
+So when we calculate a p-value, we (visually speaking) look up the observed value of $|t|$ (`abs_t`) on the x-axis, and match it to the corresponding 1-ECDF on the y-axis, which is the resulting $p$. 
 
 What does this tell us about the distribution of p-values? 
 We could go and slice the 1-ECDF into chunks of 5% of the data points:
@@ -144,28 +137,26 @@ data.frame(abs_t = abs_t) %>%
 The observations in each slice will make up one bin in the p-value histogram which we're going to create next.
 
 All of these chunks should contain about 5% of the p-values - **by the definition of the p-value via the cumulative distribution**.
-For instance, the upper  5% of the $|t|$-values will be between 0 and ~0.1, so we give them p-values between 0.00 and 0.05. The next 5% of the $|t|$-values will be between ~0.1 and ~0.2, so we give them p-values between 0.05 and 0.10. And so on... resulting in the following p-value histogram, again sliced by 5%-bins for demonstration:
+For instance, the upper  5% of the $|t|$-values will be between XXX and XXX, so we give them p-values between 0.00 and 0.05. The next 5% of the $|t|$-values will be between XXX and XXX, so we give them p-values between 0.05 and 0.10. And so on... resulting in the following p-value histogram again sliced by 5%-bins for demonstration:
 
+```{r}
+data.frame(abs_t = abs_t) %>% 
+  mutate(p = pt(abs_t, df=5,lower.tail=FALSE)*2) %>% 
+  ggplot(aes(p))+
+  geom_histogram(binwidth=0.05, boundary=0)
+```
+
+We could also define the p-value via the empirical null distribution:
 ```{r}
 abs_t_vec <- abs_t
 data.frame(abs_t = abs_t) %>% 
   rowwise() %>% 
   mutate(p = mean(abs_t>abs_t_vec)) %>% 
   ggplot(aes(p))+
-  geom_histogram(binwidth=0.05, boundary=0, color="gray")
-```
-
-Each 5% bin contains 5% (=100) of the p-values, because the p-values are defined by the percentage of values of $|t|$ in the simulated null distribution which are smaller than the observed one. 
-
-In practice, we often don't use an empirical (i.e. simulated) null distribution, but a theoretical distribution function. In this case, this is `pt`, the cumulative probability function of $t$. If we use this for generating p-values, the histogram will have little ups and downs due to the random numbers in our simulation:
-
-```{r}
-data.frame(abs_t = abs_t) %>% 
-  mutate(p = pt(abs_t, df=5,lower.tail=FALSE)*2) %>% # calculate p-value based on pt
-  ggplot(aes(p))+
   geom_histogram(binwidth=0.05, boundary=0)
 ```
 
+Again, each 5% bin contains 5% (=100) of the p-values, because the p-values are defined by the percentage of values of $|t|$ in the simulated null distribution which are smaller than the observed one. 
 
 
 ![A peak close to 0 is where our alternative hypotheses live- along with some potential false positives](fig/reg_pvalues.png)
