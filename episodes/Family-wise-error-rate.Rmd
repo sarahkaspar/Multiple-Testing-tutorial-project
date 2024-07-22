@@ -16,6 +16,11 @@ exercises: 2
 - Learn the Bonferroni procedure for adjusting p-values to maintain the FWER at a specified level, and recognize when alternative methods may be more appropriate or effective in controlling for multiple comparisons.
 :::::::::::::::::::::::::::::::::::::::::::
 
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+```
+
+
 In statistical hypothesis testing, conducting multiple tests simultaneously increases the likelihood of making at least one false-positive error. In this episode, we will explore the family-wise error rate (FWER), and discuss methods to account for multiple comparisons, using practical examples.
 
 ## A Multi-Hypothesis Testing Framework
