@@ -1,7 +1,7 @@
 ---
-title: "Types of errors"
+title: "Types of errors and error rates"
 teaching: 10
-exercises: 2
+exercises: 0
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions
@@ -54,7 +54,7 @@ Cancer screening exemplifies a medical testing paradox, where the interpretation
 Let us say that in a sample of 1000 women, 1% (10) have cancer, while the remaining 99% (990) do not have cancer. This gives us the prevalence of a disease. However, after testing, the test results show that out of the 10 women with cancer, 9 receive a __true positive__ result (correctly identified as positive), and 1 receives a __false negative__ result (incorrectly identified as negative). False negatives can delay the diagnosis and treatment of cancer, allowing the disease to progress unchecked and potentially reducing the effectiveness of treatment options. This can result in poorer outcomes and decreased survival rates for patients.
 In addition, out of the 990 women without cancer, 89 receive __false positive__ results (incorrectly identified as positive), and 901 receive __true negative__ results (correctly identified as negative). False positive can lead to unnecessary follow-up tests, procedures, and treatments for individuals who do not have cancer. It can cause anxiety, physical discomfort, and financial burden for patients, as well as strain on healthcare resources.
 
-![Figure_5: A tree diagram describing the outcomes of a breast cancer test](fig/cancer paradox.png)
+![A tree diagram describing the outcomes of a breast cancer test](fig/cancer-paradox.png)
 
 We could interpret that:
 
@@ -74,15 +74,41 @@ In many real-world scenarios, there is a trade-off between Type I and Type II er
 
 Effective evaluation of Type I and Type II errors necessitates a comprehensive consideration of the associated costs, risks, and ethical implications. This holistic approach enhances the validity and reliability of research findings by ensuring that decisions regarding hypothesis acceptance or rejection are informed not only by statistical significance but also by the potential real-world consequences of both false positives and false negatives. By carefully weighing these factors, researchers can make informed decisions that minimize the likelihood of erroneous conclusions while maximizing the practical relevance and ethical soundness of their findings.
 
+
+## Error rates
+
+In the following chapters, we'll see different methods that all aim to control for false positives in different settings. 
+
+The main distinction between them lies in the *error rate* that they control for. We'll get to know three of them:
+
+- The comparison-wise error rate, where you use the p-value as you obtain it from each individual test (no correction). 
+- The family-wise error rate, where we like to avoid *any* false positives. 
+- The false-discovery rate, where we like to control the *fraction* of false positives within our hits. 
+
+In terms of settings, we'll see screening scenarios and multiple comparisons, and in both settings, different methods exist to control for the different error rates.
+
+The plethora of methods can often be overwhelming, therefore it's good to keep in mind that most of the time in practice, the workflow can be broken down into three simple steps: 
+
+1. Clearly define your **research question**, and describe the testing scenario.  
+2. Based on your research question, choose an appropriate **error rate** that you need to control for. 
+3. Choose a **method** that controls for the selected error rate that applies for the testing scenario at hand. 
+
+Choosing the error rate is often a philosophical question. Before we dive into the details of the individual methods, let's get an overview on the three error rates we're considering. Which one to choose depends on how the hypothesis tests in your scenario are connected.
+
+![Which error rate should you control for?](fig/error-rates.png)
+
+- If each of these tests answers a separate research question, you can apply the comparison-wise error rate, which means you don't have to correct anything. 
+- Sometimes, one incorrect rejection changes the overall conclusion in your research setting. For example, if you decide on the safety of a chemical, which is a mixture of ingredients. You can ask for each ingredient whether it's safe (null hypothesis: it's safe). If you all null hypohteses are true (all ingredients are safe), you'd like to conclude that the entire chemical is safe. However, if you falsely reject one individual null hypothesis, this will change the overall conclusion (you falsely call the chemical unsafe). Therefore, you'd like to control the probability of making any false rejections, which is called the family-wise error rate. 
+- In many scenarios, a few false positives won't change the overall conclusion. For example, in biological screens, we aim for a hit list of candidate genes/proteins/substances that play a role in a process of interest. We can then further verify candidates, or identify pathways that are over-represented in the hits. For this, we can live with a few false positives, but we'd like to make sure that *most of* what we call a hit, actually *is* a hit. For such scenarios, we control for the *false discovery rate*: the percentage of false positives among the hits. 
+
+
+
+
 ::::::::::::::::::::::::::::::::::::::: instructor
 
 Inline instructor notes can help inform instructors of timing challenges
 associated with the lessons. They appear in the "Instructor View"
 ::::::::::::::::::
-
-
-
-
 
 
 

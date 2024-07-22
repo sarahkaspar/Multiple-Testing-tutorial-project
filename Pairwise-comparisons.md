@@ -45,7 +45,7 @@ Table: Table 2: CRP values of individuals in the four exposure groups
 
 In this case the "Exposure" column is a categorical variable with four groups of exposure levels (Low_exposure, Moderate_exposure, High_exposure, and Very_high_exposure). 
 
-<img src="fig/Pairwise comparisons-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
+<img src="fig/Pairwise-comparisons-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
 
 Generally, from the above plot, as exposure level increases from low to very high, we might expect to see a corresponding increase in the median exposure level and higher median C-reactive protein (CRP) values.
 

@@ -20,7 +20,7 @@ exercises: 2
 
 Suppose the prevalence of a disease in the general population is 4%. In this population, lives a group of individuals who have all been exposed to air pollution. Concerned about their health, we decide to embark on a quest to uncover whether being exposed to air pollution influenced the risk of contracting this disease.
 
-![Figure_1: Disease prevalence in a population- Illustrating the proportion of individuals affected by the disease as 4% of the population](fig/01-Disease-prevalence.png)
+![Disease prevalence in a population- Illustrating the proportion of individuals affected by the disease as 4% of the population](fig/01-Disease-prevalence.png)
 
 ## Setting the null and alternative hypothesis
 
@@ -78,7 +78,7 @@ To do this, we write a program in R, which simulates study results when the prev
 
 
 
-<img src="fig/What is multiple testing-rendered-Simulating 200 test groups-1.png" style="display: block; margin: auto;" />
+<img src="fig/What-is-multiple-testing-rendered-Simulating 200 test groups-1.png" style="display: block; margin: auto;" />
 
 We are interested in determining if the observed proportion significantly deviates from the expected proportion (0.4) in either direction (either higher or lower). As this is a two-tailed binomial test, we needed to adjust the bounds for what is considered "significant" based on the significance level of 0.05. We are interested in the extreme tails of the distribution that contain 2.5% of the data on each side.
 
