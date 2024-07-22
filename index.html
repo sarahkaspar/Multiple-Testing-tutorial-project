@@ -197,12 +197,23 @@
                   <div class="accordion accordion-flush" id="accordionFlushcurrent">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-headingcurrent">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsecurrent" aria-expanded="true" aria-controls="flush-collapsecurrent">
         <span class="visually-hidden">Current Chapter</span>
         <span class="current-chapter">
         Summary and Setup
         </span>
-      
+      </button>
     </div><!--/div.accordion-header-->
+
+    <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
+      <div class="accordion-body">
+        <ul><li><a href="#authors">Authors</a></li>
+<li><a href="#summary">Summary</a></li>
+<li><a href="#tools-required">Tools Required</a></li>
+<li><a href="#data-sets">Data Sets</a></li>
+<li><a href="#preparation">Preparation</a></li>
+        </ul></div><!--/div.accordion-body-->
+    </div><!--/div.accordion-collapse-->
 
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
@@ -210,7 +221,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="What%20is%20multiple%20testing.html">1. What is multiple testing</a>
+        <a href="What-is-multiple-testing.html">1. What is multiple testing</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -219,7 +230,7 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="Types%20of%20errors.html">2. Types of errors</a>
+        <a href="Types-of-errors.html">2. Types of errors and error rates</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -228,7 +239,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="Family-wise%20error%20rate.html">3. Family-wise error rate</a>
+        <a href="Family-wise-error-rate.html">3. Family-wise error rate</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -237,7 +248,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="False%20discovery%20rate.html">4. False discovery rate</a>
+        <a href="False-discovery-rate.html">4. False discovery rate</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -246,7 +257,7 @@
 <div class="accordion accordion-flush" id="accordionFlush6">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading6">
-        <a href="Pairwise%20comparisons.html">5. Pairwise comparisons</a>
+        <a href="Pairwise-comparisons.html">5. Pairwise comparisons</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -312,11 +323,11 @@
         <!-- START: inst/pkgdown/templates/content-syllabus.html -->
   <div class="col-xl-8 col-lg-12 primary-content">
     <nav class="lesson-content mx-md-4" aria-label="Next Chapter"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
-        <a class="chapter-link float-end" href="What%20is%20multiple%20testing.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="What-is-multiple-testing.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
-        <a class="chapter-link float-end" href="What%20is%20multiple%20testing.html" rel="next">Next: What is multiple... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="What-is-multiple-testing.html" rel="next">Next: What is multiple... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <hr></nav><main id="main-content" class="main-content"><h1 class="schedule-heading">Summary and Setup</h1>
       
@@ -329,9 +340,13 @@ any links that you are not going to use.
  -->
 
 
-      <section id="setup"><div class="section level1">
-<h1 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a></h1>
-<p>At the end of this course, you will be able to:</p>
+      <section id="setup"><section><h2 class="section-heading" id="authors">Authors<a class="anchor" aria-label="anchor" href="#authors"></a>
+<a class="anchor" aria-label="anchor" href="#authors"></a></h2>
+<hr class="half-width"><p>Sarah Kaspar</p>
+<p>Carolyn Mukiri Kambona</p>
+</section><section><h2 class="section-heading" id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
+<a class="anchor" aria-label="anchor" href="#summary"></a></h2>
+<hr class="half-width"><p>At the end of this course, you will be able to:</p>
 <ul><li>comprehend the concept of multiple testing and its implications,
 including the increased likelihood of observing low p-values by
 chance.</li>
@@ -353,24 +368,22 @@ based on their research questions.</li>
 <li>acquire a structured approach to selecting error rates and methods
 tailored to their research objectives and data characteristics,
 enhancing the rigor and validity of their statistical analyses.</li>
-</ul><div class="section level2">
-<h2 id="tools-required">Tools Required<a class="anchor" aria-label="anchor" href="#tools-required"></a></h2>
-<ul><li>Statistical software R (<a href="https://cran.r-project.org/" class="external-link">download</a>)</li>
+</ul></section><section><h2 class="section-heading" id="tools-required">Tools Required<a class="anchor" aria-label="anchor" href="#tools-required"></a>
+<a class="anchor" aria-label="anchor" href="#tools-required"></a></h2>
+<hr class="half-width"><ul><li>Statistical software R (<a href="https://cran.r-project.org/" class="external-link">download</a>)</li>
 <li>Basic knowledge of programming in R is beneficial for understanding
 the coding examples.</li>
-</ul></div>
-<div class="section level2">
-<h2 id="data-sets">Data Sets<a class="anchor" aria-label="anchor" href="#data-sets"></a></h2>
-<ul><li>For simulation and demonstration purposes, you may use synthetic
+</ul></section><section><h2 class="section-heading" id="data-sets">Data Sets<a class="anchor" aria-label="anchor" href="#data-sets"></a>
+<a class="anchor" aria-label="anchor" href="#data-sets"></a></h2>
+<hr class="half-width"><ul><li>For simulation and demonstration purposes, you may use synthetic
 datasets generated within the tutorial or any relevant datasets from
 your field of study.</li>
 <li>Optionally, you can use RNA-Seq data with a large number of genes
 (e.g., 20,000 human genes) to illustrate the challenges of multiple
 testing correction for high-dimensional data.</li>
-</ul></div>
-<div class="section level2">
-<h2 id="preparation">Preparation<a class="anchor" aria-label="anchor" href="#preparation"></a></h2>
-<p>Ensure that R is installed and functional on your system. Familiarize
+</ul></section><section><h2 class="section-heading" id="preparation">Preparation<a class="anchor" aria-label="anchor" href="#preparation"></a>
+<a class="anchor" aria-label="anchor" href="#preparation"></a></h2>
+<hr class="half-width"><p>Ensure that R is installed and functional on your system. Familiarize
 yourself with basic statistical concepts such as hypothesis testing,
 p-values, and ANOVA, as these will provide a foundation for
 understanding multiple testing procedures.</p>
@@ -378,15 +391,12 @@ understanding multiple testing procedures.</p>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
-</div>
-</div>
-
-      </section></main><nav class="bottom-pagination mx-md-4" aria-label="Next Chapter"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
-        <a class="chapter-link float-end" href="What%20is%20multiple%20testing.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+</section></section></main><nav class="bottom-pagination mx-md-4" aria-label="Next Chapter"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
+        <a class="chapter-link float-end" href="What-is-multiple-testing.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
-        <a class="chapter-link float-end" href="What%20is%20multiple%20testing.html" rel="next">Next: What is multiple... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="What-is-multiple-testing.html" rel="next">Next: What is multiple... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
     </nav></div>
 <!-- END  : inst/pkgdown/templates/content-syllabus.html -->
@@ -401,7 +411,7 @@ any links that you are not going to use.
 	
         | <a href="https://example.com/FIXME-template-source/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
         | <a href="https://example.com/FIXME-template-source/" class="external-link">Source</a></p>
-				<p><a href="https://example.com/FIXME-template-source/blob/main/CITATION" class="external-link">Cite</a> | <a href="mailto:carolyn.mukiri@embl.de">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
+				<p><a href="https://example.com/FIXME-template-source/blob/main/CITATION" class="external-link">Cite</a> | <a href="mailto:sarah.kaspar@embl.de">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
 			</div>
 			<div class="col-md-6">
 
@@ -424,14 +434,14 @@ any links that you are not going to use.
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/TrainingMaterial/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "software, data, lesson, The Carpentries",
+  "keywords": "software, data, lesson, statistics",
   "name": "Multiple Testing",
   "creativeWorkStatus": "active",
   "url": "https://FIXME-template-source.github.io/NA/index.html",
   "identifier": "https://FIXME-template-source.github.io/NA/index.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-07-16",
-  "datePublished": "2024-07-16"
+  "dateModified": "2024-07-22",
+  "datePublished": "2024-07-22"
 }
 
   </script><script>
