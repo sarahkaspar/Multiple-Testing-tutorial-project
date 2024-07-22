@@ -417,31 +417,27 @@ Individual Hypotheses (Effects of Air Pollution on Disease
 Prevalence)</div>
 </figure><hr>
 <h3 id="Family-wise-error-rate-figure-2">Figure 2</h3>
-<figure><img src="fig/Family-wise-error-rate-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><hr></section><section id="False-discovery-rate"><h2 class="section-heading"><a href="False-discovery-rate.html">False discovery rateIntroduction<a class="anchor" aria-label="anchor" href="#introduction"></a></a></h2>
+<figure><img src="fig/Family-wise-error-rate-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><hr>
+<h3 id="Family-wise-error-rate-figure-3">Figure 3</h3>
+<p><img src="fig/Family-wise-error-rate-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" class="figure">
+We see that the adjusted <span class="math inline">\(\alpha\)</span> is
+dropping quickly. For <span class="math inline">\(20000\)</span> tests,
+which is a reasonable number in genomic screens, alpha will be:</p>
+<hr></section><section id="False-discovery-rate"><h2 class="section-heading"><a href="False-discovery-rate.html">False discovery rateIntroduction<a class="anchor" aria-label="anchor" href="#introduction"></a>The Theory of P-value Histograms<a class="anchor" aria-label="anchor" href="#the-theory-of-p-value-histograms"></a>The False Discovery Rate<a class="anchor" aria-label="anchor" href="#the-false-discovery-rate"></a>Wrap up<a class="anchor" aria-label="anchor" href="#wrap-up"></a></a></h2>
 <hr class="half-width">
 <h3 id="False-discovery-rate-figure-1">Figure 1</h3>
-<p aria-hidden="true">Image 1 of 1: ‘A p-value histogram decomposition (adapted from MSMB)’</p>
-<figure><img src="fig/p_value%20histogram%20decomposition.png" alt="A p-value histogram decomposition (adapted from MSMB)" class="figure mx-auto d-block"><div class="figcaption">A p-value histogram decomposition (adapted from
-MSMB)</div>
-</figure><hr>
+<figure><img src="fig/False-discovery-rate-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><hr>
 <h3 id="False-discovery-rate-figure-2">Figure 2</h3>
-<p aria-hidden="true">Image 1 of 1: ‘How the p-value histogram relates to the confusion matrix’</p>
-<figure><img src="fig/How%20p-value%20histogram%20relates%20to%20the%20confusion%20matrix.png" alt="How the p-value histogram relates to the confusion matrix" class="figure mx-auto d-block"><div class="figcaption">How the p-value histogram relates to the
-confusion matrix</div>
-</figure><hr>
-<h3 id="False-discovery-rate-figure-3">Figure 3</h3>
-<p aria-hidden="true">Image 1 of 1: ‘How p-values would look like if most or all our hypotheses were null’</p>
-<figure><img src="fig/null_pvalues.png" alt="How p-values would look like if most or all our hypotheses were null" class="figure mx-auto d-block"><div class="figcaption">How p-values would look like if most or all our
-hypotheses were null</div>
-</figure><hr>
-<h3 id="False-discovery-rate-figure-4">Figure 4</h3>
-<p><img src="fig/False-discovery-rate-rendered-unnamed-chunk-1-1.png" style="display: block; margin: auto;" class="figure">
-Since we’ll decide significance based on the absolute value of t, <span class="math inline">\(|t|\)</span>, I’ll calculate it here:</p>
+<p><img src="fig/composition-of-pvalues.png" class="figure"> Together, the
+alternative and null fraction give us a p-value histogram as the one
+observed for the <code>airway</code> data.</p>
 <hr>
+<h3 id="False-discovery-rate-figure-3">Figure 3</h3>
+<figure><img src="fig/False-discovery-rate-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><hr>
+<h3 id="False-discovery-rate-figure-4">Figure 4</h3>
+<figure><img src="fig/False-discovery-rate-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><hr>
 <h3 id="False-discovery-rate-figure-5">Figure 5</h3>
-<figure><img src="fig/False-discovery-rate-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><hr>
-<h3 id="False-discovery-rate-figure-6">Figure 6</h3>
-<p><img src="fig/False-discovery-rate-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" class="figure">
+<p><img src="fig/False-discovery-rate-rendered-unnamed-chunk-6-1.png" style="display: block; margin: auto;" class="figure">
 This cumulative distribution function answers the question “for a given
 value of <span class="math inline">\(|t|\)</span>, how many other
 elements of the simulation are <em>smaller than</em> this value?”. Which
@@ -449,36 +445,19 @@ is exactly the opposite of what we’re asking when calculating a p-value.
 In fact, the p-value is defined as <span class="math inline">\(1-\text{CDF}(|t|)\)</span>, which looks like
 this:</p>
 <hr>
-<h3 id="False-discovery-rate-figure-7">Figure 7</h3>
-<figure><img src="fig/False-discovery-rate-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><hr>
-<h3 id="False-discovery-rate-figure-8">Figure 8</h3>
-<figure><img src="fig/False-discovery-rate-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><hr>
-<h3 id="False-discovery-rate-figure-9">Figure 9</h3>
-<figure><img src="fig/False-discovery-rate-rendered-unnamed-chunk-6-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><hr>
-<h3 id="False-discovery-rate-figure-10">Figure 10</h3>
+<h3 id="False-discovery-rate-figure-6">Figure 6</h3>
 <figure><img src="fig/False-discovery-rate-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><hr>
-<h3 id="False-discovery-rate-figure-11">Figure 11</h3>
-<p aria-hidden="true">Image 1 of 1: ‘A peak close to 0 is where our alternative hypotheses live- along with some potential false positives’</p>
-<figure><img src="fig/reg_pvalues.png" alt="A peak close to 0 is where our alternative hypotheses live- along with some potential false positives" class="figure mx-auto d-block"><div class="figcaption">A peak close to 0 is where our alternative
-hypotheses live- along with some potential false positives</div>
-</figure><hr>
-<h3 id="False-discovery-rate-figure-12">Figure 12</h3>
-<p aria-hidden="true">Image 1 of 1: ‘Conservative p-values, something is wrong with your test!’</p>
-<figure><img src="fig/conservative_pvalues.png" alt="Conservative p-values, something is wrong with your test!" class="figure mx-auto d-block"><div class="figcaption">Conservative p-values, something is wrong with
-your test!</div>
-</figure><hr>
-<h3 id="False-discovery-rate-figure-13">Figure 13</h3>
-<p aria-hidden="true">Image 1 of 1: ‘Bimodal p-values’</p>
-<figure><img src="fig/bimodal_pvalues.png" alt="Bimodal p-values" class="figure mx-auto d-block"><div class="figcaption">Bimodal p-values</div>
-</figure><hr>
-<h3 id="False-discovery-rate-figure-14">Figure 14</h3>
+<h3 id="False-discovery-rate-figure-7">Figure 7</h3>
 <figure><img src="fig/False-discovery-rate-rendered-unnamed-chunk-8-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><hr>
-<h3 id="False-discovery-rate-figure-15">Figure 15</h3>
+<h3 id="False-discovery-rate-figure-8">Figure 8</h3>
+<figure><img src="fig/False-discovery-rate-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><hr>
+<h3 id="False-discovery-rate-figure-9">Figure 9</h3>
 <figure><img src="fig/False-discovery-rate-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><hr>
-<h3 id="False-discovery-rate-figure-16">Figure 16</h3>
-<figure><img src="fig/False-discovery-rate-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><hr>
-<h3 id="False-discovery-rate-figure-17">Figure 17</h3>
-<figure><img src="fig/False-discovery-rate-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><hr></section><section id="Pairwise-comparisons"><h2 class="section-heading"><a href="Pairwise-comparisons.html">Pairwise comparisonsPairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons"></a></a></h2>
+<h3 id="False-discovery-rate-figure-10">Figure 10</h3>
+<p aria-hidden="true">Image 1 of 1: ‘A p-value histogram decomposition (adapted from MSMB)’</p>
+<figure><img src="fig/p_value%20histogram%20decomposition.png" alt="A p-value histogram decomposition (adapted from MSMB)" class="figure mx-auto d-block"><div class="figcaption">A p-value histogram decomposition (adapted from
+MSMB)</div>
+</figure><hr></section><section id="Pairwise-comparisons"><h2 class="section-heading"><a href="Pairwise-comparisons.html">Pairwise comparisonsPairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons"></a></a></h2>
 <hr class="half-width">
 <h3 id="Pairwise-comparisons-figure-1">Figure 1</h3>
 <figure><img src="fig/Pairwise-comparisons-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><hr>

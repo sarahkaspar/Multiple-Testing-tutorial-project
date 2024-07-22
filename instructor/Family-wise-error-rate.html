@@ -472,7 +472,7 @@ levels of ozone develop the disease.</p>
 <span></span>
 <span><span class="fu">mosaicplot</span><span class="op">(</span><span class="fu">t</span><span class="op">(</span><span class="va">data</span><span class="op">)</span>,main<span class="op">=</span><span class="st">""</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="../fig/Family-wise-error-rate-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Let us assume we conduct statistical tests for each of these
+<figure><img src="../fig/Family-wise-error-rate-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Let us assume we conduct statistical tests for each of these
 hypotheses, resulting in p-values for each test. For simplicity, let us
 maintain our significance level at <span class="math inline">\(\alpha=0.05\)</span> for each individual test. We
 can conduct binomial tests for each hypothesis and calculate the
@@ -532,7 +532,7 @@ positive?</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>We can use R to calculate the probability of at least one false
 positive for our example with three tests:</li>
@@ -666,7 +666,7 @@ FWER=0.05?</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>You can look up the function as follows:</li>
 </ol><div class="codewrapper sourceCode" id="cb11">
@@ -734,7 +734,7 @@ correction impact the power of these tests?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>The Bonferroni correction decreases the power of the test, especially
 when we have many tests.</p>
@@ -763,25 +763,20 @@ of tests, given that we like to control the family-wise error rate at
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">n_test</span>, y<span class="op">=</span><span class="fu">log10</span><span class="op">(</span><span class="va">alpha_adjusted</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in data.frame(n_test, alpha_adjusted) %&gt;% ggplot(aes(x = n_test, : could not find function "%&gt;%"</code></pre>
-</div>
-<p>We see that the adjusted <span class="math inline">\(\alpha\)</span>
-is dropping quickly. For <span class="math inline">\(20000\)</span>
-tests, which is a reasonable number in genomic screens, alpha will
-be:</p>
-<div class="codewrapper sourceCode" id="cb18">
+<p><img src="../fig/Family-wise-error-rate-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" class="figure">
+We see that the adjusted <span class="math inline">\(\alpha\)</span> is
+dropping quickly. For <span class="math inline">\(20000\)</span> tests,
+which is a reasonable number in genomic screens, alpha will be:</p>
+<div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">last</span><span class="op">(</span><span class="va">alpha_adjusted</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in last(alpha_adjusted): could not find function "last"</code></pre>
+<pre class="output" tabindex="0"><code>[1] 2.5e-06</code></pre>
 </div>
 <p>We’ll only reject the null for tests that produce a p-value <span class="math inline">\(&lt;0.0000025\)</span>, which means the chances of
 finding a hit are reduced drastically compared to before adjustment.</p>
@@ -790,7 +785,7 @@ finding a hit are reduced drastically compared to before adjustment.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
