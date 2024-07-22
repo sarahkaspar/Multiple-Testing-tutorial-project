@@ -30,7 +30,34 @@ In high-throughput experiments like RNA-Seq, we often conduct thousands of stati
 
 The Airway dataset contains gene expression data from a study investigating the effects of dexamethasone (a corticosteroid medication) on airway smooth muscle cells. The dataset is part of the airway package in Bioconductor, a project that provides tools for the analysis and comprehension of high-throughput genomic data.
 
-In differentially expressed genes (DEGs) analysis, thousands of statistical tests (one for each gene) are conducted, which increases the chance of false positives. Using the airway dataset, we can decide to analyze DEGs between treated and untreated samples. Here, the null hypothesis would state that there is no difference in gene expression between the two groups ( dexamethasone treated and untreated). The table below shows the first six rows of the generated p-values for each gene, the data which, we are going use to see how using FWER and FDR to controlling for false positive differ. 
+In differential expression analysis, thousands of statistical tests are conducted: For each gene, one can test whether its expression is different in cells with dexamethasone treatment, compareed to cells without treatment. If the expression differs between the two condition, we call the gene differentially expressed (DE). 
+Like in the previous example, we have a set up null hypotheses: 
+
+$H_{0,1}$: Gene 1 is not DE. 
+
+$H_{0,2}$: Gene 2 is not DE. 
+
+...
+
+$H_{0,20000}$: Gene 20000 is not DE. 
+
+Unlike in the air pollution example, our question is not whether *any* of the genes is DE, but rather *which ones*: We'd like to come up with a hit list of genes that can be further investigated.
+
+This is how the p-values are created:
+
+```r
+library(DESeq2)
+```
+
+If you like to work with them without running the code, you can load pre-computed p-values  as follows:
+
+```r
+### HERE SHOULD BE CODE FOR LOADING THE DATA
+```
+
+
+
+The table below shows the first six rows of the generated p-values for each gene, the data which, we are going use to see how using FWER and FDR to controlling for false positive differ. 
 
 
 
@@ -45,48 +72,46 @@ Table: Table 1: P_Values for each analysed gene
 |ENSG00000000938 | 0.6215698|
 |ENSG00000000971 | 0.0885597|
 
-## The Theory of P-value Histograms
+20000 p-values are too many to list them all, but we can look at their distribution by visualizing a p-value histogram. A p-value histogram is a graphical representation that displays the distribution of p-values obtained from multiple hypothesis tests. It can help us in assessing the presence of true effects versus null effects and in understanding the overall behavior of the tests. It can also help us to better control for false positives. To understand how this works, we'll have to look into the theory. In the next section, we'll learn 
 
-A p-value histogram is a graphical representation that displays the distribution of p-values obtained from multiple hypothesis tests. When conducting a large number of statistical tests, such as in genome-wide association studies or RNA-Seq analysis, p-value histograms provide a visual tool to assess the behavior and distribution of p-values across all tests. This helps in assessing the presence of true effects versus null effects and in understanding the overall behavior of the tests.
+- that a p-value histogram is composed of two fractions: the null and the alternative 
+- what behavior we expect from the null fraction
 
-In hypothesis testing, a p-value represents the probability of observing the test results, or more extreme results, given that the null hypothesis is true. When performing multiple hypothesis tests, we obtain a set of p-values, one for each test.
+Understanding this will provide us with a tool for controlling the False discovery rate.
+
+# The Theory of P-value Histograms
 
 To create a p-value histogram, we plot the p-values on the x-axis, typically ranging from 0 to 1. The y-axis represents the frequency (or count) of p-values falling within specific bins (intervals) of the x-axis.
-
-### Decompose a P-value Histogram
-
-Decomposing a p-value histogram involves analyzing the distribution of p-values to understand the underlying behavior of your hypothesis tests. This process can help you identify whether your results are due to true effects, random chance, or other factors. 
-
-![A p-value histogram decomposition (adapted from MSMB)](fig/p_value histogram decomposition.png)
-
-We think of the p-values as coming from two components: The uniform component (the area in gray) which comes from tests where the null hypothesis is true, and an alternative component (the area in blue) which comes from tests where the alternative is true. These tend to have lower p-values.
- 
-Say, we determine some cut-off p-value, indicated by the red line. Then we can visually estimate what percentage of tests right at this threshold are false positives, namely by dividing the length of the light red segment by the overall length of the line. That’s the local __fdr__, and it applies to tests rejected just at this threshold. 
-Now we will probably reject all the tests below the threshold, and to get the fraction of false positives within those, we divide the dark gray area by the the total area to the left of the red line. This is the capital letter __FDR__ and it’s an average property of all tests rejected below the threshold.
-
-![How the p-value histogram relates to the confusion matrix](fig/How p-value histogram relates to the confusion matrix.png)
-
-We can visualize again the connection of the p-value histogram to the confusion matrix. The four areas (dark blue, light blue, dark gray and light gray) correspond to the fractions of True Positives, False Negatives, False Positives and True Negatives, respectively, for the p-value threshold indicated by the red line.
-in the sace of differential expression of genes, if we set the threshold very low, we will have a low FDR (low fraction of false positives), but will miss many of the differentially expressed genes. When we move the red line to the right, that is increase the threshold, we’ll capture more and more of the differentially expressed genes, but at the cost of more and more false positives, and if we go too far, we will almost exclusively admit more False Positives.
+Let's do this for the `airway` p-values.
 
 
-### Interpretation of P-value Histograms
+```r
+gene_pvalues %>% 
+  ggplot(aes(x=pvalue))+
+  geom_histogram(binwidth=0.01)
+```
 
-Many figures in this section are from a [post in varianceexplained.org](http://varianceexplained.org/statistics/interpreting-pvalue-histogram/)
+```{.warning}
+Warning: Removed 51 rows containing non-finite values (`stat_bin()`).
+```
 
-If all the null hypotheses are true (i.e., there is no effect), p-values should follow a uniform distribution. This means the histogram should show a relatively flat distribution of p-values across the range from 0 to 1, with each bin having roughly the same height. 
+<img src="fig/False-discovery-rate-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
 
-![How p-values would look like if most or all our hypotheses were null](fig/null_pvalues.png)
+## A p-value histogram is composed of two fractions
 
-However, seeing this does not mean they actually are all null. It means that at most a small percentage of hypotheses are non-null and could be identified by a correction method. That is why applying an uncorrected rule like “Accept everything with p-value less than 0.05” is certain to give you many false discoveries. 
+We can think of the p-value histogram as being composed of two fractions: the alternative and the null fraction.
 
-If there are true effects present, you would expect to see an excess of low p-values (close to 0) compared to what would be expected under a uniform distribution (__Figure 9__). This indicates potential significant findings. A large spike near zero can indicate that many tests are finding significant results, suggesting the presence of true positives. 
+![](fig/composition-of-pvalues.png)
+Together, the alternative and null fraction give us a p-value histogram as the one observed for the `airway` data.
 
-#### Why are p-values uniformly distributed under the null hypothesis?
+## Why are these our expectations of the null and alterative fraction?
 
-They are uniformly distributed under the null hypothesis by definition - unfortunately, this definition is rather un-intuitive. 
+Let's start with the easier case: If we use a statistical test that is good at detecting differentially expressed genes, then it will produce low p-values for the DE genes, resulting in a peak close to 0. Depending on the power of the test, the peak towards 0 is sharp (high power, all the DE genes have low p-values) or flat and less pronounced (low power, many DE genes have p-values >>0). 
 
-Let's recap what we learned about test statistics and distributions. 
+But why do we expect a uniform distribution of p-values that come from genes where the null hypothesis is true? This comes from the definition of p-values. We expect 5% of the p-values to be $<0.05$, 10% of the p-vales to be $<0.1$, etc. 
+Unfortunately, for many this definition is not intuitive. Therefore, we use a simulation of tests where the null hypothesis is true, and use it to recap the definition of p-values. 
+
+
 We learned that in the t-test, the test statistic $t$ follows a *t-distribution* under the null hypothesis. So, when the null hypothesis is true, we expect the value of $t$ to be randomly drawn from a t-distribution.
 For demonstration purposes, we can simulate 2000 draws from a t-distribution (here, I choose the degrees of freedom to be $\nu = 5$, which is an arbitrary choice) and visualize their distribution.
 
@@ -95,20 +120,25 @@ set.seed(55)
 ts <- rt(2000, df=5)
 data.frame(t=ts) %>% 
   ggplot(aes(x=t))+
-  geom_histogram(binwidth=0.2)
+  geom_histogram(binwidth=0.2)+
+  labs(main="Null distribution of t")
 ```
 
-<img src="fig/False-discovery-rate-rendered-unnamed-chunk-1-1.png" style="display: block; margin: auto;" />
+<img src="fig/False-discovery-rate-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+
+This is our null distribution!
+
 Since we'll decide significance based on the absolute value of t, $|t|$, I'll calculate it here: 
 
 ```r
 abs_t <- abs(ts)# take their absolute values
 data.frame(abs_t=abs_t) %>% 
   ggplot(aes(x=abs_t))+
-  geom_histogram(binwidth=0.1)
+  geom_histogram(binwidth=0.1)+
+  labs(main="Null distribution of |t|")
 ```
 
-<img src="fig/False-discovery-rate-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
+<img src="fig/False-discovery-rate-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
 This is our null distribution of absolute t-values. 
 In hypothesis testing, we ask: "What is the probability in the null distribution to observe a value at least as extreme as the observed $|t|$?" 
@@ -121,7 +151,7 @@ data.frame(abs_t = abs_t) %>%
   stat_ecdf()
 ```
 
-<img src="fig/False-discovery-rate-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
+<img src="fig/False-discovery-rate-rendered-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 This cumulative distribution function answers the question "for a given value of $|t|$, how many other elements of the simulation are *smaller than* this value?". Which is exactly the opposite of what we're asking when calculating a p-value. In fact, the p-value is defined as $1-\text{CDF}(|t|)$, which looks like this:
 
 
@@ -132,15 +162,7 @@ data.frame(abs_t = abs_t) %>%
   labs(y="1-ECDF")
 ```
 
-```{.warning}
-Warning: The dot-dot notation (`..y..`) was deprecated in ggplot2 3.4.0.
-ℹ Please use `after_stat(y)` instead.
-This warning is displayed once every 8 hours.
-Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-generated.
-```
-
-<img src="fig/False-discovery-rate-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+<img src="fig/False-discovery-rate-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 Code adapted from [here](https://stackoverflow.com/questions/37221303/how-to-plot-reverse-complementary-ecdf-using-ggplot).
 So when we calculate a p-value, we (visually speaking) look up the observed value of $|t|$ (`abs_t`) on the x-axis, and match it to the corresponding 1-ECDF on the y-axis, which is the resulting $p$. 
@@ -157,12 +179,15 @@ data.frame(abs_t = abs_t) %>%
              col="gray")
 ```
 
-<img src="fig/False-discovery-rate-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+<img src="fig/False-discovery-rate-rendered-unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 
 The observations in each slice will make up one bin in the p-value histogram which we're going to create next.
 
 All of these chunks should contain about 5% of the p-values - **by the definition of the p-value via the cumulative distribution**.
-For instance, the upper  5% of the $|t|$-values will be between XXX and XXX, so we give them p-values between 0.00 and 0.05. The next 5% of the $|t|$-values will be between XXX and XXX, so we give them p-values between 0.05 and 0.10. And so on... resulting in the following p-value histogram again sliced by 5%-bins for demonstration:
+
+
+
+For instance, the upper 5% of the $|t|$-values are be between $2.6$ and $6.8$, so we give them p-values between 0.00 and 0.05. The next 5% of the $|t|$-values will be between $2.0$ and $2.6$, so we give them p-values between 0.05 and 0.10. And so on... resulting in the following p-value histogram again sliced by 5%-bins for demonstration:
 
 
 ```r
@@ -172,7 +197,7 @@ data.frame(abs_t = abs_t) %>%
   geom_histogram(binwidth=0.05, boundary=0)
 ```
 
-<img src="fig/False-discovery-rate-rendered-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+<img src="fig/False-discovery-rate-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
 We could also define the p-value via the empirical null distribution:
 
@@ -185,87 +210,51 @@ data.frame(abs_t = abs_t) %>%
   geom_histogram(binwidth=0.05, boundary=0)
 ```
 
-<img src="fig/False-discovery-rate-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
+<img src="fig/False-discovery-rate-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 Again, each 5% bin contains 5% (=100) of the p-values, because the p-values are defined by the percentage of values of $|t|$ in the simulated null distribution which are smaller than the observed one. 
 
+### Recap
 
-![A peak close to 0 is where our alternative hypotheses live- along with some potential false positives](fig/reg_pvalues.png)
+- p-values are defined as via the cumulative distribution of the test statistic under the null hypothesis 
+- They answer the question: what percentage of values is expected more extreme than the observed one? 
+- If we bin our data into equally-sized quantiles, we expect to see roughly the same number of p-values in each quantile. 
+- Therefore: In a set of tests where the null hypothesis is true, and where the test statistic behaves like expected in theory, we will see a uniform distribution of p-values 
+- This works for any test statistic, *as long as we know its distribution*
 
+# The False Discovery Rate
 
-A right-skewed distribution, with most p-values clustering towards 1, might suggest that most tests are not finding significant results, indicating that there may be few true effects in the data.
+Let's come back to our p-value histogram of differentially expressed genes.
+We learned that it is composed of null and alternative fraction, and we learned that in theory, the null fraction is uniformly distributed.
 
-![Conservative p-values, something is wrong with your test!](fig/conservative_pvalues.png)
+We can use this knowledge to estimate the fraction of false positives among the positives at an arbitrary p-value cut-off. This is illustrated below.
 
-P-values are designed to be uniform under the null hypothesis. Therefore, if we observe deviations from this expectation, it should not lead us to conclude that there are no significant hypotheses. Instead, it suggests that there may be issues with our testing methodology. For example, our test assumptions might not align with the actual data distribution. It is possible that the test assumes a certain data distribution (like continuous or normal), which doesn't match the actual characteristics of our data—such as it being discrete or highly non-normal.
+![A p-value histogram decomposition (adapted from MSMB)](fig/p_value histogram decomposition.png)
 
-Some histogram like shown in  __Figure 11__ might exhibit pronounced spikes at p-values near zero and near one. 
+Say, we determine some cut-off p-value, indicated by the red line. Then we can visually estimate what percentage of tests right at this threshold are false positives, namely by dividing the length of the light red segment by the overall length of the line. That’s the local __fdr__, and it applies to tests rejected just at this threshold. 
+Now we will probably reject all the tests below the threshold, and to get the fraction of false positives within those, we divide the dark gray area by the the total area to the left of the red line. This is the capital letter __FDR__ and it’s an average property of all tests rejected below the threshold.
 
-![Bimodal p-values](fig/bimodal_pvalues.png)
+The false discovry rate is defined as 
+$FDR = \frac{FP}{TP+FP}.$
 
-This behavior often signals potential issues such as p-hacking or deficiencies in experimental design. For instance, in the context of a one-tailed test (e.g., assessing whether each gene increases expression in response to a drug), p-values nearing 1 may indicate significance in the opposite direction—instances where genes decreased their expression. If you wish to identify such cases, consider switching to a two-sided test. Alternatively, if these cases are irrelevant, filtering out instances where estimates point in that direction could be effective.
-
-Moreover, in RNA-Seq data, for example, certain genes may show no reads across all conditions, leading some differential expression tools to return a p-value of 1. Identifying and filtering out such problematic cases beforehand can help streamline our analysis without sacrificing information.
-
-Understanding the distribution of p-values can inform the choice of multiple testing correction methods. For example, if there is an excess of low p-values, controlling the false discovery rate (FDR) might be more appropriate than controlling the family-wise error rate (FWER). After applying a multiple testing correction (such as the Benjamini-Hochberg method), a p-value histogram of the adjusted p-values can help evaluate the effectiveness of the correction in controlling false positives.
-
-
-
-
-Here, we will use our previously generated p-values for each analysed gene to create a histogram. 
-
-<img src="fig/False-discovery-rate-rendered-unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
-
-We will also find out how many genes were significantly differentially expressed between the treated and untreated cells at α=0.05 before we apply any type 1 error correction method.
+## In our example
 
 
+## Adjusted p-values
+
+At any given p-value cut-off, we can estimate the FDR. So could take each p-values in our screen, use it as a cut-off and return the estimated FDR. This is the adjusted p-value. It tells us the FDR that we would have for our hits if we rejected the null for all genes with a p-value equal to or lower than that for this gene.
+We can then decide to call all tests a hit, for which the adjusted p-value is smaller than the desired $\alpha_\text{FWER}$.
 
 
+### Trade-off FP and FN
 
-```{.output}
-4655 is the number of significant differentially expressed genes before FWER correction
-```
-
-:::::::::::::: challenge
-
-- Now suppose we reject all tests with a p-value less than α=0.05. How can we visually determine an estimate of the false discovery proportion with a plot in r?
-
-:::::::::::::::::::
-
-::::::::::::::: solution
+If we set the threshold very low, we will have a low FDR (low fraction of false positives), but will miss many of the differentially expressed genes. When we move the red line to the right, that is increase the threshold, we’ll capture more and more of the differentially expressed genes, but at the cost of more and more false positives, and if we go too far, we will almost exclusively admit more False Positives.
 
 
-```r
-alpha = 0.05
-binw =0.01
-pi0 = 2 * mean(gene_pvalues$pvalue > 0.5)
-ggplot(gene_pvalues,
-  aes(x = pvalue)) + 
-  geom_histogram(binwidth = binw, boundary = 0,fill = "lightblue", color = "black") +
-  geom_hline(yintercept = pi0 * binw * nrow(gene_pvalues), col = "blue") +
-  geom_vline(xintercept = alpha, col = "red")
-```
+### More on p-value histograms
 
-<img src="fig/False-discovery-rate-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+If you encounter p-value histograms that don't fit the expectation we just discussed, have a look at this [post in varianceexplained.org](http://varianceexplained.org/statistics/interpreting-pvalue-histogram/)
 
-
-:::::::::::::::::::::
-
-Notice that there are many null hypotheses that appear at low p-values. Therefore, indiscriminately declaring all p-values less than 0.05 as significant will lead to a high number of false discoveries. Additionally, some true alternative hypotheses may have high p-values, leading to missed detections (false negatives) that our test cannot identify. 
-
-## The impact of correcting for the family-wise error rate (FWER) using Bonferroni correction
-
-Now, if we proceed to apply the Bonferroni method to correct the family-wise error rate (FWER), we can then determine the number of genes that show significant differential expression after the correction. 
-
-<img src="fig/False-discovery-rate-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
-
-```{.output}
-706 is the number of significant differentially expressed genes after Bonferroni correction for FWER
-```
-
-### Interpretation
-
-Applying the Bonferroni correction in this example results in __706__ differentially expressed genes due to the stringent threshold, demonstrating how FWER correction can be too conservative in large-scale testing.
 
 ## Controlling FDR Using the Benjamini-Hochberg Method
 
@@ -285,23 +274,37 @@ Now, let us continue with the generated p_values to apply the Benjamini-Hochberg
 
 What the  Benjamini-Hochberg algorithm does, is that it estimates the null component, and finds the threshold below which we should reject for a desired FDR. Equivalently, and that’s the way it’s implemented in R, we could say it produces adjusted p-values. And if we reject everything below a certain adjusted p-value (say 5%), this will lead to an FDR of 5%, meaining that 5% of the hits are false-positives.
 
-<img src="fig/False-discovery-rate-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+# Wrap up
+
+We discussed that controlling the FDR trades some false positives for the chances to discover more hits. Let's compare the three error rates that we encountered so far 
+- comparison-wise error rate
+- family-wise error rate 
+- false discovery rate
+
+in terms of the number of hits they return.
+
+We can check how many genes were significantly differentially expressed between the treated and untreated cells at α=0.05 before we apply any type 1 error correction method:
+
+
+
+
 
 ```{.output}
-2357 is the number of significant differentially expressed genes that pass the FDR threshold
+4655 is the number of significant differentially expressed genes before FWER correction
 ```
 
-### Interpretation
 
-The Benjamini-Hochberg method controls the FDR, allowing for a greater number of significant differentially expressed genes (__2357__) compared to the Bonferroni correction (__706__). This approach provides a more balanced and powerful method for identifying true positives in large-scale data.
+
+Now, if we proceed to apply the Bonferroni method to correct the family-wise error rate (FWER), we can then determine the number of genes that show significant differential expression after the correction. 
 
 :::::::::::::::::::::::::: challenge 
 - Use `p.adjust` to calculate adjusted p-values using Benjamini Hochberg. How many hits do you get if you control the FDR at 10%?
 - Do the same with Bonferroni
 
-:::::::::::::::::::::::::::::::
 
 ::::::::::::::: solution 
+
+
 
 ```r
 alpha=0.1
@@ -316,6 +319,7 @@ Benjamini_Hochberg_genes
 [1] 2908
 ```
 
+
 ```r
 alpha=0.1
 # Apply Bonferroni correction
@@ -329,7 +333,34 @@ bonferroni_genes
 [1] 759
 ```
 
-:::::::::::::::::::::::::::
+
+:::::::::::::::::::
+
+::::::::::::::::::::
+
+
+
+```{.output}
+706 is the number of significant differentially expressed genes after Bonferroni correction for FWER
+```
+
+Applying the Bonferroni correction in this example results in __706__ differentially expressed genes due to the stringent threshold, demonstrating how FWER correction can be too conservative in large-scale testing.
+
+
+
+
+```{.output}
+2357 is the number of significant differentially expressed genes that pass the FDR threshold
+```
+
+
+The Benjamini-Hochberg method controls the FDR, allowing for a greater number of significant differentially expressed genes (__2357__) compared to the Bonferroni correction (__706__). This approach provides a more balanced and powerful method for identifying true positives in large-scale data.
+
+
+
+
+
+
 
 ## Advantages of controlling the FDR over FWER in the context of large-scale genomic data
 
@@ -362,7 +393,6 @@ While FDR control is widely used in biological research due to its balance betwe
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
+If there's too much time at hand, one could also make a quiz out of the different histograms shown in the varianceexplained post, and discuss what they could mean. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

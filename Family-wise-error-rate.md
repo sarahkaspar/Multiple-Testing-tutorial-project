@@ -16,6 +16,9 @@ exercises: 2
 - Learn the Bonferroni procedure for adjusting p-values to maintain the FWER at a specified level, and recognize when alternative methods may be more appropriate or effective in controlling for multiple comparisons.
 :::::::::::::::::::::::::::::::::::::::::::
 
+
+
+
 In statistical hypothesis testing, conducting multiple tests simultaneously increases the likelihood of making at least one false-positive error. In this episode, we will explore the family-wise error rate (FWER), and discuss methods to account for multiple comparisons, using practical examples.
 
 ## A Multi-Hypothesis Testing Framework
@@ -70,7 +73,7 @@ rownames(data) <- c("disease","healthy")
 mosaicplot(t(data),main="")
 ```
 
-<img src="fig/Family-wise-error-rate-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
+<img src="fig/Family-wise-error-rate-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
 
 
 Let us assume we conduct statistical tests for each of these hypotheses, resulting in p-values for each test. For simplicity, let us maintain our significance level at $\alpha=0.05$ for each individual test. We can conduct binomial tests for each hypothesis and calculate the p-values in R.
@@ -278,9 +281,7 @@ ggplot(aes(x=n_test, y=log10(alpha_adjusted)))+
   geom_line()
 ```
 
-```{.error}
-Error in data.frame(n_test, alpha_adjusted) %>% ggplot(aes(x = n_test, : could not find function "%>%"
-```
+<img src="fig/Family-wise-error-rate-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 We see that the adjusted $\alpha$ is dropping quickly. For $20000$ tests, which is a reasonable number in genomic screens, alpha will be:
 
 
@@ -288,8 +289,8 @@ We see that the adjusted $\alpha$ is dropping quickly. For $20000$ tests, which 
 last(alpha_adjusted)
 ```
 
-```{.error}
-Error in last(alpha_adjusted): could not find function "last"
+```{.output}
+[1] 2.5e-06
 ```
 
 We'll only reject the null for tests that produce a p-value $<0.0000025$, which means the chances of finding a hit are reduced drastically compared to before adjustment.
