@@ -272,14 +272,15 @@ After this calculation, the largest p-value that is less than or equal to its BH
 
 Now, let us continue with the generated p_values to apply the Benjamini-Hochberg correction in r, and also plot the adjusted p values for comparison. 
 
-What the  Benjamini-Hochberg algorithm does, is that it estimates the null component, and finds the threshold below which we should reject for a desired FDR. Equivalently, and that’s the way it’s implemented in R, we could say it produces adjusted p-values. And if we reject everything below a certain adjusted p-value (say 5%), this will lead to an FDR of 5%, meaining that 5% of the hits are false-positives.
+What the  Benjamini-Hochberg algorithm does, is that it estimates the null component, and finds the threshold below which we should reject for a desired FDR. Equivalently, and that’s the way it’s implemented in R, we can say it produces adjusted p-values. And if we reject everything below a certain adjusted p-value (say 5%), this will lead to an FDR of 5%, meaning that 5% of the hits are estimated to be false-positives.
 
 # Wrap up
 
 We discussed that controlling the FDR trades some false positives for the chances to discover more hits. Let's compare the three error rates that we encountered so far 
-- comparison-wise error rate
+
+- comparison-wise error rate 
 - family-wise error rate 
-- false discovery rate
+- false discovery rate 
 
 in terms of the number of hits they return.
 
@@ -287,19 +288,22 @@ We can check how many genes were significantly differentially expressed between 
 
 
 
-
-
-```{.output}
-4655 is the number of significant differentially expressed genes before FWER correction
+```r
+gene_pvalues <- na.omit(gene_pvalues)  # Removes rows with NA values
+sum(gene_pvalues$pvalue < 0.05)
 ```
 
+```{.output}
+[1] 4655
+```
 
 
 Now, if we proceed to apply the Bonferroni method to correct the family-wise error rate (FWER), we can then determine the number of genes that show significant differential expression after the correction. 
 
 :::::::::::::::::::::::::: challenge 
 - Use `p.adjust` to calculate adjusted p-values using Benjamini Hochberg. How many hits do you get if you control the FDR at 10%?
-- Do the same with Bonferroni
+- Do the same with Bonferroni 
+- What fraction of false positives do you estimate if we use a comparison-wise error rate with $\alpha=0.5$?
 
 
 ::::::::::::::: solution 
@@ -309,8 +313,8 @@ Now, if we proceed to apply the Bonferroni method to correct the family-wise err
 ```r
 alpha=0.1
 # Apply Benjamini-Hochberg correction
-p_adjusted <- p.adjust(gene_pvalues$pvalue, method = "BH")
-significant_bh <- p_adjusted < alpha
+p_adjusted_BH <- p.adjust(gene_pvalues$pvalue, method = "BH")
+significant_bh <- p_adjusted_BH < alpha
 Benjamini_Hochberg_genes<-sum(significant_bh) # Number of significant hits after Benjamini-Hochberg correction
 Benjamini_Hochberg_genes
 ```
@@ -333,6 +337,18 @@ bonferroni_genes
 [1] 759
 ```
 
+Estimated fraction of FP at $\alpha=0.5$:
+
+```r
+data.frame(p=gene_pvalues$pvalue ,padj =p_adjusted_BH) %>% 
+  filter(p<0.05) %>% 
+  pull(padj) %>% 
+  max()
+```
+
+```{.output}
+[1] 0.3147764
+```
 
 :::::::::::::::::::
 
@@ -340,25 +356,12 @@ bonferroni_genes
 
 
 
-```{.output}
-706 is the number of significant differentially expressed genes after Bonferroni correction for FWER
-```
 
 Applying the Bonferroni correction in this example results in __706__ differentially expressed genes due to the stringent threshold, demonstrating how FWER correction can be too conservative in large-scale testing.
 
 
 
-
-```{.output}
-2357 is the number of significant differentially expressed genes that pass the FDR threshold
-```
-
-
 The Benjamini-Hochberg method controls the FDR, allowing for a greater number of significant differentially expressed genes (__2357__) compared to the Bonferroni correction (__706__). This approach provides a more balanced and powerful method for identifying true positives in large-scale data.
-
-
-
-
 
 
 
@@ -393,6 +396,6 @@ While FDR control is widely used in biological research due to its balance betwe
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
-If there's too much time at hand, one could also make a quiz out of the different histograms shown in the varianceexplained post, and discuss what they could mean. 
+If there's too much time at hand, one could also make a quiz out of the different histograms shown in the varianceexplained post (under further reading), and discuss their interpretation. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
