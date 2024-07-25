@@ -380,7 +380,7 @@
         
 <section id="aio-What-is-multiple-testing"><p>Content from <a href="What-is-multiple-testing.html">What is multiple testing</a></p>
 <hr>
-<p>Last updated on 2024-07-23 |
+<p>Last updated on 2024-07-25 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/What-is-multiple-testing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -569,7 +569,7 @@ we should expect for 100 tests?</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 
 </div>
@@ -609,7 +609,7 @@ any links that you are not going to use.
 </div>
 </div></section><section id="aio-Types-of-errors"><p>Content from <a href="Types-of-errors.html">Types of errors and error rates</a></p>
 <hr>
-<p>Last updated on 2024-07-23 |
+<p>Last updated on 2024-07-25 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Types-of-errors.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -879,7 +879,7 @@ any links that you are not going to use.
 </div>
 </div></section><section id="aio-Family-wise-error-rate"><p>Content from <a href="Family-wise-error-rate.html">Family-wise error rate</a></p>
 <hr>
-<p>Last updated on 2024-07-23 |
+<p>Last updated on 2024-07-25 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Family-wise-error-rate.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1350,7 +1350,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-False-discovery-rate"><p>Content from <a href="False-discovery-rate.html">False discovery rate</a></p>
 <hr>
-<p>Last updated on 2024-07-23 |
+<p>Last updated on 2024-07-25 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/False-discovery-rate.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1774,9 +1774,9 @@ for comparison.</p>
 <p>What the Benjamini-Hochberg algorithm does, is that it estimates the
 null component, and finds the threshold below which we should reject for
 a desired FDR. Equivalently, and that’s the way it’s implemented in R,
-we could say it produces adjusted p-values. And if we reject everything
+we can say it produces adjusted p-values. And if we reject everything
 below a certain adjusted p-value (say 5%), this will lead to an FDR of
-5%, meaining that 5% of the hits are false-positives.</p>
+5%, meaning that 5% of the hits are estimated to be false-positives.</p>
 </div>
 </div>
 </div>
@@ -1785,16 +1785,27 @@ below a certain adjusted p-value (say 5%), this will lead to an FDR of
 </h1>
 <p>We discussed that controlling the FDR trades some false positives for
 the chances to discover more hits. Let’s compare the three error rates
-that we encountered so far - comparison-wise error rate - family-wise
-error rate - false discovery rate</p>
+that we encountered so far</p>
+<ul>
+<li>comparison-wise error rate</li>
+<li>family-wise error rate</li>
+<li>false discovery rate</li>
+</ul>
 <p>in terms of the number of hits they return.</p>
 <p>We can check how many genes were significantly differentially
 expressed between the treated and untreated cells at α=0.05 before we
 apply any type 1 error correction method:</p>
+<div class="codewrapper sourceCode" id="cb12">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gene_pvalues</span> <span class="op">&lt;-</span> <span class="fu">na.omit</span><span class="op">(</span><span class="va">gene_pvalues</span><span class="op">)</span>  <span class="co"># Removes rows with NA values</span></span>
+<span><span class="fu">sum</span><span class="op">(</span><span class="va">gene_pvalues</span><span class="op">$</span><span class="va">pvalue</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span></span></code></pre>
+</div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>4655 is the number of significant differentially expressed genes before FWER correction</code></pre>
+<pre class="output" tabindex="0"><code>[1] 4655</code></pre>
 </div>
 <p>Now, if we proceed to apply the Bonferroni method to correct the
 family-wise error rate (FWER), we can then determine the number of genes
@@ -1812,6 +1823,8 @@ that show significant differential expression after the correction.</p>
 Benjamini Hochberg. How many hits do you get if you control the FDR at
 10%?</li>
 <li>Do the same with Bonferroni</li>
+<li>What fraction of false positives do you estimate if we use a
+comparison-wise error rate with <span class="math inline">\(\alpha=0.5\)</span>?</li>
 </ul>
 </div>
 </div>
@@ -1823,14 +1836,14 @@ Benjamini Hochberg. How many hits do you get if you control the FDR at
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">alpha</span><span class="op">=</span><span class="fl">0.1</span></span>
 <span><span class="co"># Apply Benjamini-Hochberg correction</span></span>
-<span><span class="va">p_adjusted</span> <span class="op">&lt;-</span> <span class="fu">p.adjust</span><span class="op">(</span><span class="va">gene_pvalues</span><span class="op">$</span><span class="va">pvalue</span>, method <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span></span>
-<span><span class="va">significant_bh</span> <span class="op">&lt;-</span> <span class="va">p_adjusted</span> <span class="op">&lt;</span> <span class="va">alpha</span></span>
+<span><span class="va">p_adjusted_BH</span> <span class="op">&lt;-</span> <span class="fu">p.adjust</span><span class="op">(</span><span class="va">gene_pvalues</span><span class="op">$</span><span class="va">pvalue</span>, method <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span></span>
+<span><span class="va">significant_bh</span> <span class="op">&lt;-</span> <span class="va">p_adjusted_BH</span> <span class="op">&lt;</span> <span class="va">alpha</span></span>
 <span><span class="va">Benjamini_Hochberg_genes</span><span class="op">&lt;-</span><span class="fu">sum</span><span class="op">(</span><span class="va">significant_bh</span><span class="op">)</span> <span class="co"># Number of significant hits after Benjamini-Hochberg correction</span></span>
 <span><span class="va">Benjamini_Hochberg_genes</span></span></code></pre>
 </div>
@@ -1839,7 +1852,7 @@ Benjamini Hochberg. How many hits do you get if you control the FDR at
 </h3>
 <pre class="output" tabindex="0"><code>[1] 2908</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1855,24 +1868,29 @@ Benjamini Hochberg. How many hits do you get if you control the FDR at
 </h3>
 <pre class="output" tabindex="0"><code>[1] 759</code></pre>
 </div>
-</div>
-</div>
-</div>
+<p>Estimated fraction of FP at <span class="math inline">\(\alpha=0.5\)</span>:</p>
+<div class="codewrapper sourceCode" id="cb18">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">data.frame</span><span class="op">(</span>p<span class="op">=</span><span class="va">gene_pvalues</span><span class="op">$</span><span class="va">pvalue</span> ,padj <span class="op">=</span><span class="va">p_adjusted_BH</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="va">p</span><span class="op">&lt;</span><span class="fl">0.05</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">pull</span><span class="op">(</span><span class="va">padj</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">max</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>706 is the number of significant differentially expressed genes after Bonferroni correction for FWER</code></pre>
+<pre class="output" tabindex="0"><code>[1] 0.3147764</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <p>Applying the Bonferroni correction in this example results in
 <strong>706</strong> differentially expressed genes due to the stringent
 threshold, demonstrating how FWER correction can be too conservative in
 large-scale testing.</p>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>2357 is the number of significant differentially expressed genes that pass the FDR threshold</code></pre>
-</div>
 <p>The Benjamini-Hochberg method controls the FDR, allowing for a
 greater number of significant differentially expressed genes
 (<strong>2357</strong>) compared to the Bonferroni correction
@@ -1948,7 +1966,7 @@ any links that you are not going to use.
 </div>
 </div></section><section id="aio-Pairwise-comparisons"><p>Content from <a href="Pairwise-comparisons.html">Pairwise comparisons</a></p>
 <hr>
-<p>Last updated on 2024-07-23 |
+<p>Last updated on 2024-07-25 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Pairwise-comparisons.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -2226,7 +2244,7 @@ any links that you are not going to use.
 </div>
 </div></section><section id="aio-Summary"><p>Content from <a href="Summary.html">Summary</a></p>
 <hr>
-<p>Last updated on 2024-07-23 |
+<p>Last updated on 2024-07-25 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Summary.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -2298,7 +2316,7 @@ any links that you are not going to use.
  -->
 </div></section><section id="aio-References"><p>Content from <a href="References.html">References</a></p>
 <hr>
-<p>Last updated on 2024-07-23 |
+<p>Last updated on 2024-07-25 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/References.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -2400,8 +2418,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/aio.html",
   "identifier": "https://FIXME-template-source.github.io/NA/aio.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-07-23",
-  "datePublished": "2024-07-23"
+  "dateModified": "2024-07-25",
+  "datePublished": "2024-07-25"
 }
 
   </script><script>
