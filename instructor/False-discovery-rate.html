@@ -328,7 +328,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>False discovery rate</h1>
-        <p>Last updated on 2024-07-25 |
+        <p>Last updated on 2024-07-26 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/False-discovery-rate.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -399,12 +399,13 @@ method affects the outcome.</p>
 <h2 id="example-the-airway-dataset-in-r">Example: The Airway dataset in R<a class="anchor" aria-label="anchor" href="#example-the-airway-dataset-in-r"></a></h2>
 <p>The Airway dataset contains gene expression data from a study
 investigating the effects of dexamethasone (a corticosteroid medication)
-on airway smooth muscle cells. The dataset is part of the airway package
-in Bioconductor, a project that provides tools for the analysis and
-comprehension of high-throughput genomic data.</p>
+on airway smooth muscle cells. The dataset is part of the
+<code>airway</code> package in Bioconductor, a project that provides
+tools for the analysis and comprehension of high-throughput genomic
+data.</p>
 <p>In differential expression analysis, thousands of statistical tests
 are conducted: For each gene, one can test whether its expression is
-different in cells with dexamethasone treatment, compareed to cells
+different in cells with dexamethasone treatment, compared to cells
 without treatment. If the expression differs between the two condition,
 we call the gene differentially expressed (DE). Like in the previous
 example, we have a set up null hypotheses:</p>
@@ -413,43 +414,114 @@ example, we have a set up null hypotheses:</p>
 <p>…</p>
 <p><span class="math inline">\(H_{0,20000}\)</span>: Gene 20000 is not
 DE.</p>
+<p>For each gene, we run a test (similar to a t-test) comparing the two
+treatment groups, which returns a p-value that summarizes the evidence
+we have for the respective null hypothesis.</p>
 <p>Unlike in the air pollution example, our question is not whether
 <em>any</em> of the genes is DE, but rather <em>which ones</em>: We’d
 like to come up with a hit list of genes that can be further
 investigated.</p>
+<p>In the following, we’ll work with a <code>data.frame</code> called
+<code>gene_pvalues</code>, containing p-values for all genes in the
+<code>airway</code> data set.</p>
+<div id="coding-along" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="coding-along" class="callout-inner">
+<h3 class="callout-title">Coding along<a class="anchor" aria-label="anchor" href="#coding-along"></a>
+</h3>
+<div class="callout-content">
+<p>If you’d like to follow the code that we run here, you can either</p>
+<ul><li>run the differential expression analysis in <code>DESeq2</code> to
+create the data or</li>
+<li>download the p-values data.</li>
+</ul></div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Create data using DESeq2 </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div class="accordion-body">
 <p>This is how the p-values are created:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">DESeq2</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">DESeq2</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">airway</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Load the Airway Dataset</span></span>
+<span><span class="fu">data</span><span class="op">(</span><span class="st">"airway"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Create a DESeq2 dataset from the airway data</span></span>
+<span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu">DESeqDataSetFromMatrix</span><span class="op">(</span>countData <span class="op">=</span> <span class="fu">assay</span><span class="op">(</span><span class="va">airway</span><span class="op">)</span>,</span>
+<span>                              colData <span class="op">=</span> <span class="fu">colData</span><span class="op">(</span><span class="va">airway</span><span class="op">)</span>,</span>
+<span>                              design <span class="op">=</span> <span class="op">~</span> <span class="va">dex</span><span class="op">)</span><span class="co">#the design formula ~ dex specifies that we are interested in the effect of the treatment (dex), which indicates dexamethasone treatment.</span></span>
+<span></span>
+<span><span class="co"># Pre-filter the dataset to remove rows with low counts  _Pre-filter low counts</span></span>
+<span><span class="va">keep</span> <span class="op">&lt;-</span> <span class="fu">rowSums</span><span class="op">(</span><span class="fu">counts</span><span class="op">(</span><span class="va">dds</span><span class="op">)</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">10</span></span>
+<span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="va">dds</span><span class="op">[</span><span class="va">keep</span>,<span class="op">]</span></span>
+<span></span>
+<span><span class="co">#Perform the DESeq2 analysis to find DEGs between treated and untreated samples</span></span>
+<span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu">DESeq</span><span class="op">(</span><span class="va">dds</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Obtain the results of the differential expression analysis.</span></span>
+<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">results</span><span class="op">(</span><span class="va">dds</span><span class="op">)</span><span class="co">##By default, this will compare treated (dex) vs untreated samples</span></span>
+<span></span>
+<span><span class="co"># Extract the p-values into a separate variable</span></span>
+<span><span class="va">pvalues</span> <span class="op">&lt;-</span> <span class="va">res</span><span class="op">$</span><span class="va">pvalue</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Combine the gene names and their corresponding p-values</span></span>
+<span><span class="va">gene_pvalues</span> <span class="op">&lt;-</span> <span class="fu">data.frame</span><span class="op">(</span>gene<span class="op">=</span><span class="fu">rownames</span><span class="op">(</span><span class="va">res</span><span class="op">)</span>, pvalue<span class="op">=</span><span class="va">res</span><span class="op">$</span><span class="va">pvalue</span><span class="op">)</span></span>
+<span><span class="co"># Save to a CSV file</span></span>
+<span><span class="fu">write.csv</span><span class="op">(</span><span class="va">gene_pvalues</span>, file<span class="op">=</span><span class="st">"data/DEG_pvalues.csv"</span>, row.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2"> Load data </h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div class="accordion-body">
 <p>If you like to work with them without running the code, you can load
 pre-computed p-values as follows:</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">### HERE SHOULD BE CODE FOR LOADING THE DATA</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">gene_pvalues</span> <span class="op">&lt;-</span> <span class="fu">read.csv</span><span class="op">(</span><span class="fu">url</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/sarahkaspar/Multiple-Testing-tutorial-project/main/episodes/data/DEG_pvalues.csv"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <p>The table below shows the first six rows of the generated p-values
 for each gene, the data which, we are going use to see how using FWER
 and FDR to controlling for false positive differ.</p>
-<table class="table"><caption>Table 1: P_Values for each analysed gene</caption>
+<table class="table"><caption>p-Values for each analysed gene</caption>
 <thead><tr class="header"><th align="left">gene</th>
 <th align="right">pvalue</th>
 </tr></thead><tbody><tr class="odd"><td align="left">ENSG00000000003</td>
-<td align="right">0.0286636</td>
+<td align="right">0.0286313</td>
 </tr><tr class="even"><td align="left">ENSG00000000419</td>
-<td align="right">0.0428183</td>
+<td align="right">0.0422631</td>
 </tr><tr class="odd"><td align="left">ENSG00000000457</td>
-<td align="right">0.7874802</td>
+<td align="right">0.7871234</td>
 </tr><tr class="even"><td align="left">ENSG00000000460</td>
-<td align="right">0.6972820</td>
-</tr><tr class="odd"><td align="left">ENSG00000000938</td>
-<td align="right">0.6215698</td>
-</tr><tr class="even"><td align="left">ENSG00000000971</td>
-<td align="right">0.0885597</td>
+<td align="right">0.6976522</td>
+</tr><tr class="odd"><td align="left">ENSG00000000971</td>
+<td align="right">0.0886259</td>
+</tr><tr class="even"><td align="left">ENSG00000001036</td>
+<td align="right">0.0428887</td>
 </tr></tbody></table><p>20000 p-values are too many to list them all, but we can look at
 their distribution by visualizing a p-value histogram. A p-value
 histogram is a graphical representation that displays the distribution
@@ -466,7 +538,7 @@ False discovery rate.</p>
 </div>
 </div>
 <div class="section level1">
-<h1 id="the-theory-of-p-value-histograms">The Theory of P-value Histograms<a class="anchor" aria-label="anchor" href="#the-theory-of-p-value-histograms"></a></h1>
+<h1 id="the-theory-of-p-value-histograms">The theory of p-value Histograms<a class="anchor" aria-label="anchor" href="#the-theory-of-p-value-histograms"></a></h1>
 <p>To create a p-value histogram, we plot the p-values on the x-axis,
 typically ranging from 0 to 1. The y-axis represents the frequency (or
 count) of p-values falling within specific bins (intervals) of the
@@ -478,11 +550,6 @@ x-axis. Let’s do this for the <code>airway</code> p-values.</p>
 <code class="sourceCode R"><span><span class="va">gene_pvalues</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">pvalue</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">0.01</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning: Removed 51 rows containing non-finite values (`stat_bin()`).</code></pre>
 </div>
 <figure><img src="../fig/False-discovery-rate-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="section level2">
 <h2 id="a-p-value-histogram-is-composed-of-two-fractions">A p-value histogram is composed of two fractions<a class="anchor" aria-label="anchor" href="#a-p-value-histogram-is-composed-of-two-fractions"></a></h2>
@@ -514,7 +581,7 @@ from a t-distribution. For demonstration purposes, we can simulate 2000
 draws from a t-distribution (here, I choose the degrees of freedom to be
 <span class="math inline">\(\nu = 5\)</span>, which is an arbitrary
 choice) and visualize their distribution.</p>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -528,7 +595,7 @@ choice) and visualize their distribution.</p>
 <figure><img src="../fig/False-discovery-rate-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>This is our null distribution!</p>
 <p>Since we’ll decide significance based on the absolute value of t,
 <span class="math inline">\(|t|\)</span>, I’ll calculate it here:</p>
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -545,7 +612,7 @@ this question is the <em>cumulative distribution</em> of <span class="math inlin
 the theoretical cumulative distribution, we’ll here look at the
 cumulative distribution of our simulation, hence an <em>empirical</em>
 cumulative distribution.</p>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -560,7 +627,7 @@ elements of the simulation are <em>smaller than</em> this value?”. Which
 is exactly the opposite of what we’re asking when calculating a p-value.
 In fact, the p-value is defined as <span class="math inline">\(1-\text{CDF}(|t|)\)</span>, which looks like
 this:</p>
-<div class="codewrapper sourceCode" id="cb8">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -576,7 +643,7 @@ observed value of <span class="math inline">\(|t|\)</span>
 1-ECDF on the y-axis, which is the resulting <span class="math inline">\(p\)</span>.</p>
 <p>What does this tell us about the distribution of p-values? We could
 go and slice the 1-ECDF into chunks of 5% of the data points:</p>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -596,7 +663,7 @@ distribution</strong>.</p>
 0.00 and 0.05. The next 5% of the <span class="math inline">\(|t|\)</span>-values will be between <span class="math inline">\(2.0\)</span> and <span class="math inline">\(2.6\)</span>, so we give them p-values between
 0.05 and 0.10. And so on… resulting in the following p-value histogram
 again sliced by 5%-bins for demonstration:</p>
-<div class="codewrapper sourceCode" id="cb10">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -607,7 +674,7 @@ again sliced by 5%-bins for demonstration:</p>
 </div>
 <figure><img src="../fig/False-discovery-rate-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We could also define the p-value via the empirical null
 distribution:</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -663,11 +730,27 @@ average property of all tests rejected below the threshold.</p>
 = \frac{FP}{TP+FP}.\)</span></p>
 <div class="section level2">
 <h2 id="in-our-example">In our example<a class="anchor" aria-label="anchor" href="#in-our-example"></a></h2>
+<p>Let’s come back to our example and assume a significance level <span class="math inline">\(\alpha=0.05\)</span>. If we use this p-value
+cut-off, we can make a rough visual estimate of the <span class="math inline">\(FDR\)</span>.</p>
+<div class="codewrapper sourceCode" id="cb11">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gene_pvalues</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">pvalue</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">geom_hline</span><span class="op">(</span>yintercept<span class="op">=</span><span class="fl">160</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept<span class="op">=</span><span class="fl">0.05</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/False-discovery-rate-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Left to the vertical line, we have the area of the FP fraction (below
+the horizontal line), and the TP fraction (above the horizontal line).
+We can guess that around <span class="math inline">\(2/3\)</span> of the
+hits are TP.</p>
 </div>
 <div class="section level2">
 <h2 id="adjusted-p-values">Adjusted p-values<a class="anchor" aria-label="anchor" href="#adjusted-p-values"></a></h2>
-<p>At any given p-value cut-off, we can estimate the FDR. So could take
-each p-values in our screen, use it as a cut-off and return the
+<p>At any given p-value cut-off, we can estimate the FDR. So we could
+take each p-values in our screen, use it as a cut-off and return the
 estimated FDR. This is the adjusted p-value. It tells us the FDR that we
 would have for our hits if we rejected the null for all genes with a
 p-value equal to or lower than that for this gene. We can then decide to
@@ -749,17 +832,17 @@ apply any type 1 error correction method:</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] 4655</code></pre>
+<pre class="output" tabindex="0"><code>[1] 4646</code></pre>
 </div>
 <p>Now, if we proceed to apply the Bonferroni method to correct the
 family-wise error rate (FWER), we can then determine the number of genes
 that show significant differential expression after the correction.</p>
-<div id="challenge1" class="callout challenge">
+<div id="challenge2" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div class="callout-inner">
-<h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#challenge1"></a>
+<h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#challenge2"></a>
 </h3>
 <div class="callout-content">
 <ul><li>Use <code>p.adjust</code> to calculate adjusted p-values using
@@ -771,12 +854,12 @@ comparison-wise error rate with <span class="math inline">\(\alpha=0.5\)</span>?
 </ul></div>
 </div>
 </div>
-<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -792,7 +875,7 @@ comparison-wise error rate with <span class="math inline">\(\alpha=0.5\)</span>?
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] 2908</code></pre>
+<pre class="output" tabindex="0"><code>[1] 3234</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -808,7 +891,7 @@ comparison-wise error rate with <span class="math inline">\(\alpha=0.5\)</span>?
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] 759</code></pre>
+<pre class="output" tabindex="0"><code>[1] 797</code></pre>
 </div>
 <p>Estimated fraction of FP at <span class="math inline">\(\alpha=0.5\)</span>:</p>
 <div class="codewrapper sourceCode" id="cb18">
@@ -823,8 +906,9 @@ comparison-wise error rate with <span class="math inline">\(\alpha=0.5\)</span>?
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] 0.3147764</code></pre>
+<pre class="output" tabindex="0"><code>[1] 0.2362799</code></pre>
 </div>
+<p>This is in line with our visual estimate.</p>
 </div>
 </div>
 </div>
@@ -893,12 +977,13 @@ most appropriate method for their specific scenario.</p>
 <h2 id="further-reading">Further reading<a class="anchor" aria-label="anchor" href="#further-reading"></a></h2>
 <ul><li><a href="%22http://varianceexplained.org/statistics/interpreting-pvalue-histogram/%22" class="external-link">How
 to interpret a p-value histogram</a></li>
+<li><a href="%22https://www.huber.embl.de/msmb/06-chap.html%22" class="external-link">MSMB</a></li>
 </ul><div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>If there’s too much time at hand, one could also make a quiz out of
 the different histograms shown in the varianceexplained post (under
@@ -974,8 +1059,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/instructor/False-discovery-rate.html",
   "identifier": "https://FIXME-template-source.github.io/NA/instructor/False-discovery-rate.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-07-25",
-  "datePublished": "2024-07-25"
+  "dateModified": "2024-07-26",
+  "datePublished": "2024-07-26"
 }
 
   </script><script>
