@@ -22,15 +22,17 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+
+
 # Introduction
 
 In high-throughput experiments like RNA-Seq, we often conduct thousands of statistical tests simultaneously. This large number of tests increases the risk of false positives. While controlling the family-wise error rate (FWER), the probability of making at least one type I error, is one approach to address false positives, it can be too conservative, leading to few or no significant results. An alternative approach is to control the __False Discovery Rate (FDR)__, the expected proportion of false positives among the rejected hypotheses, which offers a balance between identifying true positives and limiting false positives. In this tutorial, we will learn how each method affects the outcome.
 
 ## Example: The Airway dataset in R
 
-The Airway dataset contains gene expression data from a study investigating the effects of dexamethasone (a corticosteroid medication) on airway smooth muscle cells. The dataset is part of the airway package in Bioconductor, a project that provides tools for the analysis and comprehension of high-throughput genomic data.
+The Airway dataset contains gene expression data from a study investigating the effects of dexamethasone (a corticosteroid medication) on airway smooth muscle cells. The dataset is part of the `airway` package in Bioconductor, a project that provides tools for the analysis and comprehension of high-throughput genomic data.
 
-In differential expression analysis, thousands of statistical tests are conducted: For each gene, one can test whether its expression is different in cells with dexamethasone treatment, compareed to cells without treatment. If the expression differs between the two condition, we call the gene differentially expressed (DE). 
+In differential expression analysis, thousands of statistical tests are conducted: For each gene, one can test whether its expression is different in cells with dexamethasone treatment, compared to cells without treatment. If the expression differs between the two condition, we call the gene differentially expressed (DE). 
 Like in the previous example, we have a set up null hypotheses: 
 
 $H_{0,1}$: Gene 1 is not DE. 
@@ -41,36 +43,85 @@ $H_{0,2}$: Gene 2 is not DE.
 
 $H_{0,20000}$: Gene 20000 is not DE. 
 
+For each gene, we run a test (similar to a t-test) comparing the two treatment groups, which returns a p-value that summarizes the evidence we have for the respective null hypothesis.
+
 Unlike in the air pollution example, our question is not whether *any* of the genes is DE, but rather *which ones*: We'd like to come up with a hit list of genes that can be further investigated.
 
+In the following, we'll work with a `data.frame` called `gene_pvalues`, containing p-values for all genes in the `airway` data set.
+
+:::::::::::::::::::::: challenge
+### Coding along
+
+If you'd like to follow the code that we run here, you can either 
+
+- run the differential expression analysis in `DESeq2` to create the data or
+- download the p-values data.
+
+:::::::::::::::: solution
+
+### Create data using DESeq2
 This is how the p-values are created:
+
 
 ```r
 library(DESeq2)
+library(airway)
+
+#Load the Airway Dataset
+data("airway")
+
+#Create a DESeq2 dataset from the airway data
+dds <- DESeqDataSetFromMatrix(countData = assay(airway),
+                              colData = colData(airway),
+                              design = ~ dex)#the design formula ~ dex specifies that we are interested in the effect of the treatment (dex), which indicates dexamethasone treatment.
+
+# Pre-filter the dataset to remove rows with low counts  _Pre-filter low counts
+keep <- rowSums(counts(dds)) > 10
+dds <- dds[keep,]
+
+#Perform the DESeq2 analysis to find DEGs between treated and untreated samples
+dds <- DESeq(dds)
+
+#Obtain the results of the differential expression analysis.
+res <- results(dds)##By default, this will compare treated (dex) vs untreated samples
+
+# Extract the p-values into a separate variable
+pvalues <- res$pvalue
+
+
+# Combine the gene names and their corresponding p-values
+gene_pvalues <- data.frame(gene=rownames(res), pvalue=res$pvalue)
+# Save to a CSV file
+write.csv(gene_pvalues, file="data/DEG_pvalues.csv", row.names=FALSE)
 ```
 
+::::::::::::::::::::
+
+:::::::::::::::::::: solution
+### Load data
 If you like to work with them without running the code, you can load pre-computed p-values  as follows:
 
 ```r
-### HERE SHOULD BE CODE FOR LOADING THE DATA
+gene_pvalues <- read.csv(url("https://raw.githubusercontent.com/sarahkaspar/Multiple-Testing-tutorial-project/main/episodes/data/DEG_pvalues.csv"))
 ```
 
-
+::::::::::::::::::::::::
+::::::::::::::::::::::::
 
 The table below shows the first six rows of the generated p-values for each gene, the data which, we are going use to see how using FWER and FDR to controlling for false positive differ. 
 
 
 
-Table: Table 1: P_Values for each analysed gene
+Table: p-Values for each analysed gene
 
 |gene            |    pvalue|
 |:---------------|---------:|
-|ENSG00000000003 | 0.0286636|
-|ENSG00000000419 | 0.0428183|
-|ENSG00000000457 | 0.7874802|
-|ENSG00000000460 | 0.6972820|
-|ENSG00000000938 | 0.6215698|
-|ENSG00000000971 | 0.0885597|
+|ENSG00000000003 | 0.0286313|
+|ENSG00000000419 | 0.0422631|
+|ENSG00000000457 | 0.7871234|
+|ENSG00000000460 | 0.6976522|
+|ENSG00000000971 | 0.0886259|
+|ENSG00000001036 | 0.0428887|
 
 20000 p-values are too many to list them all, but we can look at their distribution by visualizing a p-value histogram. A p-value histogram is a graphical representation that displays the distribution of p-values obtained from multiple hypothesis tests. It can help us in assessing the presence of true effects versus null effects and in understanding the overall behavior of the tests. It can also help us to better control for false positives. To understand how this works, we'll have to look into the theory. In the next section, we'll learn 
 
@@ -79,7 +130,7 @@ Table: Table 1: P_Values for each analysed gene
 
 Understanding this will provide us with a tool for controlling the False discovery rate.
 
-# The Theory of P-value Histograms
+# The theory of p-value Histograms
 
 To create a p-value histogram, we plot the p-values on the x-axis, typically ranging from 0 to 1. The y-axis represents the frequency (or count) of p-values falling within specific bins (intervals) of the x-axis.
 Let's do this for the `airway` p-values.
@@ -89,10 +140,6 @@ Let's do this for the `airway` p-values.
 gene_pvalues %>% 
   ggplot(aes(x=pvalue))+
   geom_histogram(binwidth=0.01)
-```
-
-```{.warning}
-Warning: Removed 51 rows containing non-finite values (`stat_bin()`).
 ```
 
 <img src="fig/False-discovery-rate-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
@@ -239,10 +286,26 @@ $FDR = \frac{FP}{TP+FP}.$
 
 ## In our example
 
+Let's come back to our example and assume a significance level $\alpha=0.05$. If we use this p-value cut-off, we can make a rough visual estimate of the $FDR$.
+
+
+```r
+gene_pvalues %>% 
+  ggplot(aes(x=pvalue))+
+  geom_histogram(binwidth = 0.01)+
+  geom_hline(yintercept=160)+
+  geom_vline(xintercept=0.05)
+```
+
+<img src="fig/False-discovery-rate-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+
+Left to the vertical line, we have the area of the FP fraction (below the horizontal line), and the TP fraction (above the horizontal line). We can guess that around $2/3$ of the hits are TP.
+
+
 
 ## Adjusted p-values
 
-At any given p-value cut-off, we can estimate the FDR. So could take each p-values in our screen, use it as a cut-off and return the estimated FDR. This is the adjusted p-value. It tells us the FDR that we would have for our hits if we rejected the null for all genes with a p-value equal to or lower than that for this gene.
+At any given p-value cut-off, we can estimate the FDR. So we could take each p-values in our screen, use it as a cut-off and return the estimated FDR. This is the adjusted p-value. It tells us the FDR that we would have for our hits if we rejected the null for all genes with a p-value equal to or lower than that for this gene.
 We can then decide to call all tests a hit, for which the adjusted p-value is smaller than the desired $\alpha_\text{FWER}$.
 
 
@@ -294,7 +357,7 @@ sum(gene_pvalues$pvalue < 0.05)
 ```
 
 ```{.output}
-[1] 4655
+[1] 4646
 ```
 
 
@@ -320,7 +383,7 @@ Benjamini_Hochberg_genes
 ```
 
 ```{.output}
-[1] 2908
+[1] 3234
 ```
 
 
@@ -334,7 +397,7 @@ bonferroni_genes
 ```
 
 ```{.output}
-[1] 759
+[1] 797
 ```
 
 Estimated fraction of FP at $\alpha=0.5$:
@@ -347,9 +410,10 @@ data.frame(p=gene_pvalues$pvalue ,padj =p_adjusted_BH) %>%
 ```
 
 ```{.output}
-[1] 0.3147764
+[1] 0.2362799
 ```
 
+This is in line with our visual estimate.
 :::::::::::::::::::
 
 ::::::::::::::::::::
@@ -390,7 +454,7 @@ While FDR control is widely used in biological research due to its balance betwe
 ## Further reading 
 
 - [How to interpret a p-value histogram]("http://varianceexplained.org/statistics/interpreting-pvalue-histogram/")
-
+- [MSMB]("https://www.huber.embl.de/msmb/06-chap.html")
 
 
 
