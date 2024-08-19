@@ -7,29 +7,31 @@ exercises: 0
 :::::::::::::::::::::::::::::::::::::: questions
 
 - What are false positives and false negatives and how do they manifest in a confusion matrix?
-- What are some of real examples where false positives and false negatives have different implications and consequences?
+- What are some of real examples where false positives and false negatives have different implications and consequences? 
+- What are type I error rates?
 ::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::: objectives
 
 - Understand the concept of false positives and false negatives and how they are represented in a confusion matrix
-- Analyse and discuss scnarios where false positives and false negatives pose distinct challenges and implications
+- Analyse and discuss scenarios where false positives and false negatives pose distinct challenges and implications
 - Highlight situations where minimizing each type of error is crucial
 :::::::::::::::::::::::::::::::::::::::::::
 
 # Types of errors
 
-In hypothesis testing, the evaluation of statistical significance involves making decisions based on sample data. However, these decisions are not without errors. In this tutorial, we will explore the concept of errors in hypothesis testing (Type I and Type II errors), and their implications.
+In hypothesis testing, the evaluation of statistical significance involves making decisions based on sampled data. However, these decisions are not without errors. In this tutorial, we will explore the concept of errors in hypothesis testing (Type I and Type II errors), and their implications.
 
 ## Type I Error
 
-Type I error occurs when we reject a null hypothesis that is actually true. For example, in our previous example where we conducted many similar experiments, we experienced type I error by concluding that exposure to air pollution has an effect on disease prevalence (rejecting the null hypothesis) when it actually has no effect. Type I errors represent false positives and can lead to incorrect conclusions, potentially resulting in wasted resources or misguided decisions.
+A type I error occurs when we reject a null hypothesis that is actually true. For example, in our previous example where we conducted many similar experiments, we experienced type I error by concluding that exposure to air pollution has an effect on disease prevalence (rejecting the null hypothesis) when it actually has no effect. Type I errors represent false positives and can lead to incorrect conclusions, potentially resulting in wasted resources or misguided decisions.
 
 ## Type II Error
 
-Type II error occurs when we fail to reject a null hypothesis that is actually false. For example, when we fail to conclude that exposure to air pollution has an effect on disease prevalence (failing to reject the null hypothesis) when it actually has a positive effect. Type II errors represent false negatives and can result in missed opportunities or overlooking significant effects.
+A type II error occurs when we fail to reject a null hypothesis that is actually false. For example, when we fail to conclude that exposure to air pollution has an effect on disease prevalence (failing to reject the null hypothesis) when it actually has a positive effect. Type II errors represent false negatives and can result in missed opportunities or overlooking significant effects.
 
-One common way when this error occurs in the context of hypothesis testing, is when a method with low __statistical power__ is chosen (if the sample size is small or the effect size (difference in disease prevalence) is small). Statistical power refers to the probability of correctly rejecting the null hypothesis when it is indeed false. In simpler terms, it measures the likelihood of detecting a true effect or difference if it exists. A test with high power is more likely to detect a real effect, while a test with low power is more likely to miss detecting a real effect, leading to a Type II error (false negative).
+Type II errors often occur when in settings with low __statistical power__ is chosen. Statistical power refers to the probability of correctly rejecting the null hypothesis when it is indeed false. In simpler terms, it measures the likelihood of detecting a true effect or difference if it exists. 
+Low power can be due to properties of the sample, such as insufficient number of data points, or high variance. But there are also tests that are better at detecting an effect than others in certain settings.
 
 ## Confusion Matrix
 
@@ -37,17 +39,17 @@ In the context of hypothesis testing, we can conceptualize Type I and Type II er
 The confusion matrix represents the outcomes of hypothesis testing as True Positives (correctly rejecting H0), False Positives (incorrectly rejecting H0), True Negatives (correctly failing to reject H0), and False Negatives (incorrectly failing to reject H0).
 
 
-![Figure_4: Errors in hypothesis testing and how they arise](fig/Figure 1 Errors in hypothesis testing.png)
+![Confusion matrix](fig/Figure 1 Errors in hypothesis testing.png)
 
-# The problem
+# Implications of type I and type II errors
 
 In hypothesis testing, the occurrence of Type I and Type II errors can have different implications depending on the context of the problem being addressed. It is crucial to understand which errors are problematic in which situation to be able to make informed decisions and draw accurate conclusions from statistical analyses.
 
-Type I errors, are particularly problematic in situations where the cost or consequences of incorrectly rejecting a true null hypothesis are high. Again if we refer back to our example, if we incorrectly conclude that there is a significant difference in disease rates between the test groups exposed to air pollution and the average for the whole population when, in fact, there is no such difference, it could lead to misguided policies or interventions targeting air pollution reduction. For instance, authorities might implement costly environmental regulations or public health measures based on erroneous conclusions. In this case, the __consequences__ include misallocation of resources, leading to unnecessary financial burdens or societal disruptions. Moreover, public trust in scientific findings and policy decisions may be eroded if false positives lead to ineffective or burdensome interventions.
+Type I errors are particularly problematic in situations where the cost or consequences of incorrectly rejecting a true null hypothesis are high. Again, if we refer back to our example, if we incorrectly conclude that there is a significant difference in disease rates between the test groups exposed to air pollution and the average for the whole population when, in fact, there is no such difference, it could lead to misguided policies or interventions targeting air pollution reduction. For instance, authorities might implement costly environmental regulations or public health measures based on erroneous conclusions. In this case, the __consequences__ include misallocation of resources, leading to unnecessary financial burdens or societal disruptions. Moreover, public trust in scientific findings and policy decisions may be eroded if false positives lead to ineffective or burdensome interventions.
 
-Type II errors, are problematic when failing to detect a significant effect has substantial consequences.If we fail to detect a significant difference in disease rates between the test group and the population average when there actually is a difference due to air pollution exposure, it could result in overlooking a serious public health concern. In this case, individuals living in polluted areas may continue to suffer adverse health effects without receiving appropriate attention or interventions. The __consequences__ include increased morbidity and mortality rates among populations exposed to high levels of air pollution. Additionally, delayed or inadequate response to environmental health risks may exacerbate inequalities in health outcomes.
+Type II errors are problematic when failing to detect a significant effect has substantial consequences. If we fail to detect a significant difference in disease rates between the test group and the population average when there actually is a difference due to air pollution exposure, it could result in overlooking a serious public health concern. In this case, individuals living in polluted areas may continue to suffer adverse health effects without receiving appropriate attention or interventions. The __consequences__ include increased morbidity and mortality rates among populations exposed to high levels of air pollution. Additionally, delayed or inadequate response to environmental health risks may exacerbate inequalities in health outcomes.
 
-## The example of cancer screening
+## An example of cancer screening
 
 Cancer screening exemplifies a medical testing paradox, where the interpretation of test results can be influenced by factors such as disease prevalence, test sensitivity, and specificity. 
 
@@ -79,15 +81,15 @@ Effective evaluation of Type I and Type II errors necessitates a comprehensive c
 
 In the following chapters, we'll see different methods that all aim to control for false positives in different settings. 
 
-The main distinction between them lies in the *error rate* that they control for. We'll get to know three of them:
+The main distinction between these methods lies in the *error rate* that they control for. We'll get to know three error rates:
 
-- The comparison-wise error rate, where you use the p-value as you obtain it from each individual test (no correction). 
+- The comparison-wise error rate, where we use the p-value as we obtain it from each individual test (no correction). 
 - The family-wise error rate, where we like to avoid *any* false positives. 
 - The false-discovery rate, where we like to control the *fraction* of false positives within our hits. 
 
-In terms of settings, we'll see screening scenarios and multiple comparisons, and in both settings, different methods exist to control for the different error rates.
+We'll see screening scenarios and multiple comparisons, and in both settings, different methods exist to control for the different error rates.
 
-The plethora of methods can often be overwhelming, therefore it's good to keep in mind that most of the time in practice, the workflow can be broken down into three simple steps: 
+The plethora of methods can often be overwhelming. Therefore it's good to keep in mind that in practice, most of the time the workflow can be broken down into three simple steps: 
 
 1. Clearly define your **research question**, and describe the testing scenario.  
 2. Based on your research question, choose an appropriate **error rate** that you need to control for. 
@@ -98,7 +100,7 @@ Choosing the error rate is often a philosophical question. Before we dive into t
 ![Which error rate should you control for?](fig/error-rates.png)
 
 - If each of these tests answers a separate research question, you can apply the comparison-wise error rate, which means you don't have to correct anything. 
-- Sometimes, one incorrect rejection changes the overall conclusion in your research setting. For example, if you decide on the safety of a chemical, which is a mixture of ingredients. You can ask for each ingredient whether it's safe (null hypothesis: it's safe). If you all null hypohteses are true (all ingredients are safe), you'd like to conclude that the entire chemical is safe. However, if you falsely reject one individual null hypothesis, this will change the overall conclusion (you falsely call the chemical unsafe). Therefore, you'd like to control the probability of making any false rejections, which is called the family-wise error rate. 
+- Sometimes, one incorrect rejection changes the overall conclusion in your research setting. For example, if you decide on the safety of a chemical, which is a mixture of ingredients. You can ask for each ingredient whether it's safe (null hypothesis: it's safe). If all null hypohteses are true (all ingredients are safe), you'd like to conclude that the entire chemical is safe. However, if you falsely reject one individual null hypothesis, this will change the overall conclusion (you falsely call the chemical unsafe). Therefore, you'd like to control the probability of making any false rejections, which is called the family-wise error rate. 
 - In many scenarios, a few false positives won't change the overall conclusion. For example, in biological screens, we aim for a hit list of candidate genes/proteins/substances that play a role in a process of interest. We can then further verify candidates, or identify pathways that are over-represented in the hits. For this, we can live with a few false positives, but we'd like to make sure that *most of* what we call a hit, actually *is* a hit. For such scenarios, we control for the *false discovery rate*: the percentage of false positives among the hits. 
 
 
