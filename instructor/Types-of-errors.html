@@ -118,11 +118,11 @@
   Multiple Testing
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 15%" class="percentage">
-    15%
+<aside class="col-md-12 lesson-progress"><div style="width: 13%" class="percentage">
+    13%
   </div>
   <div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" style="width: 15%" aria-valuenow="15" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar incubator" role="progressbar" style="width: 13%" aria-valuenow="13" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -328,7 +328,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Types of errors and error rates</h1>
-        <p>Last updated on 2024-08-13 |
+        <p>Last updated on 2024-08-19 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Types-of-errors.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -353,6 +353,7 @@
 manifest in a confusion matrix?</li>
 <li>What are some of real examples where false positives and false
 negatives have different implications and consequences?</li>
+<li>What are type I error rates?</li>
 </ul></div>
 </div>
 </div>
@@ -362,7 +363,7 @@ negatives have different implications and consequences?</li>
 <h3 class="card-title">Objectives</h3>
 <ul><li>Understand the concept of false positives and false negatives and
 how they are represented in a confusion matrix</li>
-<li>Analyse and discuss scnarios where false positives and false
+<li>Analyse and discuss scenarios where false positives and false
 negatives pose distinct challenges and implications</li>
 <li>Highlight situations where minimizing each type of error is
 crucial</li>
@@ -374,15 +375,15 @@ crucial</li>
 <div class="section level1">
 <h1 id="types-of-errors">Types of errors<a class="anchor" aria-label="anchor" href="#types-of-errors"></a></h1>
 <p>In hypothesis testing, the evaluation of statistical significance
-involves making decisions based on sample data. However, these decisions
-are not without errors. In this tutorial, we will explore the concept of
-errors in hypothesis testing (Type I and Type II errors), and their
-implications.</p>
+involves making decisions based on sampled data. However, these
+decisions are not without errors. In this tutorial, we will explore the
+concept of errors in hypothesis testing (Type I and Type II errors), and
+their implications.</p>
 <div class="section level2">
 <h2 id="type-i-error">Type I Error<a class="anchor" aria-label="anchor" href="#type-i-error"></a></h2>
-<p>Type I error occurs when we reject a null hypothesis that is actually
-true. For example, in our previous example where we conducted many
-similar experiments, we experienced type I error by concluding that
+<p>A type I error occurs when we reject a null hypothesis that is
+actually true. For example, in our previous example where we conducted
+many similar experiments, we experienced type I error by concluding that
 exposure to air pollution has an effect on disease prevalence (rejecting
 the null hypothesis) when it actually has no effect. Type I errors
 represent false positives and can lead to incorrect conclusions,
@@ -390,22 +391,20 @@ potentially resulting in wasted resources or misguided decisions.</p>
 </div>
 <div class="section level2">
 <h2 id="type-ii-error">Type II Error<a class="anchor" aria-label="anchor" href="#type-ii-error"></a></h2>
-<p>Type II error occurs when we fail to reject a null hypothesis that is
-actually false. For example, when we fail to conclude that exposure to
-air pollution has an effect on disease prevalence (failing to reject the
-null hypothesis) when it actually has a positive effect. Type II errors
-represent false negatives and can result in missed opportunities or
-overlooking significant effects.</p>
-<p>One common way when this error occurs in the context of hypothesis
-testing, is when a method with low <strong>statistical power</strong> is
-chosen (if the sample size is small or the effect size (difference in
-disease prevalence) is small). Statistical power refers to the
-probability of correctly rejecting the null hypothesis when it is indeed
-false. In simpler terms, it measures the likelihood of detecting a true
-effect or difference if it exists. A test with high power is more likely
-to detect a real effect, while a test with low power is more likely to
-miss detecting a real effect, leading to a Type II error (false
-negative).</p>
+<p>A type II error occurs when we fail to reject a null hypothesis that
+is actually false. For example, when we fail to conclude that exposure
+to air pollution has an effect on disease prevalence (failing to reject
+the null hypothesis) when it actually has a positive effect. Type II
+errors represent false negatives and can result in missed opportunities
+or overlooking significant effects.</p>
+<p>Type II errors often occur when in settings with low
+<strong>statistical power</strong> is chosen. Statistical power refers
+to the probability of correctly rejecting the null hypothesis when it is
+indeed false. In simpler terms, it measures the likelihood of detecting
+a true effect or difference if it exists. Low power can be due to
+properties of the sample, such as insufficient number of data points, or
+high variance. But there are also tests that are better at detecting an
+effect than others in certain settings.</p>
 </div>
 <div class="section level2">
 <h2 id="confusion-matrix">Confusion Matrix<a class="anchor" aria-label="anchor" href="#confusion-matrix"></a></h2>
@@ -415,20 +414,19 @@ the outcomes of hypothesis testing as True Positives (correctly
 rejecting H0), False Positives (incorrectly rejecting H0), True
 Negatives (correctly failing to reject H0), and False Negatives
 (incorrectly failing to reject H0).</p>
-<figure><img src="../fig/Figure%201%20Errors%20in%20hypothesis%20testing.png" alt="Figure_4: Errors in hypothesis testing and how they arise" class="figure mx-auto d-block"><div class="figcaption">Figure_4: Errors in hypothesis testing and how
-they arise</div>
+<figure><img src="../fig/Figure%201%20Errors%20in%20hypothesis%20testing.png" alt="Confusion matrix" class="figure mx-auto d-block"><div class="figcaption">Confusion matrix</div>
 </figure></div>
 </div>
 <div class="section level1">
-<h1 id="the-problem">The problem<a class="anchor" aria-label="anchor" href="#the-problem"></a></h1>
+<h1 id="implications-of-type-i-and-type-ii-errors">Implications of type I and type II errors<a class="anchor" aria-label="anchor" href="#implications-of-type-i-and-type-ii-errors"></a></h1>
 <p>In hypothesis testing, the occurrence of Type I and Type II errors
 can have different implications depending on the context of the problem
 being addressed. It is crucial to understand which errors are
 problematic in which situation to be able to make informed decisions and
 draw accurate conclusions from statistical analyses.</p>
-<p>Type I errors, are particularly problematic in situations where the
+<p>Type I errors are particularly problematic in situations where the
 cost or consequences of incorrectly rejecting a true null hypothesis are
-high. Again if we refer back to our example, if we incorrectly conclude
+high. Again, if we refer back to our example, if we incorrectly conclude
 that there is a significant difference in disease rates between the test
 groups exposed to air pollution and the average for the whole population
 when, in fact, there is no such difference, it could lead to misguided
@@ -440,8 +438,8 @@ leading to unnecessary financial burdens or societal disruptions.
 Moreover, public trust in scientific findings and policy decisions may
 be eroded if false positives lead to ineffective or burdensome
 interventions.</p>
-<p>Type II errors, are problematic when failing to detect a significant
-effect has substantial consequences.If we fail to detect a significant
+<p>Type II errors are problematic when failing to detect a significant
+effect has substantial consequences. If we fail to detect a significant
 difference in disease rates between the test group and the population
 average when there actually is a difference due to air pollution
 exposure, it could result in overlooking a serious public health
@@ -453,7 +451,7 @@ of air pollution. Additionally, delayed or inadequate response to
 environmental health risks may exacerbate inequalities in health
 outcomes.</p>
 <div class="section level2">
-<h2 id="the-example-of-cancer-screening">The example of cancer screening<a class="anchor" aria-label="anchor" href="#the-example-of-cancer-screening"></a></h2>
+<h2 id="an-example-of-cancer-screening">An example of cancer screening<a class="anchor" aria-label="anchor" href="#an-example-of-cancer-screening"></a></h2>
 <p>Cancer screening exemplifies a medical testing paradox, where the
 interpretation of test results can be influenced by factors such as
 disease prevalence, test sensitivity, and specificity.</p>
@@ -530,19 +528,20 @@ relevance and ethical soundness of their findings.</p>
 <h2 id="error-rates">Error rates<a class="anchor" aria-label="anchor" href="#error-rates"></a></h2>
 <p>In the following chapters, we’ll see different methods that all aim
 to control for false positives in different settings.</p>
-<p>The main distinction between them lies in the <em>error rate</em>
-that they control for. We’ll get to know three of them:</p>
-<ul><li>The comparison-wise error rate, where you use the p-value as you
+<p>The main distinction between these methods lies in the <em>error
+rate</em> that they control for. We’ll get to know three error
+rates:</p>
+<ul><li>The comparison-wise error rate, where we use the p-value as we
 obtain it from each individual test (no correction).</li>
 <li>The family-wise error rate, where we like to avoid <em>any</em>
 false positives.</li>
 <li>The false-discovery rate, where we like to control the
 <em>fraction</em> of false positives within our hits.</li>
-</ul><p>In terms of settings, we’ll see screening scenarios and multiple
-comparisons, and in both settings, different methods exist to control
-for the different error rates.</p>
-<p>The plethora of methods can often be overwhelming, therefore it’s
-good to keep in mind that most of the time in practice, the workflow can
+</ul><p>We’ll see screening scenarios and multiple comparisons, and in both
+settings, different methods exist to control for the different error
+rates.</p>
+<p>The plethora of methods can often be overwhelming. Therefore it’s
+good to keep in mind that in practice, most of the time the workflow can
 be broken down into three simple steps:</p>
 <ol style="list-style-type: decimal"><li>Clearly define your <strong>research question</strong>, and describe
 the testing scenario.<br></li>
@@ -561,13 +560,13 @@ correct anything.</li>
 <li>Sometimes, one incorrect rejection changes the overall conclusion in
 your research setting. For example, if you decide on the safety of a
 chemical, which is a mixture of ingredients. You can ask for each
-ingredient whether it’s safe (null hypothesis: it’s safe). If you all
-null hypohteses are true (all ingredients are safe), you’d like to
-conclude that the entire chemical is safe. However, if you falsely
-reject one individual null hypothesis, this will change the overall
-conclusion (you falsely call the chemical unsafe). Therefore, you’d like
-to control the probability of making any false rejections, which is
-called the family-wise error rate.</li>
+ingredient whether it’s safe (null hypothesis: it’s safe). If all null
+hypohteses are true (all ingredients are safe), you’d like to conclude
+that the entire chemical is safe. However, if you falsely reject one
+individual null hypothesis, this will change the overall conclusion (you
+falsely call the chemical unsafe). Therefore, you’d like to control the
+probability of making any false rejections, which is called the
+family-wise error rate.</li>
 <li>In many scenarios, a few false positives won’t change the overall
 conclusion. For example, in biological screens, we aim for a hit list of
 candidate genes/proteins/substances that play a role in a process of
@@ -582,7 +581,7 @@ positives among the hits.</li>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -658,8 +657,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/instructor/Types-of-errors.html",
   "identifier": "https://FIXME-template-source.github.io/NA/instructor/Types-of-errors.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-08-13",
-  "datePublished": "2024-08-13"
+  "dateModified": "2024-08-19",
+  "datePublished": "2024-08-19"
 }
 
   </script><script>

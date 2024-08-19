@@ -353,21 +353,18 @@ chance.</li>
 <li>be able to differentiate between different types of errors, (false
 positives and false negatives) and understand their significance in
 various research contexts.</li>
-<li>understand how family-wise error rate (FWER) arises in multiple
+<li>understand the concept of family-wise error rate (FWER) multiple
 testing scenarios and grasp methods like the Bonferroni procedure for
 controlling it.</li>
 <li>gain proficiency in interpreting adjusted p-values resulting from
 FWER correction and applying them in statistical analyses like ANOVA and
 post-hoc tests.</li>
-<li>appreciate the challenges posed by high-dimensional data and
+<li>appreciate the challenges posed by high-throughput data analysis and
 understand the importance of controlling FDR using methods like the
 Benjamini-Hochberg procedure.</li>
 <li>apply the concepts learned to real-world scenarios, such as
 analyzing RNA-Seq data by selecting appropriate error rates and methods
 based on their research questions.</li>
-<li>acquire a structured approach to selecting error rates and methods
-tailored to their research objectives and data characteristics,
-enhancing the rigor and validity of their statistical analyses.</li>
 </ul></section><section><h2 class="section-heading" id="tools-required">Tools Required<a class="anchor" aria-label="anchor" href="#tools-required"></a>
 <a class="anchor" aria-label="anchor" href="#tools-required"></a></h2>
 <hr class="half-width"><ul><li>Statistical software R (<a href="https://cran.r-project.org/" class="external-link">download</a>)</li>
@@ -375,23 +372,27 @@ enhancing the rigor and validity of their statistical analyses.</li>
 the coding examples.</li>
 </ul></section><section><h2 class="section-heading" id="data-sets">Data Sets<a class="anchor" aria-label="anchor" href="#data-sets"></a>
 <a class="anchor" aria-label="anchor" href="#data-sets"></a></h2>
-<hr class="half-width"><ul><li>For simulation and demonstration purposes, you may use synthetic
-datasets generated within the tutorial or any relevant datasets from
-your field of study.</li>
-<li>Optionally, you can use RNA-Seq data with a large number of genes
-(e.g., 20,000 human genes) to illustrate the challenges of multiple
-testing correction for high-dimensional data.</li>
-</ul></section><section><h2 class="section-heading" id="preparation">Preparation<a class="anchor" aria-label="anchor" href="#preparation"></a>
+<hr class="half-width"><p>For all example data in this lesson, links for downloading them are
+provided during the episodes, which will allow you to follow along with
+coding.</p>
+</section><section><h2 class="section-heading" id="preparation">Preparation<a class="anchor" aria-label="anchor" href="#preparation"></a>
 <a class="anchor" aria-label="anchor" href="#preparation"></a></h2>
-<hr class="half-width"><p>Ensure that R is installed and functional on your system. Familiarize
-yourself with basic statistical concepts such as hypothesis testing,
-p-values, and ANOVA, as these will provide a foundation for
-understanding multiple testing procedures.</p>
-<!--
+<hr class="half-width"><p>For the coding exercises, you’ll need internet connection for loading
+libraries and data. Ensure that R is installed and functional on your
+system. Familiarize yourself with basic statistical concepts such as
+hypothesis testing, and p-values as these will provide a foundation for
+understanding multiple testing procedures.<br>
+Recommended prior learning:</p>
+<ul><li><a href="https://www.ebi.ac.uk/training/online/courses/biostatistics-introduction/data-handling-and-visualisation/" class="external-link">Tutorial
+on data analysis in R</a></li>
+<li><a href="https://sarahkaspar.github.io/biostatistics-course/" class="external-link">Lesson
+on statistical distributions</a></li>
+<li><a href="https://sarahkaspar.github.io/hypothesis-testing/" class="external-link">Lesson
+on hypothesis testing</a></li>
+</ul><!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
- -->
-</section></section></main><nav class="bottom-pagination mx-md-4" aria-label="Next Chapter"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
+ --></section></section></main><nav class="bottom-pagination mx-md-4" aria-label="Next Chapter"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link float-end" href="What-is-multiple-testing.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
@@ -440,8 +441,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/index.html",
   "identifier": "https://FIXME-template-source.github.io/NA/index.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-08-13",
-  "datePublished": "2024-08-13"
+  "dateModified": "2024-08-19",
+  "datePublished": "2024-08-19"
 }
 
   </script><script>

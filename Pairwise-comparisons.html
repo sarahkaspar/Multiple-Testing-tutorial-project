@@ -118,11 +118,11 @@
   Multiple Testing
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 56%" class="percentage">
-    56%
+<aside class="col-md-12 lesson-progress"><div style="width: 60%" class="percentage">
+    60%
   </div>
   <div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" style="width: 56%" aria-valuenow="56" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar incubator" role="progressbar" style="width: 60%" aria-valuenow="60" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -328,7 +328,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Pairwise comparisons</h1>
-        <p>Last updated on 2024-08-13 |
+        <p>Last updated on 2024-08-19 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Pairwise-comparisons.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -374,7 +374,7 @@ groups or conditions. In this episode, we will explore the concept of
 pairwise comparisons, their importance in statistical testing, and how
 they relate to the broader context of multiple testing.</p>
 <div class="section level2">
-<h2 id="understanding-pairwise-comparisons">Understanding Pairwise Comparisons<a class="anchor" aria-label="anchor" href="#understanding-pairwise-comparisons"></a></h2>
+<h2 id="an-example-air-pollution-in-four-different-exposure-groups">An example: Air pollution in four different exposure groups<a class="anchor" aria-label="anchor" href="#an-example-air-pollution-in-four-different-exposure-groups"></a></h2>
 <p>In our example of air pollution, fine particulate matter and other
 pollutants can induce systemic inflammation in the body, leading to an
 increase in circulating inflammatory markers like C-reactive protein
@@ -389,35 +389,147 @@ industrial activity and moderate traffic density.</li>
 industrial activity and high traffic density.</li>
 <li>Very high exposure: Individuals living near industrial zones, major
 highways, or heavily polluted urban areas.</li>
-</ul><p><strong>Table 2</strong> shows the first six rows of CRP values of
-individuals in the four exposure groups.</p>
-<table class="table"><caption>Table 2: CRP values of individuals in the four exposure
-groups</caption>
+</ul><p>The table below shows the first six rows of CRP values of individuals
+in the four exposure groups.</p>
+<table class="table"><caption>CRP values of individuals in the four exposure groups</caption>
 <thead><tr class="header"><th align="right">CRP</th>
 <th align="left">Exposure</th>
 </tr></thead><tbody><tr class="odd"><td align="right">1.379049</td>
-<td align="left">Low_exposure</td>
+<td align="left">Low</td>
 </tr><tr class="even"><td align="right">2.039645</td>
-<td align="left">Low_exposure</td>
+<td align="left">Low</td>
 </tr><tr class="odd"><td align="right">5.617417</td>
-<td align="left">Low_exposure</td>
+<td align="left">Low</td>
 </tr><tr class="even"><td align="right">2.641017</td>
-<td align="left">Low_exposure</td>
+<td align="left">Low</td>
 </tr><tr class="odd"><td align="right">2.758576</td>
-<td align="left">Low_exposure</td>
+<td align="left">Low</td>
 </tr><tr class="even"><td align="right">5.930130</td>
-<td align="left">Low_exposure</td>
+<td align="left">Low</td>
 </tr></tbody></table><p>In this case the “Exposure” column is a categorical variable with
-four groups of exposure levels (Low_exposure, Moderate_exposure,
-High_exposure, and Very_high_exposure).</p>
-<figure><img src="fig/Pairwise-comparisons-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Generally, from the above plot, as exposure level increases from low
-to very high, we might expect to see a corresponding increase in the
+four groups of exposure levels (<code>Low</code>, <code>Moderate</code>,
+<code>High</code>, and <code>Very_high</code>).</p>
+<div id="coding-along" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<div id="coding-along" class="callout-inner">
+<h3 class="callout-title">Coding along<a class="anchor" aria-label="anchor" href="#coding-along"></a>
+</h3>
+<div class="callout-content">
+<p>If you like to reproduce the example we use here, you can download
+the data as follows:</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">exp_data</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span>file<span class="op">=</span><span class="fu">url</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/sarahkaspar/Multiple-Testing-tutorial-project/main/episodes/data/exp_data.csv"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>Here, we visualize the data as a boxplot, together with the
+individual data points:</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Visualize the data</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">exp_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Exposure</span>, y <span class="op">=</span> <span class="va">CRP</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span>coef <span class="op">=</span> <span class="fl">5</span>, fill <span class="op">=</span> <span class="st">"lightblue"</span>, alpha <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>position <span class="op">=</span> <span class="fu">position_jitter</span><span class="op">(</span>width <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Boxplot of Four Exposure Groups"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="fig/Pairwise-comparisons-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div id="pairwise-comparisons-1" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="pairwise-comparisons-1" class="callout-inner">
+<h3 class="callout-title">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons-1"></a>
+</h3>
+<div class="callout-content">
+<p>In the above example:</p>
+<ul><li>How many pairwise comparisons are possible?</li>
+<li>What is a suitable test for making these comparisons?</li>
+<li>If we choose <span class="math inline">\(\alpha =0.05\)</span>, what
+is the probability of seeing at least one significant difference, if in
+fact all differences are 0?</li>
+</ul></div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div class="accordion-body">
+<ul><li>6 pairwise comparisons are possible.</li>
+<li>t-test</li>
+<li><span class="math inline">\(1-(0.95)^6 \approx 0.26\)</span></li>
+</ul></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="defining-the-question">Defining the question<a class="anchor" aria-label="anchor" href="#defining-the-question"></a></h2>
+<p>Generally, from the above plot, as the exposure level increases from
+low to very high, we might expect to see a corresponding increase in the
 median exposure level and higher median C-reactive protein (CRP)
 values.</p>
-<p>Our null hypothesis is that there is no difference in CRP amounts in
-the different groups. Our significance levels is 0.05.</p>
-<p>First we would do ANOVA, which would tell us whether there are any
-differences between the groups.</p>
+<p>On this type of data, we can run different types of analyses,
+depending on the question we ask. Let’s look at two different
+scenarios:</p>
+<ul><li><p><strong>Scenario 1:</strong> This is an exploratory analysis. We
+are interested in finding out whether there is any difference between
+the four exposure groups at all.</p></li>
+<li><p><strong>Scenario 2:</strong> We have one or more particular
+exposure groups of interest, which we like to compare to the low
+exposure group. In this case, the low exposure group serves as a
+reference.</p></li>
+</ul><div class="section level3">
+<h3 id="scenario-1-anova">Scenario 1: ANOVA<a class="anchor" aria-label="anchor" href="#scenario-1-anova"></a></h3>
+<p>In this scenario, we’re basically comparing all against all.</p>
+<p>Our <strong>null hypothesis</strong> is that there are not any
+differences in CRP amounts in the different groups. From the challenge
+above, we learned that 6 individual comparisons are not unlikely to
+produce at least one false positive. In case that there are no
+differences at all, this probability is estimated to be <span class="math inline">\(P=0.26\)</span>.</p>
+<p>Recall that in this situation, we like to control for the family-wise
+error rate. Our null hypothesis is that there’s nothing going on at all,
+and once we reject the null for one of our individual comparisons, we
+also reject this overall null hypothesis.</p>
+<p>In this kind of situation, the ANOVA F-test is the method of choice.
+It is a method that</p>
+<ul><li>is used to compare means between different groups and</li>
+<li>controls for the family-wise error rate.</li>
+<li>It’s applicable when the data points are normally distributed around
+the group means and the variances are similar among the groups. This
+appears to be the case in our example.</li>
+</ul><p>In general, a one-way ANOVA for <span class="math inline">\(t\)</span> groups tests the null hypothesis:</p>
+<p><span class="math display">\[H_0: \mu_1 = \mu_2 = ... =
+\mu_t,\]</span> where <span class="math inline">\(\mu_i\)</span> is the
+mean of population <span class="math inline">\(i\)</span>.</p>
+<p>The alternative hypothesis is:</p>
+<p><span class="math display">\[H_A: \mu_i \neq \mu_j \text{ for some i
+and j where i}\neq \text{j}\]</span></p>
+<p>For this, we use an F-statistic:</p>
+<p><span class="math display">\[F= \frac{\text{between group
+variance}}{\text{within group variance}}\]</span> <span class="math inline">\(F\)</span> becomes large, if the groups differ
+strongly in their group means, while the variance within the groups is
+small. ANOVA is closely related to the t-test. In fact, if we perform an
+ANOVA on a data set with two groups only, it is equivalent to performing
+a t-test. For more details on ANOVA, see <a href="https://online.stat.psu.edu/stat500/lesson/10/10.2" class="external-link">the PennState
+online materials</a>.</p>
+<p>We can perform an ANOVA in R as follows:</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">anova_result</span> <span class="op">&lt;-</span> <span class="fu">aov</span><span class="op">(</span><span class="va">CRP</span> <span class="op">~</span> <span class="va">Exposure</span>, data <span class="op">=</span> <span class="va">exp_data</span><span class="op">)</span></span>
+<span><span class="fu">summary</span><span class="op">(</span><span class="va">anova_result</span><span class="op">)</span></span></code></pre>
+</div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -427,141 +539,319 @@ Residuals   196  690.4   3.523
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<p>The ANOVA output above, shows statistically significant differences
-among the means of the four exposure groups. It does this by comparing
-the variability within each group to the variability between the groups.
-We therefore reject the null hypothesis of equal means.</p>
+<p>The ANOVA output above shows statistically significant differences
+among the means of the four exposure groups. We therefore reject the
+null hypothesis of equal means.</p>
 </div>
-<div class="section level2">
-<h2 id="why-do-we-need-multiple-comparisons">Why do we need multiple comparisons?<a class="anchor" aria-label="anchor" href="#why-do-we-need-multiple-comparisons"></a></h2>
+<div class="section level3">
+<h3 id="post-hoc-tests">Post-hoc tests<a class="anchor" aria-label="anchor" href="#post-hoc-tests"></a></h3>
 <p>ANOVA alone does not tell us which specific groups differ
 significantly from each other. To determine this, we need to conduct
-further analysis. Multiple comparison procedures (also known as post-hoc
-tests) are used to compare pairs of groups in order to identify where
-the differences lie. These tests provide more detailed information about
-which specific group means are different from each other.</p>
-<div class="section level3">
-<h3 id="methods-for-performing-pairwise-comparisons">Methods for Performing Pairwise Comparisons<a class="anchor" aria-label="anchor" href="#methods-for-performing-pairwise-comparisons"></a></h3>
-<p>Parametric methods, such as ANOVA post-hoc tests (e.g., Tukey’s HSD)
-are used when assumptions of normality and homogeneity of variance are
-met. Non-parametric methods, such as pairwise Wilcoxon tests, are
-suitable when data do not meet the assumptions of parametric tests. In
-R, performing pairwise comparisons is straightforward using built-in
-functions and packages.</p>
+further analysis. Post-hoc tests are follow up procedures, used to
+compare pairs of groups in order to identify where the differences lie.
+These tests provide more detailed information about which specific group
+means are different from each other.</p>
+<p>Parametric methods, such as Tukey’s HSD, are used when assumptions of
+normality and homogeneity of variance are met. Non-parametric methods,
+such as pairwise Wilcoxon tests, are suitable when data do not meet the
+assumptions of parametric tests. In R, performing pairwise comparisons
+is straightforward using built-in functions and packages. We perform a
+Tukey post-hoc test using <code>TukeyHSD()</code> to determine which
+specific exposure group means differ significantly from each other.</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tukey_result</span> <span class="op">&lt;-</span> <span class="fu">TukeyHSD</span><span class="op">(</span><span class="va">anova_result</span><span class="op">)</span></span>
+<span><span class="va">tukey_result</span></span></code></pre>
+</div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>  Tukey multiple comparisons of means
     95% family-wise confidence level
 
-Fit: aov(formula = CRP ~ Exposure, data = data)
+Fit: aov(formula = CRP ~ Exposure, data = exp_data)
 
 $Exposure
-                                           diff        lwr       upr     p adj
-Moderate_exposure-Low_exposure        0.7240094 -0.2486521 1.6966710 0.2193881
-High_exposure-Low_exposure            0.4233920 -0.5492695 1.3960536 0.6727404
-Very_high_exposure-Low_exposure       1.5088066  0.5361450 2.4814681 0.0004795
-High_exposure-Moderate_exposure      -0.3006174 -1.2732790 0.6720442 0.8539510
-Very_high_exposure-Moderate_exposure  0.7847971 -0.1878644 1.7574587 0.1597266
-Very_high_exposure-High_exposure      1.0854145  0.1127530 2.0580761 0.0219956</code></pre>
+                         diff        lwr       upr     p adj
+Low-High           -0.4233920 -1.3960536 0.5492695 0.6727404
+Moderate-High       0.3006174 -0.6720442 1.2732790 0.8539510
+Very_high-High      1.0854145  0.1127530 2.0580761 0.0219956
+Moderate-Low        0.7240094 -0.2486521 1.6966710 0.2193881
+Very_high-Low       1.5088066  0.5361450 2.4814681 0.0004795
+Very_high-Moderate  0.7847971 -0.1878644 1.7574587 0.1597266</code></pre>
 </div>
-<p>We perform a Tukey post-hoc test using <strong>TukeyHSD()</strong> to
-determine which specific exposure group means differ significantly from
-each other. The results provide pairwise comparisons of group means
-along with adjusted p-values to account for multiple comparisons.</p>
+<p>The results provide pairwise comparisons of group means including</p>
+<ul><li>
+<code>diff</code>: the estimated difference between the two
+groups</li>
+<li>the lower (<code>lrw</code>) and upper (<code>upr</code>) bounds of
+a 95% family-wise confidence interval and</li>
+<li>
+<code>p adj</code>: the adjusted p-value which can be used to
+control for the FWER.</li>
+</ul><p>You often read that the Tukey procedure calculates <em>simultaneous
+confidence intervals</em>, which implies that the confidence intervals
+are dependent on how many comparisons we make. They grow (more
+uncertainty), the more comparisons we make, and they can also be used to
+determine whether two groups are significantly different. In the plot
+below, each comparison has an estimate, and a confidence interval. We
+call the difference significant with a 95% family-wise confidence level,
+if the confidence interval <em>excludes 0</em>.</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">multcompView</span><span class="op">)</span></span>
+<span><span class="fu">par</span><span class="op">(</span>mar<span class="op">=</span><span class="fu">c</span><span class="op">(</span><span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">4</span>,<span class="fl">1</span><span class="op">)</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu">plot</span><span class="op">(</span><span class="va">tukey_result</span>, </span>
+<span>     las<span class="op">=</span><span class="fl">1</span>,</span>
+<span>     cex.axis<span class="op">=</span><span class="fl">0.7</span><span class="op">)</span></span></code></pre>
 </div>
+<figure><img src="fig/Pairwise-comparisons-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
 <div class="section level3">
 <h3 id="interpreting-pairwise-comparison-results">Interpreting Pairwise Comparison Results<a class="anchor" aria-label="anchor" href="#interpreting-pairwise-comparison-results"></a></h3>
-<p>Understanding significance levels and p-values obtained from pairwise
-comparisons is essential for interpreting results accurately. The
-p-values obtained from pairwise comparisons using the Tukey test are
-adjusted to control the familywise error rate (FWER). Adjusted p-values
-reflect the probability of observing a given result (or more extreme)
-under the assumption that all null hypotheses are true, while accounting
-for the number of comparisons made. Here, we interpret pairwise
-comparison results with adjusted p-values from the Tukey test by
-assessing whether the adjusted p-value is less than the chosen
-significance level (α) (0.05). If the adjusted p-value is below the
-significance level, we conclude that the observed difference is
+<p>Adjusted p-values reflect the probability of observing a given result
+(or more extreme) under the assumption that all null hypotheses are
+true, while accounting for the number of comparisons made. Here, we
+interpret pairwise comparison results with adjusted p-values from the
+Tukey test by assessing whether the adjusted p-value is less than the
+chosen significance level (α) (0.05). If the adjusted p-value is below
+the significance level, we conclude that the observed difference is
 statistically significant after correcting for multiple comparisons.</p>
-<p>In some research scenarios, the comparisons between groups are
-designed to answer specific, pre-defined research questions that are not
-directly addressed by traditional ANOVA and subsequent p-value
-adjustments. In this case, ANOVA and p-value adjustment don’t make any
-sense.</p>
-<p>For example, imagine we are conducting a study to investigate the
-effect of different types of exercise (A, B, C, D) on three different
-health outcomes (X, Y, Z). Our primary interest here is to compare each
-type of exercise directly with respect to each health outcome, rather
-than comparing all exercises together using ANOVA.</p>
-<p>Probable research questions would be:</p>
-<ul><li>Does exercise type A have a different effect than exercise type B on
-health outcome X?</li>
-<li>Is there a difference in the effect of exercise type A compared to
-exercise type C on health outcome Y?</li>
-<li>How does exercise type D compare to exercise type B in terms of
-health outcome Z?</li>
-</ul><p>In this case, instead of conducting a single ANOVA followed by
-post-hoc tests to compare all exercises simultaneously, each comparison
-is treated as a separate research question. The focus is on comparing
-specific pairs of exercise types for each health outcome.</p>
-<p>This means that we would analyze each comparison (e.g., A vs B for X,
-A vs C for Y, D vs B for Z) independently using appropriate statistical
-tests suited for comparing two groups (e.g., t-tests, Wilcoxon rank-sum
-tests, etc.). Since these comparisons are independent and are addressing
-distinct research questions, there is no need for ANOVA or adjustment of
-p-values across comparisons.</p>
-<p>We would then interpret the results of each pairwise comparison based
-on their individual statistical significance and effect sizes relevant
-to the specific research question posed. This approach allows for a
-focused investigation into the differences between specific pairs of
-exercise types and their effects on different health outcomes. This
-tailored approach ensures that the statistical analysis aligns closely
-with the specific objectives of the study, providing meaningful insights
-into the relationships between variables of interest.</p>
+<p>In our example above, we observe significant differences in CRP
+level</p>
+<ul><li>between the exposure groups <code>very_high</code> and
+<code>high</code>
+</li>
+<li>between the exposure groups <code>very_high</code> and
+<code>low</code>
+</li>
+</ul><p>Consistent with that, the respective confidence intervals of these
+two comparisons exclude zero.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="what-we-learn">What we learn<a class="anchor" aria-label="anchor" href="#what-we-learn"></a></h2>
-<p>Pairwise comparisons involve comparing the means or proportions of
-every possible pair of groups or conditions in a dataset. These
-comparisons are used to identify specific differences between groups or
-conditions that may not be apparent from overall statistical tests (like
-the above case ANOVA). These comparisons play a crucial role in
-statistical testing, particularly in the context of multiple
-comparisons. They allow us to examine specific comparisons of interest
-while controlling for the overall familywise error rate. The comparisons
-are commonly used in various fields, including medicine, biology, social
-sciences, and economics, to compare treatment groups, experimental
-conditions, or categorical variables.</p>
+<h2 id="scenario-2">Scenario 2<a class="anchor" aria-label="anchor" href="#scenario-2"></a></h2>
+<p>In the second scenario, we aim to determine risk areas of increased
+CRP concentration. Our control are low exposure regions, and we aim to
+find out which of the other groups differ significantly from the control
+in terms of CRP concentration, which classifies them as risk
+regions.</p>
+<p>If this is our question, in theory, we don’t need all six
+comparisons. We just want to compare each group to the control. In
+biology, this is a common scenario. We might have a small screen, where
+we test several substances against a control, and need to determine
+which of these has an effect. In this scenario, Tukey is overly
+conservative, because it corrects for more tests than we actually like
+to perform. We can, however apply the <em>Dunnett procedure</em>,
+which</p>
+<ul><li>controls for the FWER<br></li>
+<li>in a scenario where we’d like to compare a number of groups to a
+control.</li>
+</ul><p>We can run the Dunnett test in R by using the function
+<code>DunnettTest</code>. As input, we supply</p>
+<ul><li>
+<code>x</code>: a numeric vector of data values, or a list of
+numeric data vectors</li>
+<li>
+<code>g</code>: a vector or factor object giving the group for the
+corresponding elements of x</li>
+<li>
+<code>control</code>: the level of the control group against which
+the others should be tested</li>
+</ul><div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">DescTools</span><span class="op">)</span></span>
+<span><span class="va">dunnett</span> <span class="op">&lt;-</span> <span class="fu">DunnettTest</span><span class="op">(</span>x <span class="op">=</span><span class="va">exp_data</span><span class="op">$</span><span class="va">CRP</span>, </span>
+<span>            g<span class="op">=</span> <span class="va">exp_data</span><span class="op">$</span><span class="va">Exposure</span>, </span>
+<span>            control <span class="op">=</span> <span class="st">"Low"</span><span class="op">)</span></span>
+<span><span class="va">dunnett</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>
+  Dunnett's test for comparing several treatments with a control :
+    95% family-wise confidence level
+
+$Low
+                   diff     lwr.ci   upr.ci    pval
+High-Low      0.4233920 -0.4652856 1.312070 0.53610
+Moderate-Low  0.7240094 -0.1646682 1.612687 0.13711
+Very_high-Low 1.5088066  0.6201290 2.397484 0.00023 ***
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb10">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">par</span><span class="op">(</span>mar<span class="op">=</span><span class="fu">c</span><span class="op">(</span><span class="fl">5.1</span>, <span class="fl">7.1</span>, <span class="fl">4.1</span>, <span class="fl">1.1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">plot</span><span class="op">(</span><span class="va">dunnett</span>, las<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="fig/Pairwise-comparisons-rendered-unnamed-chunk-6-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div id="discussion" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="discussion" class="callout-inner">
+<h3 class="callout-title">Discussion<a class="anchor" aria-label="anchor" href="#discussion"></a>
+</h3>
+<div class="callout-content">
+<p>Why can’t we just run t-tests and then apply Bonferoni?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div class="accordion-body">
+<p>This would not be wrong. It doesn’t produce confidence intervals
+though. It’s sometimes a matter of convention.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="be-honest" class="callout testimonial">
+<div class="callout-square">
+<i class="callout-icon" data-feather="heart"></i>
+</div>
+<div id="be-honest" class="callout-inner">
+<h3 class="callout-title">Be honest!<a class="anchor" aria-label="anchor" href="#be-honest"></a>
+</h3>
+<div class="callout-content">
+<p>In some cases, Dunnett is the way to go. But take a minute and think
+about whether you’re not interested in the other comparisons as well.
+For instance, when studying air pollution in different groups, you might
+also be interested in whether there are differences between moderate and
+high exposure. The fact that we don’t <em>see</em> large differences
+between those two groups in the data is <em>not</em> a good reason for
+leaving out this comparison!</p>
+</div>
+</div>
+</div>
 </div>
 <div class="section level2">
-<h2 id="data-snooping-figure_6-data-snooping">Data snooping <img src="fig/Data%20snooping.png" alt="Figure_6: Data snooping" class="figure"><a class="anchor" aria-label="anchor" href="#data-snooping-figure_6-data-snooping"></a></h2>
-<p>In the context of the above analysis, data snooping refers to the
-practice of exploring the data extensively, testing multiple hypotheses,
-and making comparisons until finding a statistically significant result
-or an interesting pattern. This can lead to overfitting the data or
-finding false positives due to chance alone.</p>
-<p>In our example, data snooping could involve testing multiple
-comparisons between exposure groups until finding one that appears to be
-statistically significant or interesting. For example, one might compare
-only the “Very_high_exposure” group with the other groups, ignoring
-other potential comparisons. This selective comparison increases the
-likelihood of finding a significant result by chance alone.</p>
-<p>Additionally, in some cases, we might decide not to perform all
-tests. We could just visually inspect our plot, and only perform the
-test that seems most promising when comparing the bars by eye. For
-example, after observing the initial boxplot, we might want to conduct
-numerous additional analyses or subgroup comparisons based on observed
-patterns, without pre-specifying these comparisons. This approach can
-lead to inflated Type I error rates (false positives) if corrections for
-multiple testing are not applied.</p>
-<p>Data snooping can influence decision-making by focusing only on
-results that appear favorable or intriguing in the data. For instance,
-if a particular exposure group shows a larger mean than others, a
-decision might be made to focus solely on interventions or policies
-targeting that group without considering the broader context or
-potential confounding factors.</p>
+<h2 id="pretty-figures">Pretty figures<a class="anchor" aria-label="anchor" href="#pretty-figures"></a></h2>
+<p>In publications, you often find p-values plotted next to the
+comparison in a figure. These plots can be produced in R.</p>
+<div id="publication-ready-plots" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="publication-ready-plots" class="callout-inner">
+<h3 class="callout-title">Publication-ready plots<a class="anchor" aria-label="anchor" href="#publication-ready-plots"></a>
+</h3>
+<div class="callout-content">
+<p>The R package <code>ggpubr</code> comes with the promise of producing
+publication-ready plots. Let’s explore some of the functions and
+practice our plotting skills. We use the <code>PlantGrowth</code> data
+set.</p>
+<ol style="list-style-type: decimal"><li>Explore the data set. Which variables are there?</li>
+<li>Use the following template to create a meaningful plot, comparing
+the groups in the data set using ANOVA. You can look up the function
+<code>stat_compare_means</code> in the R help section.</li>
+</ol><div class="codewrapper sourceCode" id="cb11">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">ggpubr</span><span class="op">)</span> <span class="co"># load the required library</span></span>
+<span></span>
+<span><span class="va">PlantGrowth</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span>, y<span class="op">=</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">geom_jitter</span><span class="op">(</span>width<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span><span class="op">+</span> <span class="co"># feel free to replace by, or add, another type of plot</span></span>
+<span>  <span class="fu">stat_compare_means</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
+</button>
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div class="accordion-body">
+<ol style="list-style-type: decimal"><li><p>Consult <code>?PlantGrowth</code>, or check
+<code>names(PlantGrowth)</code>. The data set compares the biomass
+(<code>weight</code>) in a control and two treatment
+conditions.</p></li>
+<li>
+</li>
+</ol><div class="codewrapper sourceCode" id="cb12">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">ggpubr</span><span class="op">)</span></span>
+<span><span class="va">PlantGrowth</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">group</span>, y<span class="op">=</span><span class="va">weight</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">geom_jitter</span><span class="op">(</span>width<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">stat_compare_means</span><span class="op">(</span>method<span class="op">=</span><span class="st">"anova"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="fig/Pairwise-comparisons-rendered-unnamed-chunk-8-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The <code>stat_compare_means</code> function infers the comparisons
+to be made from the <code>x</code> and <code>y</code> that we supplied
+in the <code>aes</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<p>We saw that the <code>stat_compare_means</code> function allows you
+to conveniently add the p-value of an ANOVA in the plot. We can also add
+the p-values for individual comparisons:</p>
+<div class="codewrapper sourceCode" id="cb13">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">PlantGrowth</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">group</span>, y<span class="op">=</span><span class="va">weight</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">geom_jitter</span><span class="op">(</span>width<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">stat_compare_means</span><span class="op">(</span>method<span class="op">=</span><span class="st">"anova"</span>, label.y <span class="op">=</span> <span class="fl">7</span><span class="op">)</span><span class="op">+</span> </span>
+<span>  <span class="fu">stat_compare_means</span><span class="op">(</span>comparisons<span class="op">=</span><span class="fu">list</span><span class="op">(</span> <span class="fu">c</span><span class="op">(</span><span class="st">"ctrl"</span>, <span class="st">"trt1"</span><span class="op">)</span>, <span class="fu">c</span><span class="op">(</span><span class="st">"ctrl"</span>, <span class="st">"trt2"</span><span class="op">)</span><span class="op">)</span>, method<span class="op">=</span><span class="st">"t.test"</span><span class="op">)</span>  </span></code></pre>
+</div>
+<figure><img src="fig/Pairwise-comparisons-rendered-unnamed-chunk-9-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Explanations on the code above:</p>
+<ul><li>The setting <code>label.y = 7</code> shifts the result of the ANOVA
+to a height of <code>weight=7</code>, so it won’t overlap with the
+individual results.</li>
+<li>If we self-define the comparisons, we can do this via the
+<code>comparisons</code> argument by supplying a list of the comparisons
+to be made.</li>
+</ul><p>For more examples with the package, look up <a href="http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/" class="external-link">this
+page</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="p-value-hacking-and-data-snooping">p-value hacking and data snooping<a class="anchor" aria-label="anchor" href="#p-value-hacking-and-data-snooping"></a></h2>
+<p>We learned in this lesson that performing a series of tests increases
+the chances of having at least one false positive. Therefore, it is
+important to be transparent about which tests were conducted during a
+study. If we run a large screen and reported only the tests that came
+out as hits, we’re skipping the type-I error control, and for someone
+else it is not comprehensible how much the results can be trusted. In
+fact, we could perform a screen of 1000 biological samples, where there
+are <em>no</em> true positives. Still, if we run each test at <span class="math inline">\(\alpha=0.05\)</span>, we would have around 50
+hits, which are all false positives. The practice of analyzing data
+extensively, testing multiple hypotheses, or making comparisons until
+finding a statistically significant result or an interesting pattern, is
+called <em>p-value hacking</em>.</p>
+<p>But even if this is not your intention, you may still sometimes be
+tempted to <em>snoop</em> in the data, which is a more subtle way of
+increasing type I error.</p>
+<p>Reconsider the air pollution example above:</p>
+<figure><img src="fig/Pairwise-comparisons-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>In this example, we might visually inspect our plot, and decide to
+perform only the comparison between very high and low. Why? Because it
+<em>looks</em> most promising. With only one test performed, there is
+also no possibility to perform correction for multiple testing, which
+may seem sound, while in reality, you performed all the pairwise
+comparisons by eye, without correcting for them. Therefore, unless you
+<em>pre-specified</em> one particular test <em>before</em> you inspected
+the data, all tests should be performed and reported. Otherwise, this
+approach will lead to inflated Type I error rates.</p>
 </div>
 <div class="section level2">
 <h2 id="additional-resources">Additional resources<a class="anchor" aria-label="anchor" href="#additional-resources"></a></h2>
@@ -638,8 +928,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/Pairwise-comparisons.html",
   "identifier": "https://FIXME-template-source.github.io/NA/Pairwise-comparisons.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-08-13",
-  "datePublished": "2024-08-13"
+  "dateModified": "2024-08-19",
+  "datePublished": "2024-08-19"
 }
 
   </script><script>

@@ -382,10 +382,10 @@
         
 <section id="aio-What-is-multiple-testing"><p>Content from <a href="What-is-multiple-testing.html">What is multiple testing</a></p>
 <hr>
-<p>Last updated on 2024-08-13 |
+<p>Last updated on 2024-08-19 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/What-is-multiple-testing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
+<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 15 minutes</p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -398,6 +398,7 @@
 <h3 class="card-title">Questions</h3>
 <ul>
 <li>What is multiple testing?</li>
+<li>How are false-positives related to the significance level?</li>
 </ul>
 </div>
 </div>
@@ -417,19 +418,21 @@
 <div class="section level1">
 <h1 id="what-is-multiple-testing">What is multiple testing<a class="anchor" aria-label="anchor" href="#what-is-multiple-testing"></a>
 </h1>
-<p>Suppose the prevalence of a disease in the general population is 4%.
-In this population, lives a group of individuals who have all been
-exposed to air pollution. Concerned about their health, we decide to
-embark on a quest to uncover whether being exposed to air pollution
-influenced the risk of contracting this disease.</p>
-<figure><img src="../fig/01-Disease-prevalence.png" alt="Disease prevalence in a population- Illustrating the proportion of individuals affected by the disease as 4% of the population" class="figure mx-auto d-block"><div class="figcaption">Disease prevalence in a population- Illustrating
-the proportion of individuals affected by the disease as 4% of the
-population</div>
+<p>Let’s approach this question through an example and a recap on
+hyptothesis testing: Suppose the prevalence of a disease in the general
+population is 4%. In this population, lives a group of individuals who
+have all been exposed to air pollution. Concerned about their health, we
+decide to embark on a quest to uncover whether being exposed to air
+pollution influenced the risk of contracting this disease.</p>
+<figure><img src="../fig/01-Disease-prevalence.png" alt="Disease prevalence in a population: We compare the known population average of 4% to a test group in which 9/100 individuals have the disease." class="figure mx-auto d-block"><div class="figcaption">Disease prevalence in a population: We compare
+the known population average of 4% to a test group in which 9/100
+individuals have the disease.</div>
 </figure><div class="section level2">
 <h2 id="setting-the-null-and-alternative-hypothesis">Setting the null and alternative hypothesis<a class="anchor" aria-label="anchor" href="#setting-the-null-and-alternative-hypothesis"></a>
 </h2>
 <p>We would like to conduct a hypothesis test to find out whether the
-prevalence in the test group differs from the known 4%.</p>
+prevalence in the test group differs from the known 4%. For this, we
+define the null and the alternative hypothesis.</p>
 <div class="section level3">
 <h3 id="null-hypothesis-h_0">Null Hypothesis (<span class="math inline">\(H_0\)</span>)<a class="anchor" aria-label="anchor" href="#null-hypothesis-h_0"></a>
 </h3>
@@ -462,12 +465,13 @@ want to know if this prevalence of the disease within the group exposed
 to air pollution was significantly different from the population’s
 average, meaning that it’s very unlikely to observe this difference just
 by chance. So, we decide to perform binomial test (please refer back to
-binomial tests tutorial) <a href="%22https://sarahkaspar.github.io/biostatistics-course/03-binomial.html%22" class="external-link">The
-binomial distribution</a>. With this test, we could compare the observed
-prevalence within our group that has been exposed to air pollution to
-the known prevalence in the entire population.</p>
-<p>We set our significance level (α) beforehand, typically at 0.05, to
-determine whether the results are statistically significant.</p>
+<a href="%22https://sarahkaspar.github.io/biostatistics-course/03-binomial.html%22" class="external-link">binomial
+test</a>). With this test, we compare the observed prevalence within our
+group that has been exposed to air pollution to the known prevalence in
+the entire population.</p>
+<p>We set our significance level beforehand, typically at <span class="math inline">\(\alpha=0.05\)</span>, to determine whether the
+results are statistically significant.</p>
+<p>Here, we run the test in R:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -475,22 +479,30 @@ determine whether the results are statistically significant.</p>
 <code class="sourceCode R"><span><span class="co">#For known parameters (n=100, p=0.04), we calculates the the chances of getting the 9 individuals that indeed suffered from the disease. </span></span>
 <span><span class="va">n</span> <span class="op">=</span> <span class="fl">100</span> <span class="co"># number of test persons</span></span>
 <span><span class="va">p</span> <span class="op">=</span> <span class="fl">0.04</span> <span class="co"># Known prevalence of the disease in the general population</span></span>
-<span><span class="fu">dbinom</span><span class="op">(</span>x<span class="op">=</span><span class="fl">9</span>, size<span class="op">=</span><span class="va">n</span>, prob<span class="op">=</span><span class="va">p</span><span class="op">)</span></span></code></pre>
+<span><span class="fu">binom.test</span><span class="op">(</span>x<span class="op">=</span><span class="fl">9</span>, n<span class="op">=</span><span class="va">n</span>, p<span class="op">=</span><span class="va">p</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] 0.01214746</code></pre>
+<pre class="output" tabindex="0"><code>
+	Exact binomial test
+
+data:  9 and n
+number of successes = 9, number of trials = 100, p-value = 0.01899
+alternative hypothesis: true probability of success is not equal to 0.04
+95 percent confidence interval:
+ 0.0419836 0.1639823
+sample estimates:
+probability of success
+                  0.09 </code></pre>
 </div>
-<p>The P-value we get, is the probability of obtaining extreme outcome,
-assuming that the null hypothesis is true. Therefore, the binomial test
-calculates the probability of observing the obtained (9 persons with a
-disease) or more extreme results assuming the null hypothesis is true.
+<p>The obtained p-value is the probability of seeing an outcome as
+extreme as the observed one, assuming that the null hypothesis is true.
 If this probability is sufficiently low (below our chosen significance
 level), we reject the null hypothesis in favor of the alternative
 hypothesis.</p>
-<p>The binomial test result (~0.012) reveals that the prevalence of the
-disease among the individuals exposed to air pollution was indeed
+<p>The binomial test result (~0.02) reveals that the prevalence of the
+disease among the individuals exposed to air pollution is indeed
 significantly different from that of the population.</p>
 </div>
 <div class="section level2">
@@ -503,66 +515,112 @@ unknown influences.</p>
 disease prevalence in 200 various locations. We want to assess whether
 there is a significant difference in disease rates between groups
 exposed to air pollution and the average for the whole population.</p>
-<p>We want to know how hypothesis testing works, when we perform it
-simultaneously or in quick succession on many tests.</p>
-<p>We therefore decide to simulate the scenario where we conduct 200
-tests, each with a 5% chance (alpha = 0.05) of producing a significant
-result (i.e., a p-value less than 0.05) even when the null hypothesis is
-true.</p>
+<p>Let’s now assume that in our scenario, there is <em>no</em>
+association between air pollution and the disease in <em>any</em> of the
+tested regions.</p>
+<div id="vote" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<div id="vote" class="callout-inner">
+<h3 class="callout-title">Vote<a class="anchor" aria-label="anchor" href="#vote"></a>
+</h3>
+<div class="callout-content">
+<p>What kind of results would you expect from running a series of tests
+in 200 regions?</p>
+<ul>
+<li>no significant test</li>
+<li>all tests significant</li>
+<li>some tests significant</li>
+</ul>
+</div>
+</div>
+</div>
+<p>To find out, we can simulate the scenario where we conduct 200 tests,
+each with a 5% chance (<span class="math inline">\(\alpha =
+0.05\)</span>) of producing a significant result (i.e., a p-value less
+than 0.05) even when the null hypothesis is true.</p>
 <p>Our null hypothesis in each location is that there is no real
 difference in disease rates between the groups exposed to air pollution
 and the average for the whole population.</p>
-<figure><img src="../fig/Scenario_100%20individuals%20get%20tested%20for%20a%20disease.%20The%20disease%20prevalence%20is%200.04.%20The%20experiment%20is%20repeated%20200%20times.png" alt="Figure_2: A Scenario where 100 individuals get tested for a disease. The disease prevalence is 0.04. The experiment is repeated 200 times" class="figure mx-auto d-block"><div class="figcaption">Figure_2: A Scenario where 100 individuals get
-tested for a disease. The disease prevalence is 0.04. The experiment is
-repeated 200 times</div>
-</figure><p>To do this, we write a program in R, which simulates study results
+<figure><img src="../fig/Scenario_200_nulls.png" alt="A Scenario where 100 individuals get tested for a disease. The disease prevalence is 0.04. The experiment is repeated 200 times" class="figure mx-auto d-block"><div class="figcaption">A Scenario where 100 individuals get tested for
+a disease. The disease prevalence is 0.04. The experiment is repeated
+200 times</div>
+</figure><p>To do this, we write a script in R, which simulates study results
 when the prevalence in the test group is 4% (null hypothesis is true).
 We run these experiments to see what would happen if we kept doing tests
 even when there was not actually any difference.</p>
-<figure><img src="../fig/What-is-multiple-testing-rendered-Simulating%20200%20test%20groups-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We are interested in determining if the observed proportion
-significantly deviates from the expected proportion (0.4) in either
-direction (either higher or lower). As this is a two-tailed binomial
-test, we needed to adjust the bounds for what is considered
-“significant” based on the significance level of 0.05. We are interested
-in the extreme tails of the distribution that contain 2.5% of the data
-on each side.</p>
-<p>We therefore use <code>qbinom()</code> function in this simulation to
-calculate the quantiles of the binomial distribution corresponding to
-the 2.5th and 97.5th percentiles. This gives us the bounds that would
-contain 95% of the data under the null hypothesis. We then classify a
-group as “significant” if the observed number of patients falls below
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span>
+<span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">33</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># define lower and upper bounds: beyond these bounds, results are significant</span></span>
+<span><span class="va">lower</span> <span class="op">&lt;-</span> <span class="fu">qbinom</span><span class="op">(</span><span class="fl">0.025</span>, size<span class="op">=</span><span class="fl">100</span>, prob<span class="op">=</span><span class="fl">0.04</span><span class="op">)</span></span>
+<span><span class="va">upper</span> <span class="op">&lt;-</span> <span class="fu">qbinom</span><span class="op">(</span><span class="fl">0.975</span>, size<span class="op">=</span><span class="fl">100</span>, prob<span class="op">=</span><span class="fl">0.04</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Generate simulated data</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">data.frame</span><span class="op">(</span></span>
+<span>  count <span class="op">=</span> <span class="fu">rbinom</span><span class="op">(</span>n<span class="op">=</span><span class="fl">200</span>, size<span class="op">=</span><span class="fl">100</span>, prob<span class="op">=</span><span class="fl">0.04</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># add significance</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>significant <span class="op">=</span> <span class="fu">ifelse</span><span class="op">(</span></span>
+<span>    <span class="op">(</span><span class="va">count</span> <span class="op">&lt;</span> <span class="va">lower</span> <span class="op">|</span> <span class="va">count</span> <span class="op">&gt;</span> <span class="va">upper</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">data</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">count</span>, fill<span class="op">=</span><span class="fu">factor</span><span class="op">(</span><span class="va">significant</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">1</span>,color<span class="op">=</span><span class="st">"black"</span><span class="op">)</span><span class="op">+</span></span>
+<span>   <span class="fu">scale_fill_discrete</span><span class="op">(</span>type<span class="op">=</span><span class="fu">c</span><span class="op">(</span><span class="st">"darkslateblue"</span>,<span class="st">"lightblue"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">guides</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre>
+</div>
+<p><img src="../fig/What-is-multiple-testing-rendered-Simulating-200-test-groups-1.png" style="display: block; margin: auto;" class="figure">
+What does the above code do:</p>
+<ul>
+<li>Determine lower and upper bounds for significance: A two-tailed
+binomial test calls counts significant that are either below the 2.5
+percentile, or above the 97.5 percentile of the binomial distribution.
+We determine these bounds using <code>qbinom</code>. This gives us the
+bounds that contain 95% of the data under the null hypothesis.</li>
+<li>Determine significance: We then classify a group as
+<code>significant</code> if the observed number of patients falls below
 the 2.5th percentile or above the 97.5th percentile of the binomial
-distribution.</p>
+distribution.</li>
+<li>Plotting: We plot a histogram of the counts, and use the argument
+<code>fill</code> to color by the variable <code>significant</code>. We
+use <code>scale_fill_discrete</code> to manually determine the colors
+for significant and non-significant.</li>
+</ul>
 <p>In the resulting histogram, we find that even in a world where there
 was no true difference in disease prevalence, about 5% of our simulated
 experiments yielded statistically significant results purely by chance
-(the red bars).</p>
+(the light blue bars).</p>
 <p>It is important to note that the significance level (α) that we
 choose for each individual test directly impacts the rate of false
-positives. This is basically the <strong>Comparison-Wise Error Rate
+positives. This is the <strong>Comparison-Wise Error Rate
 (CWER)</strong>, the probability of making a Type I error (false
 positive) in a single hypothesis test. In our example, we have set
-α=0.05 for each individual test, which means we are essentially saying
-that we are willing to accept a 5% chance of making a false positive
-error for each test, and this means that for 100 tests, we expect about
-5 false positives.</p>
+α=0.05 for each individual test, which means we are willing to accept a
+5% chance of making a false positive error for each test, and this means
+that for 100 tests, we expect about 5 false positives.</p>
 <p>By running this simulation multiple times, we can observe how often
 we get false positive results when there should be none. This helps us
 understand the likelihood of obtaining a significant result purely by
 chance, even if there is no true effect or difference.</p>
-<div id="discussion1" class="callout discussion">
+<div id="discussion2" class="callout discussion">
 <div class="callout-square">
 <i class="callout-icon" data-feather="message-circle"></i>
 </div>
 <div class="callout-inner">
-<h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#discussion1"></a>
+<h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#discussion2"></a>
 </h3>
 <div class="callout-content">
 <ul>
-<li>If we set α=0.01 for each individual test, which means we are
-essentially saying that we are willing to accept a 1% chance of making a
-false positive error for each test,what is the number of false positives
-we should expect for 100 tests?</li>
+<li>If we set α=0.01 for each individual test, what is the number of
+false positives we should expect for 100 tests?</li>
 </ul>
 </div>
 </div>
@@ -572,44 +630,37 @@ we should expect for 100 tests?</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
-
+<p>We expect 1 false positive on average.</p>
 </div>
 </div>
 </div>
-</div>
-<div class="section level3">
-<h3 id="key-points">Key points<a class="anchor" aria-label="anchor" href="#key-points"></a>
-</h3>
-<ul>
-<li>Through this exercise, we learn a valuable lesson about the dangers
-of multiple testing.</li>
-<li>We realize that without proper adjustments, the likelihood of
-encountering false positives (rejecting a true null hypothesis) increase
-with each additional comparison.</li>
-<li>We need some additional control to make sure we found more hits than
-expected by chance.</li>
-</ul>
 </div>
 </div>
 <div class="section level2">
-<h2 id="so-what-is-multiple-testing">So what is multiple testing?<a class="anchor" aria-label="anchor" href="#so-what-is-multiple-testing"></a>
+<h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h2>
 <p>Multiple testing refers to the practice of conducting numerous
 hypothesis tests simultaneously or repeatedly on the same data set. It
 is typically motivated by the desire to explore different aspects of the
 data or to investigate multiple hypotheses. Researchers employ multiple
 tests to examine various relationships, comparisons, or associations
-within their dataset, such as comparing means, proportions,
+within their data set, such as comparing means, proportions,
 correlations, or other statistical analyses that involve hypothesis
 testing.</p>
+<p>When we increase the number of conducted tests, this also increases
+the number of false positives to be expected among the tests where the
+null hypothesis is true. The <em>fraction</em> of expected false
+positives among the cases with true null is equal to the significance
+level <span class="math inline">\(\alpha\)</span> that we apply for each
+individual test.</p>
 <div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -625,7 +676,7 @@ any links that you are not going to use.
 </div>
 </div></section><section id="aio-Types-of-errors"><p>Content from <a href="Types-of-errors.html">Types of errors and error rates</a></p>
 <hr>
-<p>Last updated on 2024-08-13 |
+<p>Last updated on 2024-08-19 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Types-of-errors.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 10 minutes</p>
@@ -644,6 +695,7 @@ any links that you are not going to use.
 manifest in a confusion matrix?</li>
 <li>What are some of real examples where false positives and false
 negatives have different implications and consequences?</li>
+<li>What are type I error rates?</li>
 </ul>
 </div>
 </div>
@@ -655,7 +707,7 @@ negatives have different implications and consequences?</li>
 <ul>
 <li>Understand the concept of false positives and false negatives and
 how they are represented in a confusion matrix</li>
-<li>Analyse and discuss scnarios where false positives and false
+<li>Analyse and discuss scenarios where false positives and false
 negatives pose distinct challenges and implications</li>
 <li>Highlight situations where minimizing each type of error is
 crucial</li>
@@ -669,16 +721,16 @@ crucial</li>
 <h1 id="types-of-errors">Types of errors<a class="anchor" aria-label="anchor" href="#types-of-errors"></a>
 </h1>
 <p>In hypothesis testing, the evaluation of statistical significance
-involves making decisions based on sample data. However, these decisions
-are not without errors. In this tutorial, we will explore the concept of
-errors in hypothesis testing (Type I and Type II errors), and their
-implications.</p>
+involves making decisions based on sampled data. However, these
+decisions are not without errors. In this tutorial, we will explore the
+concept of errors in hypothesis testing (Type I and Type II errors), and
+their implications.</p>
 <div class="section level2">
 <h2 id="type-i-error">Type I Error<a class="anchor" aria-label="anchor" href="#type-i-error"></a>
 </h2>
-<p>Type I error occurs when we reject a null hypothesis that is actually
-true. For example, in our previous example where we conducted many
-similar experiments, we experienced type I error by concluding that
+<p>A type I error occurs when we reject a null hypothesis that is
+actually true. For example, in our previous example where we conducted
+many similar experiments, we experienced type I error by concluding that
 exposure to air pollution has an effect on disease prevalence (rejecting
 the null hypothesis) when it actually has no effect. Type I errors
 represent false positives and can lead to incorrect conclusions,
@@ -687,22 +739,20 @@ potentially resulting in wasted resources or misguided decisions.</p>
 <div class="section level2">
 <h2 id="type-ii-error">Type II Error<a class="anchor" aria-label="anchor" href="#type-ii-error"></a>
 </h2>
-<p>Type II error occurs when we fail to reject a null hypothesis that is
-actually false. For example, when we fail to conclude that exposure to
-air pollution has an effect on disease prevalence (failing to reject the
-null hypothesis) when it actually has a positive effect. Type II errors
-represent false negatives and can result in missed opportunities or
-overlooking significant effects.</p>
-<p>One common way when this error occurs in the context of hypothesis
-testing, is when a method with low <strong>statistical power</strong> is
-chosen (if the sample size is small or the effect size (difference in
-disease prevalence) is small). Statistical power refers to the
-probability of correctly rejecting the null hypothesis when it is indeed
-false. In simpler terms, it measures the likelihood of detecting a true
-effect or difference if it exists. A test with high power is more likely
-to detect a real effect, while a test with low power is more likely to
-miss detecting a real effect, leading to a Type II error (false
-negative).</p>
+<p>A type II error occurs when we fail to reject a null hypothesis that
+is actually false. For example, when we fail to conclude that exposure
+to air pollution has an effect on disease prevalence (failing to reject
+the null hypothesis) when it actually has a positive effect. Type II
+errors represent false negatives and can result in missed opportunities
+or overlooking significant effects.</p>
+<p>Type II errors often occur when in settings with low
+<strong>statistical power</strong> is chosen. Statistical power refers
+to the probability of correctly rejecting the null hypothesis when it is
+indeed false. In simpler terms, it measures the likelihood of detecting
+a true effect or difference if it exists. Low power can be due to
+properties of the sample, such as insufficient number of data points, or
+high variance. But there are also tests that are better at detecting an
+effect than others in certain settings.</p>
 </div>
 <div class="section level2">
 <h2 id="confusion-matrix">Confusion Matrix<a class="anchor" aria-label="anchor" href="#confusion-matrix"></a>
@@ -713,22 +763,21 @@ the outcomes of hypothesis testing as True Positives (correctly
 rejecting H0), False Positives (incorrectly rejecting H0), True
 Negatives (correctly failing to reject H0), and False Negatives
 (incorrectly failing to reject H0).</p>
-<figure><img src="../fig/Figure%201%20Errors%20in%20hypothesis%20testing.png" alt="Figure_4: Errors in hypothesis testing and how they arise" class="figure mx-auto d-block"><div class="figcaption">Figure_4: Errors in hypothesis testing and how
-they arise</div>
+<figure><img src="../fig/Figure%201%20Errors%20in%20hypothesis%20testing.png" alt="Confusion matrix" class="figure mx-auto d-block"><div class="figcaption">Confusion matrix</div>
 </figure>
 </div>
 </div>
 <div class="section level1">
-<h1 id="the-problem">The problem<a class="anchor" aria-label="anchor" href="#the-problem"></a>
+<h1 id="implications-of-type-i-and-type-ii-errors">Implications of type I and type II errors<a class="anchor" aria-label="anchor" href="#implications-of-type-i-and-type-ii-errors"></a>
 </h1>
 <p>In hypothesis testing, the occurrence of Type I and Type II errors
 can have different implications depending on the context of the problem
 being addressed. It is crucial to understand which errors are
 problematic in which situation to be able to make informed decisions and
 draw accurate conclusions from statistical analyses.</p>
-<p>Type I errors, are particularly problematic in situations where the
+<p>Type I errors are particularly problematic in situations where the
 cost or consequences of incorrectly rejecting a true null hypothesis are
-high. Again if we refer back to our example, if we incorrectly conclude
+high. Again, if we refer back to our example, if we incorrectly conclude
 that there is a significant difference in disease rates between the test
 groups exposed to air pollution and the average for the whole population
 when, in fact, there is no such difference, it could lead to misguided
@@ -740,8 +789,8 @@ leading to unnecessary financial burdens or societal disruptions.
 Moreover, public trust in scientific findings and policy decisions may
 be eroded if false positives lead to ineffective or burdensome
 interventions.</p>
-<p>Type II errors, are problematic when failing to detect a significant
-effect has substantial consequences.If we fail to detect a significant
+<p>Type II errors are problematic when failing to detect a significant
+effect has substantial consequences. If we fail to detect a significant
 difference in disease rates between the test group and the population
 average when there actually is a difference due to air pollution
 exposure, it could result in overlooking a serious public health
@@ -753,7 +802,7 @@ of air pollution. Additionally, delayed or inadequate response to
 environmental health risks may exacerbate inequalities in health
 outcomes.</p>
 <div class="section level2">
-<h2 id="the-example-of-cancer-screening">The example of cancer screening<a class="anchor" aria-label="anchor" href="#the-example-of-cancer-screening"></a>
+<h2 id="an-example-of-cancer-screening">An example of cancer screening<a class="anchor" aria-label="anchor" href="#an-example-of-cancer-screening"></a>
 </h2>
 <p>Cancer screening exemplifies a medical testing paradox, where the
 interpretation of test results can be influenced by factors such as
@@ -835,21 +884,22 @@ relevance and ethical soundness of their findings.</p>
 </h2>
 <p>In the following chapters, we’ll see different methods that all aim
 to control for false positives in different settings.</p>
-<p>The main distinction between them lies in the <em>error rate</em>
-that they control for. We’ll get to know three of them:</p>
+<p>The main distinction between these methods lies in the <em>error
+rate</em> that they control for. We’ll get to know three error
+rates:</p>
 <ul>
-<li>The comparison-wise error rate, where you use the p-value as you
+<li>The comparison-wise error rate, where we use the p-value as we
 obtain it from each individual test (no correction).</li>
 <li>The family-wise error rate, where we like to avoid <em>any</em>
 false positives.</li>
 <li>The false-discovery rate, where we like to control the
 <em>fraction</em> of false positives within our hits.</li>
 </ul>
-<p>In terms of settings, we’ll see screening scenarios and multiple
-comparisons, and in both settings, different methods exist to control
-for the different error rates.</p>
-<p>The plethora of methods can often be overwhelming, therefore it’s
-good to keep in mind that most of the time in practice, the workflow can
+<p>We’ll see screening scenarios and multiple comparisons, and in both
+settings, different methods exist to control for the different error
+rates.</p>
+<p>The plethora of methods can often be overwhelming. Therefore it’s
+good to keep in mind that in practice, most of the time the workflow can
 be broken down into three simple steps:</p>
 <ol style="list-style-type: decimal">
 <li>Clearly define your <strong>research question</strong>, and describe
@@ -872,13 +922,13 @@ correct anything.</li>
 <li>Sometimes, one incorrect rejection changes the overall conclusion in
 your research setting. For example, if you decide on the safety of a
 chemical, which is a mixture of ingredients. You can ask for each
-ingredient whether it’s safe (null hypothesis: it’s safe). If you all
-null hypohteses are true (all ingredients are safe), you’d like to
-conclude that the entire chemical is safe. However, if you falsely
-reject one individual null hypothesis, this will change the overall
-conclusion (you falsely call the chemical unsafe). Therefore, you’d like
-to control the probability of making any false rejections, which is
-called the family-wise error rate.</li>
+ingredient whether it’s safe (null hypothesis: it’s safe). If all null
+hypohteses are true (all ingredients are safe), you’d like to conclude
+that the entire chemical is safe. However, if you falsely reject one
+individual null hypothesis, this will change the overall conclusion (you
+falsely call the chemical unsafe). Therefore, you’d like to control the
+probability of making any false rejections, which is called the
+family-wise error rate.</li>
 <li>In many scenarios, a few false positives won’t change the overall
 conclusion. For example, in biological screens, we aim for a hit list of
 candidate genes/proteins/substances that play a role in a process of
@@ -894,7 +944,7 @@ positives among the hits.</li>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -910,10 +960,10 @@ any links that you are not going to use.
 </div>
 </div></section><section id="aio-Family-wise-error-rate"><p>Content from <a href="Family-wise-error-rate.html">Family-wise error rate</a></p>
 <hr>
-<p>Last updated on 2024-08-13 |
+<p>Last updated on 2024-08-19 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Family-wise-error-rate.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
+<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 20 minutes</p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -941,9 +991,9 @@ FWER, and what are its limitations?</li>
 <li>Understand the concept of the family-wise error rate (FWER) and its
 significance in multiple testing, including the implications of making
 multiple comparisons without controlling for FWER.</li>
-<li>Learn the Bonferroni procedure for adjusting p-values to maintain
-the FWER at a specified level, and recognize when alternative methods
-may be more appropriate or effective in controlling for multiple
+<li>Understand the Bonferroni procedure for adjusting p-values to
+maintain the FWER at a specified level, and recognize when alternative
+methods may be more appropriate or effective in controlling for multiple
 comparisons.</li>
 </ul>
 </div>
@@ -951,11 +1001,6 @@ comparisons.</li>
 </div>
 </div>
 </div>
-<p>In statistical hypothesis testing, conducting multiple tests
-simultaneously increases the likelihood of making at least one
-false-positive error. In this episode, we will explore the family-wise
-error rate (FWER), and discuss methods to account for multiple
-comparisons, using practical examples.</p>
 <section><h2 class="section-heading" id="a-multi-hypothesis-testing-framework">A Multi-Hypothesis Testing Framework<a class="anchor" aria-label="anchor" href="#a-multi-hypothesis-testing-framework"></a>
 <a class="anchor" aria-label="anchor" href="#a-multi-hypothesis-testing-framework"></a>
 </h2>
@@ -969,16 +1014,16 @@ comprehensively.</p>
 the prevalence of a disease, the overarching hypothesis could be
 formulated as follows:</p>
 <p><strong>Exposure to air pollution is associated with increased
-prevalence of the disease</strong></p>
-<p>Under this overarching hypothesis, several individual hypotheses can
-be formulated to examine different aspects of the relationship between
-air pollution exposure and disease prevalence. These individual
+prevalence of the disease.</strong></p>
+<p>Under this overarching null hypothesis, several individual hypotheses
+can be formulated to examine different aspects of the relationship
+between air pollution exposure and disease prevalence. These individual
 hypotheses may focus on various pollutants, different health outcomes,
 or specific populations.</p>
 <p>An example using three individual null hypotheses:</p>
 <p><strong><span class="math inline">\(H_{0,1}\)</span></strong>:
-Exposure to air pollution is not associated with increased disease
-prevalence in region 1.</p>
+Exposure to particulate matter is not associated with increased disease
+prevalence.</p>
 <p><strong><span class="math inline">\(H_{0,2}\)</span></strong>:
 Exposure to nitrogen dioxide is not associated with increased disease
 prevalence.</p>
@@ -987,8 +1032,8 @@ Long-term exposure to ozone (O3) is not associated with an increased
 prevalence of the disease.</p>
 <p>The three null hypotheses can be combined to the following overall
 null hypothesis:</p>
-<p><strong><span class="math inline">\(H_{0}\)</span></strong>: Air
-pollution is not associated with an increased prevalence of the
+<p><strong><span class="math inline">\(H_{0}\)</span></strong>: None of
+the air pollutants is associated with an increased prevalence of the
 disease.</p>
 <div id="callout1" class="callout">
 <div class="callout-square">
@@ -1009,14 +1054,7 @@ false positive among our individual hypothesis tests.</p>
 <figure><img src="../fig/overarching-hypothesis.png" alt="Relationship between Overall Hypothesis and Individual Hypotheses (Effects of Air Pollution on Disease Prevalence)" class="figure mx-auto d-block"><div class="figcaption">Relationship between Overall Hypothesis and
 Individual Hypotheses (Effects of Air Pollution on Disease
 Prevalence)</div>
-</figure><p>In this illustration, each individual hypothesis delves into a
-distinct facet of the overarching research inquiry, enabling us to
-thoroughly examine the intricate connection between air pollution
-exposure and disease prevalence. By scrutinizing the impacts of various
-air pollutants on the disease, this method encourages a systematic
-exploration of diverse factors and aids in revealing potential
-associations or patterns within the data set.</p>
-<p>Now, let us assume that after data collection, for hypothesis 1, we
+</figure><p>Now, let us assume that after data collection, for hypothesis 1, we
 find that 15 out of 100 individuals exposed to high levels of
 particulate matter develop the disease, for hypothesis 2, 20 out of 100
 individuals exposed to high levels of nitrogen dioxide develop the
@@ -1032,23 +1070,22 @@ levels of ozone develop the disease.</p>
 <span><span class="va">individuals_suffered</span> <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="fl">15</span>, <span class="fl">9</span>, <span class="fl">5</span><span class="op">)</span> <span class="co"># number of individuals who suffered from the disease for each hypothesis</span></span></code></pre>
 </div>
 <p>We can visualise this as follows:</p>
-<div class="codewrapper sourceCode" id="cb2">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">complement</span> <span class="op">&lt;-</span> <span class="va">n</span> <span class="op">-</span> <span class="va">individuals_suffered</span></span>
-<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">rbind</span><span class="op">(</span><span class="va">individuals_suffered</span>, <span class="va">complement</span><span class="op">)</span></span>
-<span><span class="fu">colnames</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"particles"</span>,<span class="st">"nitrogene"</span>, <span class="st">"O3"</span><span class="op">)</span></span>
-<span><span class="fu">rownames</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"disease"</span>,<span class="st">"healthy"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">mosaicplot</span><span class="op">(</span><span class="fu">t</span><span class="op">(</span><span class="va">data</span><span class="op">)</span>,main<span class="op">=</span><span class="st">""</span><span class="op">)</span></span></code></pre>
-</div>
-<figure><img src="../fig/Family-wise-error-rate-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Let us assume we conduct statistical tests for each of these
-hypotheses, resulting in p-values for each test. For simplicity, let us
-maintain our significance level at <span class="math inline">\(\alpha=0.05\)</span> for each individual test. We
-can conduct binomial tests for each hypothesis and calculate the
+<!--
+
+```r
+complement <- n - individuals_suffered
+data <- rbind(individuals_suffered, complement)
+colnames(data) <- c("particles","nitrogene", "O3")
+rownames(data) <- c("disease","healthy")
+
+mosaicplot(t(data),main="")
+```
+
+<img src="fig/Family-wise-error-rate-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
+-->
+<figure><img src="../fig/Family-wise-error-rate-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We can conduct binomial tests for each hypothesis and calculate the
 p-values in R.</p>
-<div class="codewrapper sourceCode" id="cb3">
+<div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1107,13 +1144,13 @@ positive?</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <ol style="list-style-type: decimal">
 <li>We can use R to calculate the probability of at least one false
 positive for our example with three tests:</li>
 </ol>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1141,19 +1178,18 @@ positive for our example with three tests:</li>
 <div class="section level3">
 <h3 id="adjusting-the-significance-level">Adjusting the significance level<a class="anchor" aria-label="anchor" href="#adjusting-the-significance-level"></a>
 </h3>
-<p>Now, to calculate the probability of having any false positive within
+<p>Now, to control the probability of having any false positive within
 the set of tests (also known as family-wise error rate or FWER), we can
-use methods such as the Bonferroni correction. This method adjust the
-significance level for each test to control for multiple testing.</p>
+use methods such as the Bonferroni correction.</p>
 <p>The Bonferroni procedure adjusts the significance level for each
 individual test by dividing the desired overall significance level by
 the number of tests conducted (m).</p>
 <p><span class="math display">\[\alpha_{\text{Bonf}}= \alpha/m
 \]</span></p>
 <p>Where:</p>
-<p>α is the desired overall significance level (usually set to 0.05). m
-is the number of hypothesis tests conducted.</p>
-<div class="codewrapper sourceCode" id="cb7">
+<p>α is the desired overall significance level.<br>
+m is the number of hypothesis tests conducted.</p>
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1175,9 +1211,9 @@ corrected significance level is <span class="math inline">\(\alpha_{\text{bonf}}
 0.0167\)</span>.</p>
 <p>In this lesson, we’ll not go into the proof for why this method
 works. But we can convince ourselves that it does, by calculating the
-FWER for with the adjusted significance level, using the formula derived
+FWER with the adjusted significance level, using the formula derived
 above.</p>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1194,7 +1230,7 @@ are back to the desired <span class="math inline">\(FWER\)</span> of
 <div class="section level4">
 <h4 id="in-our-example">In our example<a class="anchor" aria-label="anchor" href="#in-our-example"></a>
 </h4>
-<p>For each individual test, we compare the calculated p-value to this
+<p>For each individual test, we compare the calculated p-value to the
 adjusted significance level. If the p-value is less than or equal to
 0.0167, we reject the null hypothesis for that test.</p>
 <p>Based on the Bonferroni correction, we reject the null hypothesis for
@@ -1205,18 +1241,21 @@ hypothesis, suggesting no significant association with disease
 prevalence at the adjusted significance level. This adjustment for
 multiple testing helps control the overall probability of making at
 least one false-positive error across all tests conducted.</p>
-<p>In this example, while the evidence supports associations between
-certain air pollutants and disease prevalence, it does not provide
-conclusive evidence to reject the overarching null hypothesis entirely.
-Instead, it suggests a nuanced interpretation wherein the relationship
-between air pollution exposure and disease prevalence may vary depending
-on the specific pollutant considered. Therefore, further investigation
-and analysis may be necessary to fully elucidate the relationship
-between air pollution exposure and disease prevalence and to refine the
-overarching null hypothesis accordingly. This could involve exploring
-additional factors, conducting more comprehensive analyses, or
-considering alternative statistical approaches to account for potential
-confounding variables or sources of variability in the data.</p>
+<p>In this example, the evidence supports associations between certain
+air pollutants and disease prevalence, but not for others. For our
+overall null hypothesis - “None of the pollutants is associated with the
+disease” - this still means that we have to reject it.</p>
+<p>After the correction with the Bonferroni procedure, we can now say
+that found particulate matter to be associated with disease, on a 5%
+family-wise error rate level. This means that under the assumption that
+all three null hypothesis are false, we expect the chance of having at
+least one false positive to be below 5%.</p>
+<p>This finding suggests a nuanced interpretation wherein the
+relationship between air pollution exposure and disease prevalence may
+vary depending on the specific pollutant considered. Therefore, further
+investigation and analysis may be necessary to fully elucidate the
+relationship between air pollution exposure and disease prevalence and
+to refine the overarching null hypothesis accordingly.</p>
 </div>
 </div>
 <div class="section level3">
@@ -1252,19 +1291,19 @@ FWER=0.05?</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <ol style="list-style-type: decimal">
 <li>You can look up the function as follows:</li>
 </ol>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">help</span><span class="op">(</span><span class="st">"p.adjust"</span><span class="op">)</span></span></code></pre>
 </div>
 <p>2.In R, one can adjust the p-values as follows:</p>
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1279,7 +1318,7 @@ FWER=0.05?</p></li>
 <li>We can check which of the individual hypotheses will be rejected at
 a FWER=0.05:</li>
 </ol>
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1327,7 +1366,7 @@ correction impact the power of these tests?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>The Bonferroni correction decreases the power of the test, especially
 when we have many tests.</p>
@@ -1346,7 +1385,7 @@ of tests that we conduct:</p>
 <p>Let’s look at some adjusted significance levels for different numbers
 of tests, given that we like to control the family-wise error rate at
 <span class="math inline">\(\alpha_\text{FWER} = 0.05\)</span>:</p>
-<div class="codewrapper sourceCode" id="cb16">
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1357,11 +1396,11 @@ of tests, given that we like to control the family-wise error rate at
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">n_test</span>, y<span class="op">=</span><span class="fu">log10</span><span class="op">(</span><span class="va">alpha_adjusted</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
-<p><img src="../fig/Family-wise-error-rate-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" class="figure">
+<p><img src="../fig/Family-wise-error-rate-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" class="figure">
 We see that the adjusted <span class="math inline">\(\alpha\)</span> is
 dropping quickly. For <span class="math inline">\(20000\)</span> tests,
 which is a reasonable number in genomic screens, alpha will be:</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1379,7 +1418,7 @@ finding a hit are reduced drastically compared to before adjustment.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -1395,10 +1434,10 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-False-discovery-rate"><p>Content from <a href="False-discovery-rate.html">False discovery rate</a></p>
 <hr>
-<p>Last updated on 2024-08-13 |
+<p>Last updated on 2024-08-19 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/False-discovery-rate.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
+<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 25 minutes</p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -1413,9 +1452,7 @@ any links that you are not going to use.
 <li>How does correcting for the family-wise error rate (FWER) affect the
 number of significant hits in large-scale data, such as RNA-Seq analysis
 of 20,000 human genes?</li>
-<li>What is the interpretation of a p-value histogram, and how can it be
-used to assess the distribution of p-values in multiple testing
-scenarios?</li>
+<li>What is the interpretation of a p-value histogram?</li>
 <li>How can the Benjamini-Hochberg method be applied to control the
 false discovery rate (FDR) in RNA-Seq data, and what are the benefits of
 using this method over FWER correction?</li>
@@ -1428,12 +1465,8 @@ using this method over FWER correction?</li>
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>Demonstrate how correcting for the family-wise error rate (FWER)
-using methods like Bonferroni correction can lead to few or no
-significant hits in large-scale testing scenarios.</li>
-<li>Introduce the concept of p-value histograms, explain their
-interpretation, and illustrate how they can be used to visualize the
-distribution of p-values in multiple testing.</li>
+<li>Introduce the concept of p-value histograms and explain their
+interpretation.</li>
 <li>Explain the Benjamini-Hochberg method for controlling the false
 discovery rate (FDR).</li>
 <li>Provide practical examples and R code to apply the
@@ -1472,7 +1505,7 @@ data.</p>
 <p>In differential expression analysis, thousands of statistical tests
 are conducted: For each gene, one can test whether its expression is
 different in cells with dexamethasone treatment, compared to cells
-without treatment. If the expression differs between the two condition,
+without treatment. If the expression differs between the two conditions,
 we call the gene differentially expressed (DE). Like in the previous
 example, we have a set up null hypotheses:</p>
 <p><span class="math inline">\(H_{0,1}\)</span>: Gene 1 is not DE.</p>
@@ -1573,8 +1606,8 @@ pre-computed p-values as follows:</p>
 </div>
 </div>
 <p>The table below shows the first six rows of the generated p-values
-for each gene, the data which, we are going use to see how using FWER
-and FDR to controlling for false positive differ.</p>
+for each gene, the data which we are going use to see how using FWER and
+FDR to controlling for false positives differ.</p>
 <table class="table">
 <caption>p-Values for each analysed gene</caption>
 <thead><tr class="header">
@@ -1645,9 +1678,9 @@ x-axis. Let’s do this for the <code>airway</code> p-values.</p>
 </h2>
 <p>We can think of the p-value histogram as being composed of two
 fractions: the alternative and the null fraction.</p>
-<p><img src="../fig/composition-of-pvalues.png" class="figure"> Together, the
-alternative and null fraction give us a p-value histogram as the one
-observed for the <code>airway</code> data.</p>
+<figure><img src="../fig/composition-of-pvalues.png" alt="Figure credit Cecile LeSueur" class="figure mx-auto d-block"><div class="figcaption">Figure credit Cecile LeSueur</div>
+</figure><p>Together, the alternative and null fraction give us a p-value
+histogram as the one observed for the <code>airway</code> data.</p>
 </div>
 <div class="section level2">
 <h2 id="why-are-these-our-expectations-of-the-null-and-alterative-fraction">Why are these our expectations of the null and alterative
@@ -1661,8 +1694,8 @@ power, all the DE genes have low p-values) or flat and less pronounced
 (low power, many DE genes have p-values &gt;&gt;0).</p>
 <p>But why do we expect a uniform distribution of p-values that come
 from genes where the null hypothesis is true? This comes from the
-definition of p-values. We expect 5% of the p-values to be <span class="math inline">\(&lt;0.05\)</span>, 10% of the p-vales to be <span class="math inline">\(&lt;0.1\)</span>, etc. Unfortunately, for many
-this definition is not intuitive. Therefore, we use a simulation of
+definition of p-values. We expect 5% of the p-values to be <span class="math inline">\(&lt;0.05\)</span>, 10% of the p-vales to be <span class="math inline">\(&lt;0.1\)</span>, etc. Unfortunately, this
+definition is not extremely intuitive. Therefore, we use a simulation of
 tests where the null hypothesis is true, and use it to recap the
 definition of p-values.</p>
 <p>We learned that in the t-test, the test statistic <span class="math inline">\(t\)</span> follows a <em>t-distribution</em> under
@@ -1681,7 +1714,7 @@ choice) and visualize their distribution.</p>
 <span><span class="fu">data.frame</span><span class="op">(</span>t<span class="op">=</span><span class="va">ts</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">t</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>main<span class="op">=</span><span class="st">"Null distribution of t"</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">labs</span><span class="op">(</span>title<span class="op">=</span><span class="st">"Null distribution of t"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/False-discovery-rate-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>This is our null distribution!</p>
 <p>Since we’ll decide significance based on the absolute value of t,
@@ -1693,16 +1726,16 @@ choice) and visualize their distribution.</p>
 <code class="sourceCode R"><span><span class="va">abs_t</span> <span class="op">&lt;-</span> <span class="fu">abs</span><span class="op">(</span><span class="va">ts</span><span class="op">)</span><span class="co"># take their absolute values</span></span>
 <span><span class="fu">data.frame</span><span class="op">(</span>abs_t<span class="op">=</span><span class="va">abs_t</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">abs_t</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>main<span class="op">=</span><span class="st">"Null distribution of |t|"</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">0.1</span>, boundary<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title<span class="op">=</span><span class="st">"Null distribution of |t|"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/False-discovery-rate-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>This is our null distribution of absolute t-values. In hypothesis
 testing, we ask: “What is the probability in the null distribution to
-observe a value at least as extreme as the observed <span class="math inline">\(|t|\)</span>?” So, what we’re looking at to answer
-this question is the <em>cumulative distribution</em> of <span class="math inline">\(|t|\)</span>. While in practice, we’re looking at
-the theoretical cumulative distribution, we’ll here look at the
-cumulative distribution of our simulation, hence an <em>empirical</em>
-cumulative distribution.</p>
+observe a value at least as extreme as the observed <span class="math inline">\(|t|\)</span>?” And to answer this question we look
+at the <em>cumulative distribution</em> of <span class="math inline">\(|t|\)</span>. While in practice, we’ll look up the
+theoretical cumulative distribution, we’ll here look at the cumulative
+distribution of our simulation, hence an <em>empirical</em> cumulative
+distribution.</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1725,13 +1758,19 @@ this:</p>
 <code class="sourceCode R"><span><span class="fu">data.frame</span><span class="op">(</span>abs_t <span class="op">=</span> <span class="va">abs_t</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">abs_t</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">..y..</span><span class="op">)</span>, stat<span class="op">=</span><span class="st">'ecdf'</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>y<span class="op">=</span><span class="st">"1-ECDF"</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">labs</span><span class="op">(</span>y<span class="op">=</span><span class="st">"1-ECDF"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span><span class="fl">3.1</span>, color<span class="op">=</span><span class="st">"darkblue"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0.03</span>, color<span class="op">=</span><span class="st">"darkblue"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/False-discovery-rate-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Code adapted from <a href="https://stackoverflow.com/questions/37221303/how-to-plot-reverse-complementary-ecdf-using-ggplot" class="external-link">here</a>.
 So when we calculate a p-value, we (visually speaking) look up the
 observed value of <span class="math inline">\(|t|\)</span>
 (<code>abs_t</code>) on the x-axis, and match it to the corresponding
 1-ECDF on the y-axis, which is the resulting <span class="math inline">\(p\)</span>.</p>
+<p>For example, if we observe <span class="math inline">\(t=3.1\)</span>
+(darkblue vertical line), then this corresponds to <span class="math inline">\(1-ECDF = 0.03\)</span> (darkblue horizontal line),
+meaning that under the null distribution, <span class="math inline">\(=
+3%\)</span> of the values are smaller than the observed <span class="math inline">\(t\)</span>. Our p-value for this test is <span class="math inline">\(p= 0.03\)</span>.</p>
 <p>What does this tell us about the distribution of p-values? We could
 go and slice the 1-ECDF into chunks of 5% of the data points:</p>
 <div class="codewrapper sourceCode" id="cb8">
@@ -1783,7 +1822,7 @@ which are smaller than the observed one.</p>
 <h3 id="recap">Recap<a class="anchor" aria-label="anchor" href="#recap"></a>
 </h3>
 <ul>
-<li>p-values are defined as via the cumulative distribution of the test
+<li>p-values are defined via the cumulative distribution of the test
 statistic under the null hypothesis</li>
 <li>They answer the question: what percentage of values is expected more
 extreme than the observed one?</li>
@@ -1793,8 +1832,7 @@ roughly the same number of p-values in each quantile.</li>
 where the test statistic behaves like expected in theory, we will see a
 uniform distribution of p-values</li>
 <li>This works for any test statistic, <em>as long as we know its
-distribution</em>
-</li>
+distribution</em>.</li>
 </ul>
 </div>
 </div>
@@ -1810,7 +1848,7 @@ distributed.</p>
 among the positives at an arbitrary p-value cut-off. This is illustrated
 below.</p>
 <figure><img src="../fig/p_value%20histogram%20decomposition.png" alt="A p-value histogram decomposition (adapted from MSMB)" class="figure mx-auto d-block"><div class="figcaption">A p-value histogram decomposition (adapted from
-MSMB)</div>
+<a href="https://www.huber.embl.de/msmb/" class="external-link">MSMB</a>)</div>
 </figure><p>Say, we determine some cut-off p-value, indicated by the red line.
 Then we can visually estimate what percentage of tests right at this
 threshold are false positives, namely by dividing the length of the
@@ -1864,13 +1902,6 @@ differentially expressed genes, but at the cost of more and more false
 positives, and if we go too far, we will almost exclusively admit more
 False Positives.</p>
 </div>
-<div class="section level3">
-<h3 id="more-on-p-value-histograms">More on p-value histograms<a class="anchor" aria-label="anchor" href="#more-on-p-value-histograms"></a>
-</h3>
-<p>If you encounter p-value histograms that don’t fit the expectation we
-just discussed, have a look at this <a href="http://varianceexplained.org/statistics/interpreting-pvalue-histogram/" class="external-link">post
-in varianceexplained.org</a></p>
-</div>
 </div>
 <div class="section level2">
 <h2 id="controlling-fdr-using-the-benjamini-hochberg-method">Controlling FDR Using the Benjamini-Hochberg Method<a class="anchor" aria-label="anchor" href="#controlling-fdr-using-the-benjamini-hochberg-method"></a>
@@ -1899,15 +1930,15 @@ desired FDR level (e.g., 0.05).</p>
 equal to its BH critical value is identified. This p-value and all
 smaller p-values are considered significant. Optionally, one can adjust
 the p-values to reflect the BH correction using software functions.</p>
-<p>Now, let us continue with the generated p_values to apply the
-Benjamini-Hochberg correction in r, and also plot the adjusted p values
-for comparison.</p>
+<p>Now, let us continue with the generated <code>p_values</code> to
+apply the Benjamini-Hochberg correction in R, and also plot the adjusted
+p values for comparison.</p>
 <p>What the Benjamini-Hochberg algorithm does, is that it estimates the
 null component, and finds the threshold below which we should reject for
 a desired FDR. Equivalently, and that’s the way it’s implemented in R,
-we can say it produces adjusted p-values. And if we reject everything
-below a certain adjusted p-value (say 5%), this will lead to an FDR of
-5%, meaning that 5% of the hits are estimated to be false-positives.</p>
+we can say it produces adjusted p-values. If we reject everything below
+a certain adjusted p-value (say 5%), this will lead to an FDR of 5%,
+meaning that 5% of the hits are estimated to be false-positives.</p>
 </div>
 </div>
 </div>
@@ -2019,37 +2050,6 @@ comparison-wise error rate with <span class="math inline">\(\alpha=0.5\)</span>?
 </div>
 </div>
 </div>
-<p>Applying the Bonferroni correction in this example results in
-<strong>706</strong> differentially expressed genes due to the stringent
-threshold, demonstrating how FWER correction can be too conservative in
-large-scale testing.</p>
-<p>The Benjamini-Hochberg method controls the FDR, allowing for a
-greater number of significant differentially expressed genes
-(<strong>2357</strong>) compared to the Bonferroni correction
-(<strong>706</strong>). This approach provides a more balanced and
-powerful method for identifying true positives in large-scale data.</p>
-<div class="section level2">
-<h2 id="advantages-of-controlling-the-fdr-over-fwer-in-the-context-of-large-scale-genomic-data">Advantages of controlling the FDR over FWER in the context of
-large-scale genomic data<a class="anchor" aria-label="anchor" href="#advantages-of-controlling-the-fdr-over-fwer-in-the-context-of-large-scale-genomic-data"></a>
-</h2>
-<ul>
-<li><p>Higher statistical power: FDR control allows for higher power
-compared to FWER control. In large-scale genomic studies, this means
-detecting more true positives while still controlling false discoveries.
-Therefore, since FDR methods are less stringent than FWER methods like
-Bonferroni correction, they balance between controlling false
-discoveries and maximizing true positives, reducing false
-negatives.</p></li>
-<li><p>Consistency across studies: By setting a fixed FDR threshold
-(e.g., 5%), results are more comparable across different studies and
-meta-analyses, enhancing consistency in statistical inference.</p></li>
-</ul>
-<p>It is important to note that while FDR is preferred in many genomic
-screens due to its ability to handle a large number of hypotheses, FWER
-control remains appropriate in scenarios where minimizing any false
-positives is critical. Each method has its place depending on the
-research context and goals.</p>
-</div>
 <div class="section level2">
 <h2 id="what-control-method-should-we-choose">What control method should we choose?<a class="anchor" aria-label="anchor" href="#what-control-method-should-we-choose"></a>
 </h2>
@@ -2083,6 +2083,13 @@ acceptable risk levels of the research context. Understanding the
 trade-offs between these approaches allows researchers to choose the
 most appropriate method for their specific scenario.</p>
 </div>
+<div class="section level3">
+<h3 id="more-on-p-value-histograms">More on p-value histograms<a class="anchor" aria-label="anchor" href="#more-on-p-value-histograms"></a>
+</h3>
+<p>If you encounter p-value histograms that don’t fit the expectation we
+just discussed, have a look at this <a href="http://varianceexplained.org/statistics/interpreting-pvalue-histogram/" class="external-link">post
+in varianceexplained.org</a></p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="further-reading">Further reading<a class="anchor" aria-label="anchor" href="#further-reading"></a>
@@ -2113,10 +2120,10 @@ any links that you are not going to use.
 </div>
 </div></section><section id="aio-Pairwise-comparisons"><p>Content from <a href="Pairwise-comparisons.html">Pairwise comparisons</a></p>
 <hr>
-<p>Last updated on 2024-08-13 |
+<p>Last updated on 2024-08-19 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Pairwise-comparisons.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
+<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 22 minutes</p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -2159,7 +2166,7 @@ groups or conditions. In this episode, we will explore the concept of
 pairwise comparisons, their importance in statistical testing, and how
 they relate to the broader context of multiple testing.</p>
 <div class="section level2">
-<h2 id="understanding-pairwise-comparisons">Understanding Pairwise Comparisons<a class="anchor" aria-label="anchor" href="#understanding-pairwise-comparisons"></a>
+<h2 id="an-example-air-pollution-in-four-different-exposure-groups">An example: Air pollution in four different exposure groups<a class="anchor" aria-label="anchor" href="#an-example-air-pollution-in-four-different-exposure-groups"></a>
 </h2>
 <p>In our example of air pollution, fine particulate matter and other
 pollutants can induce systemic inflammation in the body, leading to an
@@ -2177,11 +2184,10 @@ industrial activity and high traffic density.</li>
 <li>Very high exposure: Individuals living near industrial zones, major
 highways, or heavily polluted urban areas.</li>
 </ul>
-<p><strong>Table 2</strong> shows the first six rows of CRP values of
-individuals in the four exposure groups.</p>
+<p>The table below shows the first six rows of CRP values of individuals
+in the four exposure groups.</p>
 <table class="table">
-<caption>Table 2: CRP values of individuals in the four exposure
-groups</caption>
+<caption>CRP values of individuals in the four exposure groups</caption>
 <thead><tr class="header">
 <th align="right">CRP</th>
 <th align="left">Exposure</th>
@@ -2189,41 +2195,164 @@ groups</caption>
 <tbody>
 <tr class="odd">
 <td align="right">1.379049</td>
-<td align="left">Low_exposure</td>
+<td align="left">Low</td>
 </tr>
 <tr class="even">
 <td align="right">2.039645</td>
-<td align="left">Low_exposure</td>
+<td align="left">Low</td>
 </tr>
 <tr class="odd">
 <td align="right">5.617417</td>
-<td align="left">Low_exposure</td>
+<td align="left">Low</td>
 </tr>
 <tr class="even">
 <td align="right">2.641017</td>
-<td align="left">Low_exposure</td>
+<td align="left">Low</td>
 </tr>
 <tr class="odd">
 <td align="right">2.758576</td>
-<td align="left">Low_exposure</td>
+<td align="left">Low</td>
 </tr>
 <tr class="even">
 <td align="right">5.930130</td>
-<td align="left">Low_exposure</td>
+<td align="left">Low</td>
 </tr>
 </tbody>
 </table>
 <p>In this case the “Exposure” column is a categorical variable with
-four groups of exposure levels (Low_exposure, Moderate_exposure,
-High_exposure, and Very_high_exposure).</p>
-<figure><img src="../fig/Pairwise-comparisons-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Generally, from the above plot, as exposure level increases from low
-to very high, we might expect to see a corresponding increase in the
+four groups of exposure levels (<code>Low</code>, <code>Moderate</code>,
+<code>High</code>, and <code>Very_high</code>).</p>
+<div id="coding-along" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<div id="coding-along" class="callout-inner">
+<h3 class="callout-title">Coding along<a class="anchor" aria-label="anchor" href="#coding-along"></a>
+</h3>
+<div class="callout-content">
+<p>If you like to reproduce the example we use here, you can download
+the data as follows:</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">exp_data</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span>file<span class="op">=</span><span class="fu">url</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/sarahkaspar/Multiple-Testing-tutorial-project/main/episodes/data/exp_data.csv"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>Here, we visualize the data as a boxplot, together with the
+individual data points:</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Visualize the data</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">exp_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Exposure</span>, y <span class="op">=</span> <span class="va">CRP</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span>coef <span class="op">=</span> <span class="fl">5</span>, fill <span class="op">=</span> <span class="st">"lightblue"</span>, alpha <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>position <span class="op">=</span> <span class="fu">position_jitter</span><span class="op">(</span>width <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Boxplot of Four Exposure Groups"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/Pairwise-comparisons-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div id="pairwise-comparisons-1" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="pairwise-comparisons-1" class="callout-inner">
+<h3 class="callout-title">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons-1"></a>
+</h3>
+<div class="callout-content">
+<p>In the above example:</p>
+<ul>
+<li>How many pairwise comparisons are possible?</li>
+<li>What is a suitable test for making these comparisons?</li>
+<li>If we choose <span class="math inline">\(\alpha =0.05\)</span>, what
+is the probability of seeing at least one significant difference, if in
+fact all differences are 0?</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div class="accordion-body">
+<ul>
+<li>6 pairwise comparisons are possible.</li>
+<li>t-test</li>
+<li><span class="math inline">\(1-(0.95)^6 \approx 0.26\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="defining-the-question">Defining the question<a class="anchor" aria-label="anchor" href="#defining-the-question"></a>
+</h2>
+<p>Generally, from the above plot, as the exposure level increases from
+low to very high, we might expect to see a corresponding increase in the
 median exposure level and higher median C-reactive protein (CRP)
 values.</p>
-<p>Our null hypothesis is that there is no difference in CRP amounts in
-the different groups. Our significance levels is 0.05.</p>
-<p>First we would do ANOVA, which would tell us whether there are any
-differences between the groups.</p>
+<p>On this type of data, we can run different types of analyses,
+depending on the question we ask. Let’s look at two different
+scenarios:</p>
+<ul>
+<li><p><strong>Scenario 1:</strong> This is an exploratory analysis. We
+are interested in finding out whether there is any difference between
+the four exposure groups at all.</p></li>
+<li><p><strong>Scenario 2:</strong> We have one or more particular
+exposure groups of interest, which we like to compare to the low
+exposure group. In this case, the low exposure group serves as a
+reference.</p></li>
+</ul>
+<div class="section level3">
+<h3 id="scenario-1-anova">Scenario 1: ANOVA<a class="anchor" aria-label="anchor" href="#scenario-1-anova"></a>
+</h3>
+<p>In this scenario, we’re basically comparing all against all.</p>
+<p>Our <strong>null hypothesis</strong> is that there are not any
+differences in CRP amounts in the different groups. From the challenge
+above, we learned that 6 individual comparisons are not unlikely to
+produce at least one false positive. In case that there are no
+differences at all, this probability is estimated to be <span class="math inline">\(P=0.26\)</span>.</p>
+<p>Recall that in this situation, we like to control for the family-wise
+error rate. Our null hypothesis is that there’s nothing going on at all,
+and once we reject the null for one of our individual comparisons, we
+also reject this overall null hypothesis.</p>
+<p>In this kind of situation, the ANOVA F-test is the method of choice.
+It is a method that</p>
+<ul>
+<li>is used to compare means between different groups and</li>
+<li>controls for the family-wise error rate.</li>
+<li>It’s applicable when the data points are normally distributed around
+the group means and the variances are similar among the groups. This
+appears to be the case in our example.</li>
+</ul>
+<p>In general, a one-way ANOVA for <span class="math inline">\(t\)</span> groups tests the null hypothesis:</p>
+<p><span class="math display">\[H_0: \mu_1 = \mu_2 = ... =
+\mu_t,\]</span> where <span class="math inline">\(\mu_i\)</span> is the
+mean of population <span class="math inline">\(i\)</span>.</p>
+<p>The alternative hypothesis is:</p>
+<p><span class="math display">\[H_A: \mu_i \neq \mu_j \text{ for some i
+and j where i}\neq \text{j}\]</span></p>
+<p>For this, we use an F-statistic:</p>
+<p><span class="math display">\[F= \frac{\text{between group
+variance}}{\text{within group variance}}\]</span> <span class="math inline">\(F\)</span> becomes large, if the groups differ
+strongly in their group means, while the variance within the groups is
+small. ANOVA is closely related to the t-test. In fact, if we perform an
+ANOVA on a data set with two groups only, it is equivalent to performing
+a t-test. For more details on ANOVA, see <a href="https://online.stat.psu.edu/stat500/lesson/10/10.2" class="external-link">the PennState
+online materials</a>.</p>
+<p>We can perform an ANOVA in R as follows:</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">anova_result</span> <span class="op">&lt;-</span> <span class="fu">aov</span><span class="op">(</span><span class="va">CRP</span> <span class="op">~</span> <span class="va">Exposure</span>, data <span class="op">=</span> <span class="va">exp_data</span><span class="op">)</span></span>
+<span><span class="fu">summary</span><span class="op">(</span><span class="va">anova_result</span><span class="op">)</span></span></code></pre>
+</div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -2233,148 +2362,340 @@ Residuals   196  690.4   3.523
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<p>The ANOVA output above, shows statistically significant differences
-among the means of the four exposure groups. It does this by comparing
-the variability within each group to the variability between the groups.
-We therefore reject the null hypothesis of equal means.</p>
+<p>The ANOVA output above shows statistically significant differences
+among the means of the four exposure groups. We therefore reject the
+null hypothesis of equal means.</p>
 </div>
-<div class="section level2">
-<h2 id="why-do-we-need-multiple-comparisons">Why do we need multiple comparisons?<a class="anchor" aria-label="anchor" href="#why-do-we-need-multiple-comparisons"></a>
-</h2>
+<div class="section level3">
+<h3 id="post-hoc-tests">Post-hoc tests<a class="anchor" aria-label="anchor" href="#post-hoc-tests"></a>
+</h3>
 <p>ANOVA alone does not tell us which specific groups differ
 significantly from each other. To determine this, we need to conduct
-further analysis. Multiple comparison procedures (also known as post-hoc
-tests) are used to compare pairs of groups in order to identify where
-the differences lie. These tests provide more detailed information about
-which specific group means are different from each other.</p>
-<div class="section level3">
-<h3 id="methods-for-performing-pairwise-comparisons">Methods for Performing Pairwise Comparisons<a class="anchor" aria-label="anchor" href="#methods-for-performing-pairwise-comparisons"></a>
+further analysis. Post-hoc tests are follow up procedures, used to
+compare pairs of groups in order to identify where the differences lie.
+These tests provide more detailed information about which specific group
+means are different from each other.</p>
+<p>Parametric methods, such as Tukey’s HSD, are used when assumptions of
+normality and homogeneity of variance are met. Non-parametric methods,
+such as pairwise Wilcoxon tests, are suitable when data do not meet the
+assumptions of parametric tests. In R, performing pairwise comparisons
+is straightforward using built-in functions and packages. We perform a
+Tukey post-hoc test using <code>TukeyHSD()</code> to determine which
+specific exposure group means differ significantly from each other.</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<p>Parametric methods, such as ANOVA post-hoc tests (e.g., Tukey’s HSD)
-are used when assumptions of normality and homogeneity of variance are
-met. Non-parametric methods, such as pairwise Wilcoxon tests, are
-suitable when data do not meet the assumptions of parametric tests. In
-R, performing pairwise comparisons is straightforward using built-in
-functions and packages.</p>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tukey_result</span> <span class="op">&lt;-</span> <span class="fu">TukeyHSD</span><span class="op">(</span><span class="va">anova_result</span><span class="op">)</span></span>
+<span><span class="va">tukey_result</span></span></code></pre>
+</div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>  Tukey multiple comparisons of means
     95% family-wise confidence level
 
-Fit: aov(formula = CRP ~ Exposure, data = data)
+Fit: aov(formula = CRP ~ Exposure, data = exp_data)
 
 $Exposure
-                                           diff        lwr       upr     p adj
-Moderate_exposure-Low_exposure        0.7240094 -0.2486521 1.6966710 0.2193881
-High_exposure-Low_exposure            0.4233920 -0.5492695 1.3960536 0.6727404
-Very_high_exposure-Low_exposure       1.5088066  0.5361450 2.4814681 0.0004795
-High_exposure-Moderate_exposure      -0.3006174 -1.2732790 0.6720442 0.8539510
-Very_high_exposure-Moderate_exposure  0.7847971 -0.1878644 1.7574587 0.1597266
-Very_high_exposure-High_exposure      1.0854145  0.1127530 2.0580761 0.0219956</code></pre>
+                         diff        lwr       upr     p adj
+Low-High           -0.4233920 -1.3960536 0.5492695 0.6727404
+Moderate-High       0.3006174 -0.6720442 1.2732790 0.8539510
+Very_high-High      1.0854145  0.1127530 2.0580761 0.0219956
+Moderate-Low        0.7240094 -0.2486521 1.6966710 0.2193881
+Very_high-Low       1.5088066  0.5361450 2.4814681 0.0004795
+Very_high-Moderate  0.7847971 -0.1878644 1.7574587 0.1597266</code></pre>
 </div>
-<p>We perform a Tukey post-hoc test using <strong>TukeyHSD()</strong> to
-determine which specific exposure group means differ significantly from
-each other. The results provide pairwise comparisons of group means
-along with adjusted p-values to account for multiple comparisons.</p>
+<p>The results provide pairwise comparisons of group means including</p>
+<ul>
+<li>
+<code>diff</code>: the estimated difference between the two
+groups</li>
+<li>the lower (<code>lrw</code>) and upper (<code>upr</code>) bounds of
+a 95% family-wise confidence interval and</li>
+<li>
+<code>p adj</code>: the adjusted p-value which can be used to
+control for the FWER.</li>
+</ul>
+<p>You often read that the Tukey procedure calculates <em>simultaneous
+confidence intervals</em>, which implies that the confidence intervals
+are dependent on how many comparisons we make. They grow (more
+uncertainty), the more comparisons we make, and they can also be used to
+determine whether two groups are significantly different. In the plot
+below, each comparison has an estimate, and a confidence interval. We
+call the difference significant with a 95% family-wise confidence level,
+if the confidence interval <em>excludes 0</em>.</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">multcompView</span><span class="op">)</span></span>
+<span><span class="fu">par</span><span class="op">(</span>mar<span class="op">=</span><span class="fu">c</span><span class="op">(</span><span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">4</span>,<span class="fl">1</span><span class="op">)</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu">plot</span><span class="op">(</span><span class="va">tukey_result</span>, </span>
+<span>     las<span class="op">=</span><span class="fl">1</span>,</span>
+<span>     cex.axis<span class="op">=</span><span class="fl">0.7</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/Pairwise-comparisons-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure>
 </div>
 <div class="section level3">
 <h3 id="interpreting-pairwise-comparison-results">Interpreting Pairwise Comparison Results<a class="anchor" aria-label="anchor" href="#interpreting-pairwise-comparison-results"></a>
 </h3>
-<p>Understanding significance levels and p-values obtained from pairwise
-comparisons is essential for interpreting results accurately. The
-p-values obtained from pairwise comparisons using the Tukey test are
-adjusted to control the familywise error rate (FWER). Adjusted p-values
-reflect the probability of observing a given result (or more extreme)
-under the assumption that all null hypotheses are true, while accounting
-for the number of comparisons made. Here, we interpret pairwise
-comparison results with adjusted p-values from the Tukey test by
-assessing whether the adjusted p-value is less than the chosen
-significance level (α) (0.05). If the adjusted p-value is below the
-significance level, we conclude that the observed difference is
+<p>Adjusted p-values reflect the probability of observing a given result
+(or more extreme) under the assumption that all null hypotheses are
+true, while accounting for the number of comparisons made. Here, we
+interpret pairwise comparison results with adjusted p-values from the
+Tukey test by assessing whether the adjusted p-value is less than the
+chosen significance level (α) (0.05). If the adjusted p-value is below
+the significance level, we conclude that the observed difference is
 statistically significant after correcting for multiple comparisons.</p>
-<p>In some research scenarios, the comparisons between groups are
-designed to answer specific, pre-defined research questions that are not
-directly addressed by traditional ANOVA and subsequent p-value
-adjustments. In this case, ANOVA and p-value adjustment don’t make any
-sense.</p>
-<p>For example, imagine we are conducting a study to investigate the
-effect of different types of exercise (A, B, C, D) on three different
-health outcomes (X, Y, Z). Our primary interest here is to compare each
-type of exercise directly with respect to each health outcome, rather
-than comparing all exercises together using ANOVA.</p>
-<p>Probable research questions would be:</p>
+<p>In our example above, we observe significant differences in CRP
+level</p>
 <ul>
-<li>Does exercise type A have a different effect than exercise type B on
-health outcome X?</li>
-<li>Is there a difference in the effect of exercise type A compared to
-exercise type C on health outcome Y?</li>
-<li>How does exercise type D compare to exercise type B in terms of
-health outcome Z?</li>
+<li>between the exposure groups <code>very_high</code> and
+<code>high</code>
+</li>
+<li>between the exposure groups <code>very_high</code> and
+<code>low</code>
+</li>
 </ul>
-<p>In this case, instead of conducting a single ANOVA followed by
-post-hoc tests to compare all exercises simultaneously, each comparison
-is treated as a separate research question. The focus is on comparing
-specific pairs of exercise types for each health outcome.</p>
-<p>This means that we would analyze each comparison (e.g., A vs B for X,
-A vs C for Y, D vs B for Z) independently using appropriate statistical
-tests suited for comparing two groups (e.g., t-tests, Wilcoxon rank-sum
-tests, etc.). Since these comparisons are independent and are addressing
-distinct research questions, there is no need for ANOVA or adjustment of
-p-values across comparisons.</p>
-<p>We would then interpret the results of each pairwise comparison based
-on their individual statistical significance and effect sizes relevant
-to the specific research question posed. This approach allows for a
-focused investigation into the differences between specific pairs of
-exercise types and their effects on different health outcomes. This
-tailored approach ensures that the statistical analysis aligns closely
-with the specific objectives of the study, providing meaningful insights
-into the relationships between variables of interest.</p>
+<p>Consistent with that, the respective confidence intervals of these
+two comparisons exclude zero.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="what-we-learn">What we learn<a class="anchor" aria-label="anchor" href="#what-we-learn"></a>
+<h2 id="scenario-2">Scenario 2<a class="anchor" aria-label="anchor" href="#scenario-2"></a>
 </h2>
-<p>Pairwise comparisons involve comparing the means or proportions of
-every possible pair of groups or conditions in a dataset. These
-comparisons are used to identify specific differences between groups or
-conditions that may not be apparent from overall statistical tests (like
-the above case ANOVA). These comparisons play a crucial role in
-statistical testing, particularly in the context of multiple
-comparisons. They allow us to examine specific comparisons of interest
-while controlling for the overall familywise error rate. The comparisons
-are commonly used in various fields, including medicine, biology, social
-sciences, and economics, to compare treatment groups, experimental
-conditions, or categorical variables.</p>
+<p>In the second scenario, we aim to determine risk areas of increased
+CRP concentration. Our control are low exposure regions, and we aim to
+find out which of the other groups differ significantly from the control
+in terms of CRP concentration, which classifies them as risk
+regions.</p>
+<p>If this is our question, in theory, we don’t need all six
+comparisons. We just want to compare each group to the control. In
+biology, this is a common scenario. We might have a small screen, where
+we test several substances against a control, and need to determine
+which of these has an effect. In this scenario, Tukey is overly
+conservative, because it corrects for more tests than we actually like
+to perform. We can, however apply the <em>Dunnett procedure</em>,
+which</p>
+<ul>
+<li>controls for the FWER<br>
+</li>
+<li>in a scenario where we’d like to compare a number of groups to a
+control.</li>
+</ul>
+<p>We can run the Dunnett test in R by using the function
+<code>DunnettTest</code>. As input, we supply</p>
+<ul>
+<li>
+<code>x</code>: a numeric vector of data values, or a list of
+numeric data vectors</li>
+<li>
+<code>g</code>: a vector or factor object giving the group for the
+corresponding elements of x</li>
+<li>
+<code>control</code>: the level of the control group against which
+the others should be tested</li>
+</ul>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">DescTools</span><span class="op">)</span></span>
+<span><span class="va">dunnett</span> <span class="op">&lt;-</span> <span class="fu">DunnettTest</span><span class="op">(</span>x <span class="op">=</span><span class="va">exp_data</span><span class="op">$</span><span class="va">CRP</span>, </span>
+<span>            g<span class="op">=</span> <span class="va">exp_data</span><span class="op">$</span><span class="va">Exposure</span>, </span>
+<span>            control <span class="op">=</span> <span class="st">"Low"</span><span class="op">)</span></span>
+<span><span class="va">dunnett</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>
+  Dunnett's test for comparing several treatments with a control :
+    95% family-wise confidence level
+
+$Low
+                   diff     lwr.ci   upr.ci    pval
+High-Low      0.4233920 -0.4652856 1.312070 0.53610
+Moderate-Low  0.7240094 -0.1646682 1.612687 0.13711
+Very_high-Low 1.5088066  0.6201290 2.397484 0.00023 ***
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb10">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">par</span><span class="op">(</span>mar<span class="op">=</span><span class="fu">c</span><span class="op">(</span><span class="fl">5.1</span>, <span class="fl">7.1</span>, <span class="fl">4.1</span>, <span class="fl">1.1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">plot</span><span class="op">(</span><span class="va">dunnett</span>, las<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/Pairwise-comparisons-rendered-unnamed-chunk-6-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div id="discussion" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="discussion" class="callout-inner">
+<h3 class="callout-title">Discussion<a class="anchor" aria-label="anchor" href="#discussion"></a>
+</h3>
+<div class="callout-content">
+<p>Why can’t we just run t-tests and then apply Bonferoni?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div class="accordion-body">
+<p>This would not be wrong. It doesn’t produce confidence intervals
+though. It’s sometimes a matter of convention.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="be-honest" class="callout testimonial">
+<div class="callout-square">
+<i class="callout-icon" data-feather="heart"></i>
+</div>
+<div id="be-honest" class="callout-inner">
+<h3 class="callout-title">Be honest!<a class="anchor" aria-label="anchor" href="#be-honest"></a>
+</h3>
+<div class="callout-content">
+<p>In some cases, Dunnett is the way to go. But take a minute and think
+about whether you’re not interested in the other comparisons as well.
+For instance, when studying air pollution in different groups, you might
+also be interested in whether there are differences between moderate and
+high exposure. The fact that we don’t <em>see</em> large differences
+between those two groups in the data is <em>not</em> a good reason for
+leaving out this comparison!</p>
+</div>
+</div>
+</div>
 </div>
 <div class="section level2">
-<h2 id="data-snooping-figure_6-data-snooping">Data snooping <img src="../fig/Data%20snooping.png" alt="Figure_6: Data snooping" class="figure"><a class="anchor" aria-label="anchor" href="#data-snooping-figure_6-data-snooping"></a>
+<h2 id="pretty-figures">Pretty figures<a class="anchor" aria-label="anchor" href="#pretty-figures"></a>
 </h2>
-<p>In the context of the above analysis, data snooping refers to the
-practice of exploring the data extensively, testing multiple hypotheses,
-and making comparisons until finding a statistically significant result
-or an interesting pattern. This can lead to overfitting the data or
-finding false positives due to chance alone.</p>
-<p>In our example, data snooping could involve testing multiple
-comparisons between exposure groups until finding one that appears to be
-statistically significant or interesting. For example, one might compare
-only the “Very_high_exposure” group with the other groups, ignoring
-other potential comparisons. This selective comparison increases the
-likelihood of finding a significant result by chance alone.</p>
-<p>Additionally, in some cases, we might decide not to perform all
-tests. We could just visually inspect our plot, and only perform the
-test that seems most promising when comparing the bars by eye. For
-example, after observing the initial boxplot, we might want to conduct
-numerous additional analyses or subgroup comparisons based on observed
-patterns, without pre-specifying these comparisons. This approach can
-lead to inflated Type I error rates (false positives) if corrections for
-multiple testing are not applied.</p>
-<p>Data snooping can influence decision-making by focusing only on
-results that appear favorable or intriguing in the data. For instance,
-if a particular exposure group shows a larger mean than others, a
-decision might be made to focus solely on interventions or policies
-targeting that group without considering the broader context or
-potential confounding factors.</p>
+<p>In publications, you often find p-values plotted next to the
+comparison in a figure. These plots can be produced in R.</p>
+<div id="publication-ready-plots" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="publication-ready-plots" class="callout-inner">
+<h3 class="callout-title">Publication-ready plots<a class="anchor" aria-label="anchor" href="#publication-ready-plots"></a>
+</h3>
+<div class="callout-content">
+<p>The R package <code>ggpubr</code> comes with the promise of producing
+publication-ready plots. Let’s explore some of the functions and
+practice our plotting skills. We use the <code>PlantGrowth</code> data
+set.</p>
+<ol style="list-style-type: decimal">
+<li>Explore the data set. Which variables are there?</li>
+<li>Use the following template to create a meaningful plot, comparing
+the groups in the data set using ANOVA. You can look up the function
+<code>stat_compare_means</code> in the R help section.</li>
+</ol>
+<div class="codewrapper sourceCode" id="cb11">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">ggpubr</span><span class="op">)</span> <span class="co"># load the required library</span></span>
+<span></span>
+<span><span class="va">PlantGrowth</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span>, y<span class="op">=</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">geom_jitter</span><span class="op">(</span>width<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span><span class="op">+</span> <span class="co"># feel free to replace by, or add, another type of plot</span></span>
+<span>  <span class="fu">stat_compare_means</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
+</button>
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div class="accordion-body">
+<ol style="list-style-type: decimal">
+<li><p>Consult <code>?PlantGrowth</code>, or check
+<code>names(PlantGrowth)</code>. The data set compares the biomass
+(<code>weight</code>) in a control and two treatment
+conditions.</p></li>
+<li>
+</li>
+</ol>
+<div class="codewrapper sourceCode" id="cb12">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">ggpubr</span><span class="op">)</span></span>
+<span><span class="va">PlantGrowth</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">group</span>, y<span class="op">=</span><span class="va">weight</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">geom_jitter</span><span class="op">(</span>width<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">stat_compare_means</span><span class="op">(</span>method<span class="op">=</span><span class="st">"anova"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/Pairwise-comparisons-rendered-unnamed-chunk-8-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The <code>stat_compare_means</code> function infers the comparisons
+to be made from the <code>x</code> and <code>y</code> that we supplied
+in the <code>aes</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<p>We saw that the <code>stat_compare_means</code> function allows you
+to conveniently add the p-value of an ANOVA in the plot. We can also add
+the p-values for individual comparisons:</p>
+<div class="codewrapper sourceCode" id="cb13">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">PlantGrowth</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">group</span>, y<span class="op">=</span><span class="va">weight</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">geom_jitter</span><span class="op">(</span>width<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">stat_compare_means</span><span class="op">(</span>method<span class="op">=</span><span class="st">"anova"</span>, label.y <span class="op">=</span> <span class="fl">7</span><span class="op">)</span><span class="op">+</span> </span>
+<span>  <span class="fu">stat_compare_means</span><span class="op">(</span>comparisons<span class="op">=</span><span class="fu">list</span><span class="op">(</span> <span class="fu">c</span><span class="op">(</span><span class="st">"ctrl"</span>, <span class="st">"trt1"</span><span class="op">)</span>, <span class="fu">c</span><span class="op">(</span><span class="st">"ctrl"</span>, <span class="st">"trt2"</span><span class="op">)</span><span class="op">)</span>, method<span class="op">=</span><span class="st">"t.test"</span><span class="op">)</span>  </span></code></pre>
+</div>
+<figure><img src="../fig/Pairwise-comparisons-rendered-unnamed-chunk-9-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Explanations on the code above:</p>
+<ul>
+<li>The setting <code>label.y = 7</code> shifts the result of the ANOVA
+to a height of <code>weight=7</code>, so it won’t overlap with the
+individual results.</li>
+<li>If we self-define the comparisons, we can do this via the
+<code>comparisons</code> argument by supplying a list of the comparisons
+to be made.</li>
+</ul>
+<p>For more examples with the package, look up <a href="http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/" class="external-link">this
+page</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="p-value-hacking-and-data-snooping">p-value hacking and data snooping<a class="anchor" aria-label="anchor" href="#p-value-hacking-and-data-snooping"></a>
+</h2>
+<p>We learned in this lesson that performing a series of tests increases
+the chances of having at least one false positive. Therefore, it is
+important to be transparent about which tests were conducted during a
+study. If we run a large screen and reported only the tests that came
+out as hits, we’re skipping the type-I error control, and for someone
+else it is not comprehensible how much the results can be trusted. In
+fact, we could perform a screen of 1000 biological samples, where there
+are <em>no</em> true positives. Still, if we run each test at <span class="math inline">\(\alpha=0.05\)</span>, we would have around 50
+hits, which are all false positives. The practice of analyzing data
+extensively, testing multiple hypotheses, or making comparisons until
+finding a statistically significant result or an interesting pattern, is
+called <em>p-value hacking</em>.</p>
+<p>But even if this is not your intention, you may still sometimes be
+tempted to <em>snoop</em> in the data, which is a more subtle way of
+increasing type I error.</p>
+<p>Reconsider the air pollution example above:</p>
+<figure><img src="../fig/Pairwise-comparisons-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>In this example, we might visually inspect our plot, and decide to
+perform only the comparison between very high and low. Why? Because it
+<em>looks</em> most promising. With only one test performed, there is
+also no possibility to perform correction for multiple testing, which
+may seem sound, while in reality, you performed all the pairwise
+comparisons by eye, without correcting for them. Therefore, unless you
+<em>pre-specified</em> one particular test <em>before</em> you inspected
+the data, all tests should be performed and reported. Otherwise, this
+approach will lead to inflated Type I error rates.</p>
 </div>
 <div class="section level2">
 <h2 id="additional-resources">Additional resources<a class="anchor" aria-label="anchor" href="#additional-resources"></a>
@@ -2384,94 +2705,6 @@ in R, refer to <a href="%22https://www.rdocumentation.org/%22" class="external-l
 documentation on pairwise comparisons</a>, <a href="%22https://www.coursera.org/specializations/statistics%22" class="external-link">Applied
 Statistics with R</a> and <a href="%22http://users.stat.umn.edu/~gary/book/fcdae.pdf%22" class="external-link">book by
 Oehlert 2010</a> resources.</p>
-<div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
-  <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
-</button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
-<div class="accordion-body">
-<p>Inline instructor notes can help inform instructors of timing
-challenges associated with the lessons. They appear in the “Instructor
-View”</p>
-</div>
-</div>
-</div>
-</div>
-<!--
-Place links that you need to refer to multiple times across pages here. Delete
-any links that you are not going to use.
- -->
-</div>
-</div></section><section id="aio-Summary"><p>Content from <a href="Summary.html">Summary</a></p>
-<hr>
-<p>Last updated on 2024-08-13 |
-
-        <a href="https://example.com/FIXME-template-source/edit/main/episodes/Summary.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
-<div class="text-end">
-          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
-        </div>
-<div class="section level1">
-<h1 id="error-rates">Error rates<a class="anchor" aria-label="anchor" href="#error-rates"></a>
-</h1>
-<p>We have seen that when dealing with multiple testing, it is crucial
-to understand the different types of error rates that can be controlled.
-<strong>Comparison-Wise Error Rate (CWER)</strong>, which is the
-probability of making a Type I error (false positive) in any single
-hypothesis test, does not account for the multiplicity of tests and can
-lead to an increased number of false positives when many tests are
-performed. <strong>Family-Wise Error Rate (FWER)</strong>, the
-probability of making at least one Type I error among all the hypothesis
-tests, is a stringent error rate control method, suitable for situations
-where even one false positive is highly problematic. Methods like the
-Bonferroni correction and Holm’s are often used to control FWER.
-<strong>False Discovery Rate (FDR)</strong>, the expected proportion of
-Type I errors among the rejected hypotheses, is less conservative than
-FWER and is useful in large-scale testing scenarios, like genomic
-studies, where some false positives are tolerable in exchange for higher
-power to detect true positives. The Benjamini-Hochberg procedure is a
-common method to control the FDR.</p>
-</div>
-<div class="section level1">
-<h1 id="choosing-the-appropriate-error-rate">Choosing the appropriate error rate<a class="anchor" aria-label="anchor" href="#choosing-the-appropriate-error-rate"></a>
-</h1>
-<p>The choice of error rate to control depends on the research question
-and the context of the study. For example, we could choose to control
-CWER when testing the efficacy of a single new drug against a placebo in
-a clinical trial, or when performing a single regression analysis to
-test the relationship between two variables.</p>
-<p>One would consider controlling FWER in clinical trials involving
-multiple endpoints, where any false positive could lead to incorrect
-conclusions about the drug’s safety or efficacy. in addition,
-psychological experiments where multiple outcomes are tested and any
-false positive could mislead theoretical interpretations would consider
-controlling FWER.</p>
-<p>The choise for controlling FDR is often considered in genome-wide
-association studies (GWAS) analyzing thousands of genetic variants
-simultaneously to identify potential associations with a disease, or in
-RNA-Seq experiments aiming to identify differentially expressed genes
-among tens of thousands of genes.</p>
-</div>
-<div class="section level1">
-<h1 id="a-cook-book-to-navigate-multiple-testing-effectively">A Cook book to navigate multiple testing effectively<a class="anchor" aria-label="anchor" href="#a-cook-book-to-navigate-multiple-testing-effectively"></a>
-</h1>
-<p>To navigate multiple testing effectively, we should:</p>
-<ol style="list-style-type: decimal">
-<li><p>start by <strong>clearly defining our research question</strong>,
-stating the specific hypothesis or set of hypotheses we aim to test, and
-considering the implications of potential false positives and false
-negatives.</p></li>
-<li><p>Next, we <strong>decide on the appropriate error rate to
-control</strong>, based on our research context and tolerance for Type I
-errors. this means assessing how critical it is to avoid any false
-positives (favoring FWER) versus allowing some false positives to
-increase detection power (favoring FDR).</p></li>
-<li><p>Finally, we <strong>select a suitable statistical method that
-controls our chosen error rate</strong> and aligns with our data type
-and experimental design, ensuring it is well-suited to the specifics of
-our study.</p></li>
-</ol>
 <div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
@@ -2490,9 +2723,81 @@ View”</p>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
+</div>
+</div></section><section id="aio-Summary"><p>Content from <a href="Summary.html">Summary</a></p>
+<hr>
+<p>Last updated on 2024-08-19 |
+
+        <a href="https://example.com/FIXME-template-source/edit/main/episodes/Summary.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="section level1">
+<h1 id="error-rates">Error rates<a class="anchor" aria-label="anchor" href="#error-rates"></a>
+</h1>
+<p>We have seen that when dealing with multiple testing, it is crucial
+to understand the different types of error rates that can be controlled.
+<strong>Comparison-Wise Error Rate (CWER)</strong>, which is the
+probability of making a Type I error (false positive) in any single
+hypothesis test, does not account for the multiplicity of tests and is
+only applicable when each performed test answers a separate research
+question. <strong>Family-Wise Error Rate (FWER)</strong>, the
+probability of making at least one Type I error among all the hypothesis
+tests, is a stringent error rate control method, suitable for situations
+where even one false positive is highly problematic. This is the case
+when we have one overarching null hypothesis that is rejected, as soon
+as we reject one inidiviual null hypothesis. Methods like the Bonferroni
+correction and Holm’s are often used to control FWER. <strong>False
+Discovery Rate (FDR)</strong>, the expected proportion of Type I errors
+among the rejected hypotheses, is less conservative than FWER and is
+useful in large-scale testing scenarios, like genomic studies, where
+some false positives are tolerable in exchange for higher power to
+detect true positives. The Benjamini-Hochberg procedure is a common
+method to control the FDR.</p>
+<p>The choice of error rate to control depends on the research question
+and the context of the study.</p>
+</div>
+<div class="section level1">
+<h1 id="a-cook-book-to-navigate-multiple-testing-effectively">A Cook book to navigate multiple testing effectively<a class="anchor" aria-label="anchor" href="#a-cook-book-to-navigate-multiple-testing-effectively"></a>
+</h1>
+<p>To navigate multiple testing effectively, we should:</p>
+<ol style="list-style-type: decimal">
+<li><p>start by <strong>clearly defining our research question</strong>,
+stating the specific hypothesis or set of hypotheses we aim to test, and
+considering the implications of potential false positives and false
+negatives.</p></li>
+<li><p>Next, we <strong>decide on the appropriate error rate to
+control</strong>, based on our research context and tolerance for Type I
+errors. This means assessing how critical it is to avoid any false
+positives (favoring FWER) versus allowing some false positives to
+increase detection power (favoring FDR).</p></li>
+<li><p>Finally, we <strong>select a suitable statistical method that
+controls our chosen error rate</strong> and aligns with our data type
+and experimental design, ensuring it is well-suited to the specifics of
+our study.</p></li>
+</ol>
+<div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
+  <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
+</button>
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div class="accordion-body">
+<p>Inline instructor notes can help inform instructors of timing
+challenges associated with the lessons. They appear in the “Instructor
+View”</p>
+</div>
+</div>
+</div>
+</div>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
 </div></section><section id="aio-References"><p>Content from <a href="References.html">References</a></p>
 <hr>
-<p>Last updated on 2024-08-13 |
+<p>Last updated on 2024-08-19 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/References.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -2609,8 +2914,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/instructor/aio.html",
   "identifier": "https://FIXME-template-source.github.io/NA/instructor/aio.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-08-13",
-  "datePublished": "2024-08-13"
+  "dateModified": "2024-08-19",
+  "datePublished": "2024-08-19"
 }
 
   </script><script>

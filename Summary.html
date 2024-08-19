@@ -118,11 +118,11 @@
   Multiple Testing
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 71%" class="percentage">
-    71%
+<aside class="col-md-12 lesson-progress"><div style="width: 79%" class="percentage">
+    79%
   </div>
   <div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" style="width: 71%" aria-valuenow="71" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar incubator" role="progressbar" style="width: 79%" aria-valuenow="79" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -328,7 +328,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Summary</h1>
-        <p>Last updated on 2024-08-13 |
+        <p>Last updated on 2024-08-19 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Summary.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -346,38 +346,23 @@
 to understand the different types of error rates that can be controlled.
 <strong>Comparison-Wise Error Rate (CWER)</strong>, which is the
 probability of making a Type I error (false positive) in any single
-hypothesis test, does not account for the multiplicity of tests and can
-lead to an increased number of false positives when many tests are
-performed. <strong>Family-Wise Error Rate (FWER)</strong>, the
+hypothesis test, does not account for the multiplicity of tests and is
+only applicable when each performed test answers a separate research
+question. <strong>Family-Wise Error Rate (FWER)</strong>, the
 probability of making at least one Type I error among all the hypothesis
 tests, is a stringent error rate control method, suitable for situations
-where even one false positive is highly problematic. Methods like the
-Bonferroni correction and Holm’s are often used to control FWER.
-<strong>False Discovery Rate (FDR)</strong>, the expected proportion of
-Type I errors among the rejected hypotheses, is less conservative than
-FWER and is useful in large-scale testing scenarios, like genomic
-studies, where some false positives are tolerable in exchange for higher
-power to detect true positives. The Benjamini-Hochberg procedure is a
-common method to control the FDR.</p>
-</div>
-<div class="section level1">
-<h1 id="choosing-the-appropriate-error-rate">Choosing the appropriate error rate<a class="anchor" aria-label="anchor" href="#choosing-the-appropriate-error-rate"></a></h1>
+where even one false positive is highly problematic. This is the case
+when we have one overarching null hypothesis that is rejected, as soon
+as we reject one inidiviual null hypothesis. Methods like the Bonferroni
+correction and Holm’s are often used to control FWER. <strong>False
+Discovery Rate (FDR)</strong>, the expected proportion of Type I errors
+among the rejected hypotheses, is less conservative than FWER and is
+useful in large-scale testing scenarios, like genomic studies, where
+some false positives are tolerable in exchange for higher power to
+detect true positives. The Benjamini-Hochberg procedure is a common
+method to control the FDR.</p>
 <p>The choice of error rate to control depends on the research question
-and the context of the study. For example, we could choose to control
-CWER when testing the efficacy of a single new drug against a placebo in
-a clinical trial, or when performing a single regression analysis to
-test the relationship between two variables.</p>
-<p>One would consider controlling FWER in clinical trials involving
-multiple endpoints, where any false positive could lead to incorrect
-conclusions about the drug’s safety or efficacy. in addition,
-psychological experiments where multiple outcomes are tested and any
-false positive could mislead theoretical interpretations would consider
-controlling FWER.</p>
-<p>The choise for controlling FDR is often considered in genome-wide
-association studies (GWAS) analyzing thousands of genetic variants
-simultaneously to identify potential associations with a disease, or in
-RNA-Seq experiments aiming to identify differentially expressed genes
-among tens of thousands of genes.</p>
+and the context of the study.</p>
 </div>
 <div class="section level1">
 <h1 id="a-cook-book-to-navigate-multiple-testing-effectively">A Cook book to navigate multiple testing effectively<a class="anchor" aria-label="anchor" href="#a-cook-book-to-navigate-multiple-testing-effectively"></a></h1>
@@ -388,7 +373,7 @@ considering the implications of potential false positives and false
 negatives.</p></li>
 <li><p>Next, we <strong>decide on the appropriate error rate to
 control</strong>, based on our research context and tolerance for Type I
-errors. this means assessing how critical it is to avoid any false
+errors. This means assessing how critical it is to avoid any false
 positives (favoring FWER) versus allowing some false positives to
 increase detection power (favoring FDR).</p></li>
 <li><p>Finally, we <strong>select a suitable statistical method that
@@ -460,8 +445,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/Summary.html",
   "identifier": "https://FIXME-template-source.github.io/NA/Summary.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-08-13",
-  "datePublished": "2024-08-13"
+  "dateModified": "2024-08-19",
+  "datePublished": "2024-08-19"
 }
 
   </script><script>

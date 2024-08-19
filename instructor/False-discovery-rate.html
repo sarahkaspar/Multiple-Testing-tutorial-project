@@ -118,11 +118,11 @@
   Multiple Testing
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 41%" class="percentage">
-    41%
+<aside class="col-md-12 lesson-progress"><div style="width: 39%" class="percentage">
+    39%
   </div>
   <div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" style="width: 41%" aria-valuenow="41" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar incubator" role="progressbar" style="width: 39%" aria-valuenow="39" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -328,13 +328,13 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>False discovery rate</h1>
-        <p>Last updated on 2024-08-13 |
+        <p>Last updated on 2024-08-19 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/False-discovery-rate.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
 
 
-        <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
+        <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 25 minutes</p>
 
         <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
@@ -352,9 +352,7 @@
 <ul><li>How does correcting for the family-wise error rate (FWER) affect the
 number of significant hits in large-scale data, such as RNA-Seq analysis
 of 20,000 human genes?</li>
-<li>What is the interpretation of a p-value histogram, and how can it be
-used to assess the distribution of p-values in multiple testing
-scenarios?</li>
+<li>What is the interpretation of a p-value histogram?</li>
 <li>How can the Benjamini-Hochberg method be applied to control the
 false discovery rate (FDR) in RNA-Seq data, and what are the benefits of
 using this method over FWER correction?</li>
@@ -365,12 +363,8 @@ using this method over FWER correction?</li>
 <div class="card-body">
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
-<ul><li>Demonstrate how correcting for the family-wise error rate (FWER)
-using methods like Bonferroni correction can lead to few or no
-significant hits in large-scale testing scenarios.</li>
-<li>Introduce the concept of p-value histograms, explain their
-interpretation, and illustrate how they can be used to visualize the
-distribution of p-values in multiple testing.</li>
+<ul><li>Introduce the concept of p-value histograms and explain their
+interpretation.</li>
 <li>Explain the Benjamini-Hochberg method for controlling the false
 discovery rate (FDR).</li>
 <li>Provide practical examples and R code to apply the
@@ -406,7 +400,7 @@ data.</p>
 <p>In differential expression analysis, thousands of statistical tests
 are conducted: For each gene, one can test whether its expression is
 different in cells with dexamethasone treatment, compared to cells
-without treatment. If the expression differs between the two condition,
+without treatment. If the expression differs between the two conditions,
 we call the gene differentially expressed (DE). Like in the previous
 example, we have a set up null hypotheses:</p>
 <p><span class="math inline">\(H_{0,1}\)</span>: Gene 1 is not DE.</p>
@@ -505,8 +499,8 @@ pre-computed p-values as follows:</p>
 </div>
 </div>
 <p>The table below shows the first six rows of the generated p-values
-for each gene, the data which, we are going use to see how using FWER
-and FDR to controlling for false positive differ.</p>
+for each gene, the data which we are going use to see how using FWER and
+FDR to controlling for false positives differ.</p>
 <table class="table"><caption>p-Values for each analysed gene</caption>
 <thead><tr class="header"><th align="left">gene</th>
 <th align="right">pvalue</th>
@@ -555,9 +549,9 @@ x-axis. Let’s do this for the <code>airway</code> p-values.</p>
 <h2 id="a-p-value-histogram-is-composed-of-two-fractions">A p-value histogram is composed of two fractions<a class="anchor" aria-label="anchor" href="#a-p-value-histogram-is-composed-of-two-fractions"></a></h2>
 <p>We can think of the p-value histogram as being composed of two
 fractions: the alternative and the null fraction.</p>
-<p><img src="../fig/composition-of-pvalues.png" class="figure"> Together, the
-alternative and null fraction give us a p-value histogram as the one
-observed for the <code>airway</code> data.</p>
+<figure><img src="../fig/composition-of-pvalues.png" alt="Figure credit Cecile LeSueur" class="figure mx-auto d-block"><div class="figcaption">Figure credit Cecile LeSueur</div>
+</figure><p>Together, the alternative and null fraction give us a p-value
+histogram as the one observed for the <code>airway</code> data.</p>
 </div>
 <div class="section level2">
 <h2 id="why-are-these-our-expectations-of-the-null-and-alterative-fraction">Why are these our expectations of the null and alterative
@@ -570,8 +564,8 @@ power, all the DE genes have low p-values) or flat and less pronounced
 (low power, many DE genes have p-values &gt;&gt;0).</p>
 <p>But why do we expect a uniform distribution of p-values that come
 from genes where the null hypothesis is true? This comes from the
-definition of p-values. We expect 5% of the p-values to be <span class="math inline">\(&lt;0.05\)</span>, 10% of the p-vales to be <span class="math inline">\(&lt;0.1\)</span>, etc. Unfortunately, for many
-this definition is not intuitive. Therefore, we use a simulation of
+definition of p-values. We expect 5% of the p-values to be <span class="math inline">\(&lt;0.05\)</span>, 10% of the p-vales to be <span class="math inline">\(&lt;0.1\)</span>, etc. Unfortunately, this
+definition is not extremely intuitive. Therefore, we use a simulation of
 tests where the null hypothesis is true, and use it to recap the
 definition of p-values.</p>
 <p>We learned that in the t-test, the test statistic <span class="math inline">\(t\)</span> follows a <em>t-distribution</em> under
@@ -590,7 +584,7 @@ choice) and visualize their distribution.</p>
 <span><span class="fu">data.frame</span><span class="op">(</span>t<span class="op">=</span><span class="va">ts</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">t</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>main<span class="op">=</span><span class="st">"Null distribution of t"</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">labs</span><span class="op">(</span>title<span class="op">=</span><span class="st">"Null distribution of t"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/False-discovery-rate-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>This is our null distribution!</p>
 <p>Since we’ll decide significance based on the absolute value of t,
@@ -602,16 +596,16 @@ choice) and visualize their distribution.</p>
 <code class="sourceCode R"><span><span class="va">abs_t</span> <span class="op">&lt;-</span> <span class="fu">abs</span><span class="op">(</span><span class="va">ts</span><span class="op">)</span><span class="co"># take their absolute values</span></span>
 <span><span class="fu">data.frame</span><span class="op">(</span>abs_t<span class="op">=</span><span class="va">abs_t</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">abs_t</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>main<span class="op">=</span><span class="st">"Null distribution of |t|"</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">geom_histogram</span><span class="op">(</span>binwidth<span class="op">=</span><span class="fl">0.1</span>, boundary<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title<span class="op">=</span><span class="st">"Null distribution of |t|"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/False-discovery-rate-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>This is our null distribution of absolute t-values. In hypothesis
 testing, we ask: “What is the probability in the null distribution to
-observe a value at least as extreme as the observed <span class="math inline">\(|t|\)</span>?” So, what we’re looking at to answer
-this question is the <em>cumulative distribution</em> of <span class="math inline">\(|t|\)</span>. While in practice, we’re looking at
-the theoretical cumulative distribution, we’ll here look at the
-cumulative distribution of our simulation, hence an <em>empirical</em>
-cumulative distribution.</p>
+observe a value at least as extreme as the observed <span class="math inline">\(|t|\)</span>?” And to answer this question we look
+at the <em>cumulative distribution</em> of <span class="math inline">\(|t|\)</span>. While in practice, we’ll look up the
+theoretical cumulative distribution, we’ll here look at the cumulative
+distribution of our simulation, hence an <em>empirical</em> cumulative
+distribution.</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -634,13 +628,19 @@ this:</p>
 <code class="sourceCode R"><span><span class="fu">data.frame</span><span class="op">(</span>abs_t <span class="op">=</span> <span class="va">abs_t</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">abs_t</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">..y..</span><span class="op">)</span>, stat<span class="op">=</span><span class="st">'ecdf'</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>y<span class="op">=</span><span class="st">"1-ECDF"</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">labs</span><span class="op">(</span>y<span class="op">=</span><span class="st">"1-ECDF"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span><span class="fl">3.1</span>, color<span class="op">=</span><span class="st">"darkblue"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0.03</span>, color<span class="op">=</span><span class="st">"darkblue"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/False-discovery-rate-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Code adapted from <a href="https://stackoverflow.com/questions/37221303/how-to-plot-reverse-complementary-ecdf-using-ggplot" class="external-link">here</a>.
 So when we calculate a p-value, we (visually speaking) look up the
 observed value of <span class="math inline">\(|t|\)</span>
 (<code>abs_t</code>) on the x-axis, and match it to the corresponding
 1-ECDF on the y-axis, which is the resulting <span class="math inline">\(p\)</span>.</p>
+<p>For example, if we observe <span class="math inline">\(t=3.1\)</span>
+(darkblue vertical line), then this corresponds to <span class="math inline">\(1-ECDF = 0.03\)</span> (darkblue horizontal line),
+meaning that under the null distribution, <span class="math inline">\(=
+3%\)</span> of the values are smaller than the observed <span class="math inline">\(t\)</span>. Our p-value for this test is <span class="math inline">\(p= 0.03\)</span>.</p>
 <p>What does this tell us about the distribution of p-values? We could
 go and slice the 1-ECDF into chunks of 5% of the data points:</p>
 <div class="codewrapper sourceCode" id="cb8">
@@ -690,7 +690,7 @@ p-values are defined by the percentage of values of <span class="math inline">\(
 which are smaller than the observed one.</p>
 <div class="section level3">
 <h3 id="recap">Recap<a class="anchor" aria-label="anchor" href="#recap"></a></h3>
-<ul><li>p-values are defined as via the cumulative distribution of the test
+<ul><li>p-values are defined via the cumulative distribution of the test
 statistic under the null hypothesis</li>
 <li>They answer the question: what percentage of values is expected more
 extreme than the observed one?</li>
@@ -700,8 +700,7 @@ roughly the same number of p-values in each quantile.</li>
 where the test statistic behaves like expected in theory, we will see a
 uniform distribution of p-values</li>
 <li>This works for any test statistic, <em>as long as we know its
-distribution</em>
-</li>
+distribution</em>.</li>
 </ul></div>
 </div>
 </div>
@@ -715,7 +714,7 @@ distributed.</p>
 among the positives at an arbitrary p-value cut-off. This is illustrated
 below.</p>
 <figure><img src="../fig/p_value%20histogram%20decomposition.png" alt="A p-value histogram decomposition (adapted from MSMB)" class="figure mx-auto d-block"><div class="figcaption">A p-value histogram decomposition (adapted from
-MSMB)</div>
+<a href="https://www.huber.embl.de/msmb/" class="external-link">MSMB</a>)</div>
 </figure><p>Say, we determine some cut-off p-value, indicated by the red line.
 Then we can visually estimate what percentage of tests right at this
 threshold are false positives, namely by dividing the length of the
@@ -766,12 +765,6 @@ differentially expressed genes, but at the cost of more and more false
 positives, and if we go too far, we will almost exclusively admit more
 False Positives.</p>
 </div>
-<div class="section level3">
-<h3 id="more-on-p-value-histograms">More on p-value histograms<a class="anchor" aria-label="anchor" href="#more-on-p-value-histograms"></a></h3>
-<p>If you encounter p-value histograms that don’t fit the expectation we
-just discussed, have a look at this <a href="http://varianceexplained.org/statistics/interpreting-pvalue-histogram/" class="external-link">post
-in varianceexplained.org</a></p>
-</div>
 </div>
 <div class="section level2">
 <h2 id="controlling-fdr-using-the-benjamini-hochberg-method">Controlling FDR Using the Benjamini-Hochberg Method<a class="anchor" aria-label="anchor" href="#controlling-fdr-using-the-benjamini-hochberg-method"></a></h2>
@@ -798,15 +791,15 @@ desired FDR level (e.g., 0.05).</p>
 equal to its BH critical value is identified. This p-value and all
 smaller p-values are considered significant. Optionally, one can adjust
 the p-values to reflect the BH correction using software functions.</p>
-<p>Now, let us continue with the generated p_values to apply the
-Benjamini-Hochberg correction in r, and also plot the adjusted p values
-for comparison.</p>
+<p>Now, let us continue with the generated <code>p_values</code> to
+apply the Benjamini-Hochberg correction in R, and also plot the adjusted
+p values for comparison.</p>
 <p>What the Benjamini-Hochberg algorithm does, is that it estimates the
 null component, and finds the threshold below which we should reject for
 a desired FDR. Equivalently, and that’s the way it’s implemented in R,
-we can say it produces adjusted p-values. And if we reject everything
-below a certain adjusted p-value (say 5%), this will lead to an FDR of
-5%, meaning that 5% of the hits are estimated to be false-positives.</p>
+we can say it produces adjusted p-values. If we reject everything below
+a certain adjusted p-value (say 5%), this will lead to an FDR of 5%,
+meaning that 5% of the hits are estimated to be false-positives.</p>
 </div>
 </div>
 </div>
@@ -913,34 +906,6 @@ comparison-wise error rate with <span class="math inline">\(\alpha=0.5\)</span>?
 </div>
 </div>
 </div>
-<p>Applying the Bonferroni correction in this example results in
-<strong>706</strong> differentially expressed genes due to the stringent
-threshold, demonstrating how FWER correction can be too conservative in
-large-scale testing.</p>
-<p>The Benjamini-Hochberg method controls the FDR, allowing for a
-greater number of significant differentially expressed genes
-(<strong>2357</strong>) compared to the Bonferroni correction
-(<strong>706</strong>). This approach provides a more balanced and
-powerful method for identifying true positives in large-scale data.</p>
-<div class="section level2">
-<h2 id="advantages-of-controlling-the-fdr-over-fwer-in-the-context-of-large-scale-genomic-data">Advantages of controlling the FDR over FWER in the context of
-large-scale genomic data<a class="anchor" aria-label="anchor" href="#advantages-of-controlling-the-fdr-over-fwer-in-the-context-of-large-scale-genomic-data"></a></h2>
-<ul><li><p>Higher statistical power: FDR control allows for higher power
-compared to FWER control. In large-scale genomic studies, this means
-detecting more true positives while still controlling false discoveries.
-Therefore, since FDR methods are less stringent than FWER methods like
-Bonferroni correction, they balance between controlling false
-discoveries and maximizing true positives, reducing false
-negatives.</p></li>
-<li><p>Consistency across studies: By setting a fixed FDR threshold
-(e.g., 5%), results are more comparable across different studies and
-meta-analyses, enhancing consistency in statistical inference.</p></li>
-</ul><p>It is important to note that while FDR is preferred in many genomic
-screens due to its ability to handle a large number of hypotheses, FWER
-control remains appropriate in scenarios where minimizing any false
-positives is critical. Each method has its place depending on the
-research context and goals.</p>
-</div>
 <div class="section level2">
 <h2 id="what-control-method-should-we-choose">What control method should we choose?<a class="anchor" aria-label="anchor" href="#what-control-method-should-we-choose"></a></h2>
 <p>It is essential to understand the difference between controlling the
@@ -971,6 +936,12 @@ high. Each method serves its purpose depending on the specific goals and
 acceptable risk levels of the research context. Understanding the
 trade-offs between these approaches allows researchers to choose the
 most appropriate method for their specific scenario.</p>
+</div>
+<div class="section level3">
+<h3 id="more-on-p-value-histograms">More on p-value histograms<a class="anchor" aria-label="anchor" href="#more-on-p-value-histograms"></a></h3>
+<p>If you encounter p-value histograms that don’t fit the expectation we
+just discussed, have a look at this <a href="http://varianceexplained.org/statistics/interpreting-pvalue-histogram/" class="external-link">post
+in varianceexplained.org</a></p>
 </div>
 </div>
 <div class="section level2">
@@ -1059,8 +1030,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/instructor/False-discovery-rate.html",
   "identifier": "https://FIXME-template-source.github.io/NA/instructor/False-discovery-rate.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-08-13",
-  "datePublished": "2024-08-13"
+  "dateModified": "2024-08-19",
+  "datePublished": "2024-08-19"
 }
 
   </script><script>

@@ -118,11 +118,11 @@
   Multiple Testing
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 27%" class="percentage">
-    27%
+<aside class="col-md-12 lesson-progress"><div style="width: 22%" class="percentage">
+    22%
   </div>
   <div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" style="width: 27%" aria-valuenow="27" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar incubator" role="progressbar" style="width: 22%" aria-valuenow="22" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -338,13 +338,13 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Family-wise error rate</h1>
-        <p>Last updated on 2024-08-13 |
+        <p>Last updated on 2024-08-19 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Family-wise-error-rate.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
 
 
-        <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
+        <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 20 minutes</p>
 
         <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
@@ -373,20 +373,15 @@ FWER, and what are its limitations?</li>
 <ul><li>Understand the concept of the family-wise error rate (FWER) and its
 significance in multiple testing, including the implications of making
 multiple comparisons without controlling for FWER.</li>
-<li>Learn the Bonferroni procedure for adjusting p-values to maintain
-the FWER at a specified level, and recognize when alternative methods
-may be more appropriate or effective in controlling for multiple
+<li>Understand the Bonferroni procedure for adjusting p-values to
+maintain the FWER at a specified level, and recognize when alternative
+methods may be more appropriate or effective in controlling for multiple
 comparisons.</li>
 </ul></div>
 </div>
 </div>
 </div>
 </div>
-<p>In statistical hypothesis testing, conducting multiple tests
-simultaneously increases the likelihood of making at least one
-false-positive error. In this episode, we will explore the family-wise
-error rate (FWER), and discuss methods to account for multiple
-comparisons, using practical examples.</p>
 <section><h2 class="section-heading" id="a-multi-hypothesis-testing-framework">A Multi-Hypothesis Testing Framework<a class="anchor" aria-label="anchor" href="#a-multi-hypothesis-testing-framework"></a>
 <a class="anchor" aria-label="anchor" href="#a-multi-hypothesis-testing-framework"></a></h2>
 <hr class="half-width"><p>In multiple testing scenarios, we often have an overarching
@@ -398,16 +393,16 @@ comprehensively.</p>
 the prevalence of a disease, the overarching hypothesis could be
 formulated as follows:</p>
 <p><strong>Exposure to air pollution is associated with increased
-prevalence of the disease</strong></p>
-<p>Under this overarching hypothesis, several individual hypotheses can
-be formulated to examine different aspects of the relationship between
-air pollution exposure and disease prevalence. These individual
+prevalence of the disease.</strong></p>
+<p>Under this overarching null hypothesis, several individual hypotheses
+can be formulated to examine different aspects of the relationship
+between air pollution exposure and disease prevalence. These individual
 hypotheses may focus on various pollutants, different health outcomes,
 or specific populations.</p>
 <p>An example using three individual null hypotheses:</p>
 <p><strong><span class="math inline">\(H_{0,1}\)</span></strong>:
-Exposure to air pollution is not associated with increased disease
-prevalence in region 1.</p>
+Exposure to particulate matter is not associated with increased disease
+prevalence.</p>
 <p><strong><span class="math inline">\(H_{0,2}\)</span></strong>:
 Exposure to nitrogen dioxide is not associated with increased disease
 prevalence.</p>
@@ -416,8 +411,8 @@ Long-term exposure to ozone (O3) is not associated with an increased
 prevalence of the disease.</p>
 <p>The three null hypotheses can be combined to the following overall
 null hypothesis:</p>
-<p><strong><span class="math inline">\(H_{0}\)</span></strong>: Air
-pollution is not associated with an increased prevalence of the
+<p><strong><span class="math inline">\(H_{0}\)</span></strong>: None of
+the air pollutants is associated with an increased prevalence of the
 disease.</p>
 <div id="callout1" class="callout">
 <div class="callout-square">
@@ -438,14 +433,7 @@ false positive among our individual hypothesis tests.</p>
 <figure><img src="../fig/overarching-hypothesis.png" alt="Relationship between Overall Hypothesis and Individual Hypotheses (Effects of Air Pollution on Disease Prevalence)" class="figure mx-auto d-block"><div class="figcaption">Relationship between Overall Hypothesis and
 Individual Hypotheses (Effects of Air Pollution on Disease
 Prevalence)</div>
-</figure><p>In this illustration, each individual hypothesis delves into a
-distinct facet of the overarching research inquiry, enabling us to
-thoroughly examine the intricate connection between air pollution
-exposure and disease prevalence. By scrutinizing the impacts of various
-air pollutants on the disease, this method encourages a systematic
-exploration of diverse factors and aids in revealing potential
-associations or patterns within the data set.</p>
-<p>Now, let us assume that after data collection, for hypothesis 1, we
+</figure><p>Now, let us assume that after data collection, for hypothesis 1, we
 find that 15 out of 100 individuals exposed to high levels of
 particulate matter develop the disease, for hypothesis 2, 20 out of 100
 individuals exposed to high levels of nitrogen dioxide develop the
@@ -461,23 +449,22 @@ levels of ozone develop the disease.</p>
 <span><span class="va">individuals_suffered</span> <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="fl">15</span>, <span class="fl">9</span>, <span class="fl">5</span><span class="op">)</span> <span class="co"># number of individuals who suffered from the disease for each hypothesis</span></span></code></pre>
 </div>
 <p>We can visualise this as follows:</p>
-<div class="codewrapper sourceCode" id="cb2">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">complement</span> <span class="op">&lt;-</span> <span class="va">n</span> <span class="op">-</span> <span class="va">individuals_suffered</span></span>
-<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">rbind</span><span class="op">(</span><span class="va">individuals_suffered</span>, <span class="va">complement</span><span class="op">)</span></span>
-<span><span class="fu">colnames</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"particles"</span>,<span class="st">"nitrogene"</span>, <span class="st">"O3"</span><span class="op">)</span></span>
-<span><span class="fu">rownames</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"disease"</span>,<span class="st">"healthy"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">mosaicplot</span><span class="op">(</span><span class="fu">t</span><span class="op">(</span><span class="va">data</span><span class="op">)</span>,main<span class="op">=</span><span class="st">""</span><span class="op">)</span></span></code></pre>
-</div>
-<figure><img src="../fig/Family-wise-error-rate-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Let us assume we conduct statistical tests for each of these
-hypotheses, resulting in p-values for each test. For simplicity, let us
-maintain our significance level at <span class="math inline">\(\alpha=0.05\)</span> for each individual test. We
-can conduct binomial tests for each hypothesis and calculate the
+<!--
+
+```r
+complement <- n - individuals_suffered
+data <- rbind(individuals_suffered, complement)
+colnames(data) <- c("particles","nitrogene", "O3")
+rownames(data) <- c("disease","healthy")
+
+mosaicplot(t(data),main="")
+```
+
+<img src="fig/Family-wise-error-rate-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
+-->
+<figure><img src="../fig/Family-wise-error-rate-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We can conduct binomial tests for each hypothesis and calculate the
 p-values in R.</p>
-<div class="codewrapper sourceCode" id="cb3">
+<div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -532,11 +519,11 @@ positive?</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>We can use R to calculate the probability of at least one false
 positive for our example with three tests:</li>
-</ol><div class="codewrapper sourceCode" id="cb5">
+</ol><div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -559,19 +546,18 @@ positive for our example with three tests:</li>
 <a class="anchor" aria-label="anchor" href="#the-bonferroni-correction"></a></h2>
 <hr class="half-width"><div class="section level3">
 <h3 id="adjusting-the-significance-level">Adjusting the significance level<a class="anchor" aria-label="anchor" href="#adjusting-the-significance-level"></a></h3>
-<p>Now, to calculate the probability of having any false positive within
+<p>Now, to control the probability of having any false positive within
 the set of tests (also known as family-wise error rate or FWER), we can
-use methods such as the Bonferroni correction. This method adjust the
-significance level for each test to control for multiple testing.</p>
+use methods such as the Bonferroni correction.</p>
 <p>The Bonferroni procedure adjusts the significance level for each
 individual test by dividing the desired overall significance level by
 the number of tests conducted (m).</p>
 <p><span class="math display">\[\alpha_{\text{Bonf}}= \alpha/m
 \]</span></p>
 <p>Where:</p>
-<p>α is the desired overall significance level (usually set to 0.05). m
-is the number of hypothesis tests conducted.</p>
-<div class="codewrapper sourceCode" id="cb7">
+<p>α is the desired overall significance level.<br>
+m is the number of hypothesis tests conducted.</p>
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -593,9 +579,9 @@ corrected significance level is <span class="math inline">\(\alpha_{\text{bonf}}
 0.0167\)</span>.</p>
 <p>In this lesson, we’ll not go into the proof for why this method
 works. But we can convince ourselves that it does, by calculating the
-FWER for with the adjusted significance level, using the formula derived
+FWER with the adjusted significance level, using the formula derived
 above.</p>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -611,7 +597,7 @@ are back to the desired <span class="math inline">\(FWER\)</span> of
 5%.</p>
 <div class="section level4">
 <h4 id="in-our-example">In our example<a class="anchor" aria-label="anchor" href="#in-our-example"></a></h4>
-<p>For each individual test, we compare the calculated p-value to this
+<p>For each individual test, we compare the calculated p-value to the
 adjusted significance level. If the p-value is less than or equal to
 0.0167, we reject the null hypothesis for that test.</p>
 <p>Based on the Bonferroni correction, we reject the null hypothesis for
@@ -622,18 +608,21 @@ hypothesis, suggesting no significant association with disease
 prevalence at the adjusted significance level. This adjustment for
 multiple testing helps control the overall probability of making at
 least one false-positive error across all tests conducted.</p>
-<p>In this example, while the evidence supports associations between
-certain air pollutants and disease prevalence, it does not provide
-conclusive evidence to reject the overarching null hypothesis entirely.
-Instead, it suggests a nuanced interpretation wherein the relationship
-between air pollution exposure and disease prevalence may vary depending
-on the specific pollutant considered. Therefore, further investigation
-and analysis may be necessary to fully elucidate the relationship
-between air pollution exposure and disease prevalence and to refine the
-overarching null hypothesis accordingly. This could involve exploring
-additional factors, conducting more comprehensive analyses, or
-considering alternative statistical approaches to account for potential
-confounding variables or sources of variability in the data.</p>
+<p>In this example, the evidence supports associations between certain
+air pollutants and disease prevalence, but not for others. For our
+overall null hypothesis - “None of the pollutants is associated with the
+disease” - this still means that we have to reject it.</p>
+<p>After the correction with the Bonferroni procedure, we can now say
+that found particulate matter to be associated with disease, on a 5%
+family-wise error rate level. This means that under the assumption that
+all three null hypothesis are false, we expect the chance of having at
+least one false positive to be below 5%.</p>
+<p>This finding suggests a nuanced interpretation wherein the
+relationship between air pollution exposure and disease prevalence may
+vary depending on the specific pollutant considered. Therefore, further
+investigation and analysis may be necessary to fully elucidate the
+relationship between air pollution exposure and disease prevalence and
+to refine the overarching null hypothesis accordingly.</p>
 </div>
 </div>
 <div class="section level3">
@@ -666,17 +655,17 @@ FWER=0.05?</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>You can look up the function as follows:</li>
-</ol><div class="codewrapper sourceCode" id="cb11">
+</ol><div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">help</span><span class="op">(</span><span class="st">"p.adjust"</span><span class="op">)</span></span></code></pre>
 </div>
 <p>2.In R, one can adjust the p-values as follows:</p>
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -689,7 +678,7 @@ FWER=0.05?</p></li>
 </div>
 <ol start="3" style="list-style-type: decimal"><li>We can check which of the individual hypotheses will be rejected at
 a FWER=0.05:</li>
-</ol><div class="codewrapper sourceCode" id="cb14">
+</ol><div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -734,7 +723,7 @@ correction impact the power of these tests?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>The Bonferroni correction decreases the power of the test, especially
 when we have many tests.</p>
@@ -752,7 +741,7 @@ of tests that we conduct:</p>
 <p>Let’s look at some adjusted significance levels for different numbers
 of tests, given that we like to control the family-wise error rate at
 <span class="math inline">\(\alpha_\text{FWER} = 0.05\)</span>:</p>
-<div class="codewrapper sourceCode" id="cb16">
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -763,11 +752,11 @@ of tests, given that we like to control the family-wise error rate at
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">n_test</span>, y<span class="op">=</span><span class="fu">log10</span><span class="op">(</span><span class="va">alpha_adjusted</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
-<p><img src="../fig/Family-wise-error-rate-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" class="figure">
+<p><img src="../fig/Family-wise-error-rate-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" class="figure">
 We see that the adjusted <span class="math inline">\(\alpha\)</span> is
 dropping quickly. For <span class="math inline">\(20000\)</span> tests,
 which is a reasonable number in genomic screens, alpha will be:</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -785,7 +774,7 @@ finding a hit are reduced drastically compared to before adjustment.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -857,8 +846,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/instructor/Family-wise-error-rate.html",
   "identifier": "https://FIXME-template-source.github.io/NA/instructor/Family-wise-error-rate.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-08-13",
-  "datePublished": "2024-08-13"
+  "dateModified": "2024-08-19",
+  "datePublished": "2024-08-19"
 }
 
   </script><script>
