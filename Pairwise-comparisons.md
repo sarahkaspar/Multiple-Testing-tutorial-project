@@ -56,7 +56,7 @@ If you like to reproduce the example we use here, you can download the data as f
 
 
 ```r
-exp_data <- read_csv(file=url("https://raw.githubusercontent.com/sarahkaspar/Multiple-Testing-tutorial-project/main/episodes/data/exp_data.csv"))
+exp_data <- read_csv(file=url("https://raw.githubusercontent.com/sarahkaspar/Multiple-Testing-tutorial-project/main/episodes/data/exposure_data.csv"))
 ```
 
 
