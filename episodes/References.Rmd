@@ -15,6 +15,6 @@ exercises: 0
 # Online Resources
 
 - Post on p-value histograms on [varianceexplained.org](http://varianceexplained.org/statistics/interpreting-pvalue-histogram/) 
-- PennState Eberly College of Science materials on ANOVA ([(https://online.stat.psu.edu/stat500/lesson/10)])
+- PennState Eberly College of Science materials on ANOVA ([link](https://online.stat.psu.edu/stat500/lesson/10))
 
 
