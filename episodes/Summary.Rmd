@@ -1,7 +1,7 @@
 ---
 title: 'Summary'
-teaching: 10
-exercises: 2
+teaching: 3
+exercises: 0
 ---
 # Error rates
 
