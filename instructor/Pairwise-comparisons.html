@@ -274,10 +274,10 @@
               </div>
             </div>
 
-            <hr class="half-width"><div class="accordion accordion-flush resources" id="accordionFlush12">
+            <hr class="half-width"><div class="accordion accordion-flush lesson-resources" id="accordionFlush12">
               <div class="accordion-item">
                 <h2 class="accordion-header" id="flush-headingTwelve">
-                  <button class="accordion-button collapsed" id="resources" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwelve" aria-expanded="false" aria-controls="flush-collapseTwelve">
+                  <button class="accordion-button collapsed" id="lesson-resources" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwelve" aria-expanded="false" aria-controls="flush-collapseTwelve">
                     RESOURCES
                   </button>
                 </h2>
@@ -297,7 +297,7 @@
                 </div>
               </div>
             </div>
-            <hr class="half-width resources"><a href="../instructor/aio.html">See all in one page</a>
+            <hr class="half-width lesson-resources"><a href="../instructor/aio.html">See all in one page</a>
 
 
             <hr class="d-none d-sm-block d-md-none"><div class="d-grid gap-1">
@@ -328,7 +328,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Pairwise comparisons</h1>
-        <p>Last updated on 2024-08-20 |
+        <p>Last updated on 2024-08-27 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/Pairwise-comparisons.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -416,8 +416,7 @@ four groups of exposure levels (<code>Low</code>, <code>Moderate</code>,
 <i class="callout-icon" data-feather="message-circle"></i>
 </div>
 <div id="coding-along" class="callout-inner">
-<h3 class="callout-title">Coding along<a class="anchor" aria-label="anchor" href="#coding-along"></a>
-</h3>
+<h3 class="callout-title">Coding along</h3>
 <div class="callout-content">
 <p>If you like to reproduce the example we use here, you can download
 the data as follows:</p>
@@ -447,8 +446,7 @@ individual data points:</p>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="pairwise-comparisons-1" class="callout-inner">
-<h3 class="callout-title">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons-1"></a>
-</h3>
+<h3 class="callout-title">Pairwise comparisons</h3>
 <div class="callout-content">
 <p>In the above example:</p>
 <ul><li>How many pairwise comparisons are possible?</li>
@@ -464,7 +462,7 @@ fact all differences are 0?</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <ul><li>6 pairwise comparisons are possible.</li>
 <li>t-test</li>
@@ -701,8 +699,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="discussion" class="callout-inner">
-<h3 class="callout-title">Discussion<a class="anchor" aria-label="anchor" href="#discussion"></a>
-</h3>
+<h3 class="callout-title">Discussion</h3>
 <div class="callout-content">
 <p>Why can’t we just run t-tests and then apply Bonferoni?</p>
 </div>
@@ -713,7 +710,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>This would not be wrong. It doesn’t produce confidence intervals
 though. It’s sometimes a matter of convention.</p>
@@ -726,8 +723,7 @@ though. It’s sometimes a matter of convention.</p>
 <i class="callout-icon" data-feather="heart"></i>
 </div>
 <div id="be-honest" class="callout-inner">
-<h3 class="callout-title">Be honest!<a class="anchor" aria-label="anchor" href="#be-honest"></a>
-</h3>
+<h3 class="callout-title">Be honest!</h3>
 <div class="callout-content">
 <p>In some cases, Dunnett is the way to go. But take a minute and think
 about whether you’re not interested in the other comparisons as well.
@@ -749,8 +745,7 @@ comparison in a figure. These plots can be produced in R.</p>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="publication-ready-plots" class="callout-inner">
-<h3 class="callout-title">Publication-ready plots<a class="anchor" aria-label="anchor" href="#publication-ready-plots"></a>
-</h3>
+<h3 class="callout-title">Publication-ready plots</h3>
 <div class="callout-content">
 <p>The R package <code>ggpubr</code> comes with the promise of producing
 publication-ready plots. Let’s explore some of the functions and
@@ -779,7 +774,7 @@ the groups in the data set using ANOVA. You can look up the function
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li><p>Consult <code>?PlantGrowth</code>, or check
 <code>names(PlantGrowth)</code>. The data set compares the biomass
@@ -867,7 +862,7 @@ Oehlert 2010</a> resources.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -921,7 +916,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.5" class="external-link">sandpaper (0.16.5)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.6" class="external-link">pegboard (0.7.6)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.3" class="external-link">varnish (1.0.3)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.6" class="external-link">sandpaper (0.16.6)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.6" class="external-link">pegboard (0.7.6)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.4" class="external-link">varnish (1.0.4)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -943,8 +938,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/instructor/Pairwise-comparisons.html",
   "identifier": "https://FIXME-template-source.github.io/NA/instructor/Pairwise-comparisons.html",
   "dateCreated": "2024-04-18",
-  "dateModified": "2024-08-20",
-  "datePublished": "2024-08-20"
+  "dateModified": "2024-08-27",
+  "datePublished": "2024-08-27"
 }
 
   </script><script>
